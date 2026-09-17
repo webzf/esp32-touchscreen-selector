@@ -1,53 +1,1340 @@
 (function(){
-'use strict';
-var form=document.getElementById('selector-form'),results=document.getElementById('results'),hardware=document.getElementById('hardware'),grid=document.getElementById('product-grid');
-var groups=['board','size','resolution','interface','touchType','touchInterface','project','lvgl','psram'],last=null;
-var products=[
-{name:'ILI9341 2.8" SPI TFT + XPT2046 Touch',href:'https://embeddednerd.com/products/ili9341-xpt2046-2-8-touchscreen/',reason:'Compact SPI touchscreen for smaller ESP32 projects.',esp32:['ESP32','ESP32-S2','ESP32-S3'],sizes:['2.4–2.8"'],resolutions:['240x320','320x240'],interfaces:['SPI'],touch:['Resistive'],touchInterfaces:['SPI'],psram:false},
-{name:'Waveshare ESP32-S3-Touch-LCD-4.3',href:'https://embeddednerd.com/products/waveshare-esp32-s3-touch-lcd-4-3/',reason:'Integrated ESP32-S3 touchscreen platform for 4.3-inch 800×480 graphical interfaces.',esp32:['ESP32-S3'],sizes:['4.3"'],resolutions:['800x480'],interfaces:['RGB'],touch:['Capacitive'],touchInterfaces:['I²C'],psram:true},
-{name:'Waveshare ESP32-S3-Touch-LCD-7',href:'https://embeddednerd.com/products/waveshare-esp32-s3-touch-lcd-7/',reason:'Large ESP32-S3 touchscreen platform aimed at dashboards, HMI and Raspberry Pi-style interfaces.',esp32:['ESP32-S3'],sizes:['7"'],resolutions:['1024x600'],interfaces:['RGB'],touch:['Capacitive'],touchInterfaces:['I²C'],psram:true}
+
+"use strict";
+
+function initTouchscreenSelector(){
+
+var form=document.getElementById("selector-form");
+var results=document.getElementById("results");
+var hardware=document.getElementById("hardware");
+var productGrid=document.getElementById("product-grid");
+
+var groups=[
+  "board",
+  "size",
+  "resolution",
+  "interface",
+  "touchType",
+  "touchInterface",
+  "project",
+  "lvgl",
+  "psram"
 ];
-function val(n){var e=form.querySelector('input[name="'+n+'"]:checked');return e?e.value:null}
-function progress(){var n=groups.filter(val).length,p=Math.round(n/9*100);document.getElementById('selection-count').textContent=n;document.getElementById('selection-percent').textContent=p+'%';document.getElementById('selection-progress').style.width=p+'%'}
-function high(r){return r==='800x480'||r==='1024x600'}
-function large(s){return s==='5"'||s==='7"'}
-function escape(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]})}
-function clearErrors(){groups.forEach(function(g){var f=form.querySelector('fieldset[data-group="'+g+'"]');if(f)f.classList.remove('has-error')})}
-function validate(){clearErrors();var a={},bad=null;groups.forEach(function(g){a[g]=val(g);if(!a[g]){var f=form.querySelector('fieldset[data-group="'+g+'"]');if(f)f.classList.add('has-error');if(!bad)bad=f}});if(bad){bad.scrollIntoView({behavior:'smooth',block:'center'});var i=bad.querySelector('input');if(i)i.focus();return null}return a}
-function recommend(a){
-var warnings=[],reasons=[],score=100,demand=0;
-if(high(a.resolution))demand+=3;if(a.interface==='RGB')demand+=3;if(a.interface==='8080 / Parallel')demand+=2;if(large(a.size))demand++;if(a.lvgl==='Yes')demand+=2;if(a.psram==='Required')demand+=2;
-var board=(a.interface==='RGB'||high(a.resolution)||(a.lvgl==='Yes'&&large(a.size))||a.psram==='Required')?'ESP32-S3':(['ESP32','ESP32-S2','ESP32-S3','ESP32-C3'].indexOf(a.board)>=0?a.board:'ESP32 or ESP32-S3');
-var bs=a.board==='Not sure'?'recommended':(board===a.board?'recommended':'verify');
-if(bs==='verify'){score-=20;warnings.push('Your selected '+a.board+' is not the preferred board for this configuration. The tool recommends '+board+', but the exact board and display combination must still be verified.')}
-if(a.board==='ESP32-C3'&&(a.interface==='RGB'||high(a.resolution))){score-=15;warnings.push('The ESP32-C3 is not the preferred platform for this high-demand display configuration. Consider an ESP32-S3 and verify the exact hardware requirements.')}
-var iface=a.interface,ifs='recommended';
-if(iface==='Not sure'){iface=high(a.resolution)?'RGB or 8080 / Parallel':'SPI';ifs='likely'}
-if(iface==='SPI')reasons.push('SPI keeps GPIO usage relatively low and is practical for many small and medium displays.');
-if(iface==='RGB'){reasons.push('RGB provides high pixel-data throughput, but requires more GPIOs and careful display timing configuration.');warnings.push('RGB displays use substantially more GPIOs than SPI. Check the exact display pinout and available ESP32 GPIOs.');if(high(a.resolution))warnings.push('High-resolution RGB displays can require significant memory for frame buffers. An ESP32-S3 with suitable PSRAM is the safer choice.')}
-if(iface==='8080 / Parallel')reasons.push('8080/parallel can provide higher throughput than SPI, but uses more GPIOs and requires controller-specific verification.');
-if(iface==='SPI'&&high(a.resolution)){score-=10;warnings.push('SPI can be used with some higher-resolution displays, but practical refresh performance may be lower than RGB or parallel interfaces.')}
-var touch=a.touchType,ti=a.touchInterface,ts='recommended';
-if(touch==='No touch')ti='N/A';
-else if(touch==='Capacitive'){if(ti==='I²C'){}else if(ti==='SPI'){ts='verify';score-=5;warnings.push('SPI capacitive touch is possible, but I²C is more common. Verify the exact touch controller.')}else{ti='I²C';ts='likely';warnings.push('Many capacitive touch controllers use I²C. Verify the exact controller, address and interrupt requirements.')}}
-else if(touch==='Resistive'){if(ti==='I²C'){ts='verify';score-=5;warnings.push('I²C resistive touch exists, but SPI is more commonly found with controllers such as the XPT2046. Verify the controller.')}else if(ti==='Other / Not sure'){ti='SPI';ts='likely';warnings.push('Many resistive touch controllers use SPI. Verify the exact controller and required chip-select/interrupt pins.')}}
-else{touch='Capacitive or resistive — verify';ti=ti==='I²C'?'I²C':ti==='SPI'?'SPI':'I²C or SPI — verify';ts='likely';warnings.push('Touch technology is unknown. Check the touchscreen controller before assuming capacitive or resistive operation.')}
-var psram=a.psram==='Required'?'Required by project':(high(a.resolution)||iface==='RGB'||(a.lvgl==='Yes'&&demand>=4)||large(a.size)?'Strongly recommended; may be required':'Not normally required');
-if(psram!=='Not normally required')reasons.push('PSRAM is strongly recommended because this configuration can require larger graphics buffers or more memory.');
-var lvgl=a.lvgl==='Yes'?(board==='ESP32-S3'&&(high(a.resolution)||iface==='RGB')?'Excellent fit':iface==='SPI'?'Good fit; keep buffers appropriate to available RAM':'Suitable with memory and driver verification'):a.lvgl==='No'?'Not required':'Optional; depends on UI complexity';
-if(a.lvgl==='Yes')reasons.push('LVGL is suitable for graphical touchscreen interfaces, but available RAM, frame buffers and display-driver support should be checked for the exact hardware.');
-if(a.size==='Other / Not sure')warnings.push('Display size is unknown. Choose according to viewing distance, enclosure space and intended UI.');
-if(a.resolution==='Not sure')warnings.push('Display resolution is unknown. Verify it before choosing the final ESP32 memory and interface configuration.');
-if(['IoT dashboard','Home automation','HMI / control panel','Raspberry Pi-style interface'].indexOf(a.project)>=0)reasons.push('Your project type benefits from a graphical interface, making suitable display bandwidth, touch input and GUI support important.');
-var dp=(iface==='RGB'?2:0)+(iface==='8080 / Parallel'?2:0)+(high(a.resolution)?2:0)+(large(a.size)?1:0)+(a.lvgl==='Yes'?1:0)+(a.psram==='Required'?1:0)+(a.touchType!=='No touch'?1:0)+(bs==='verify'?2:0)+(ts==='verify'?1:0),difficulty=dp<=2?'Beginner':dp<=5?'Intermediate':'Advanced';
-warnings.push('Not every ESP32 board is compatible with every display module. Verify the exact display controller, touch controller, pinout, voltage, memory, interface and driver support before ordering.');
-reasons.unshift('The recommendation is based primarily on resolution, display interface, memory demand and your project requirements.');reasons.push('The recommended board is '+board+' because it provides the most appropriate balance of peripheral support and memory headroom for this configuration.');
-return {score:Math.max(0,Math.min(100,score)),board:board,boardStatus:bs,size:a.size==='Other / Not sure'?'Choose according to enclosure and viewing distance':a.size,resolution:a.resolution==='Not sure'?'Choose according to UI requirements':a.resolution,iface:iface,ifaceStatus:ifs,touchType:touch,touchInterface:ti,touchStatus:ts,psram:psram,lvgl:lvgl,difficulty:difficulty,why:reasons.join(' '),warnings:warnings}
+
+var lastRecommendation=null;
+
+/*
+=========================================================
+SELECTION PROGRESS
+=========================================================
+*/
+
+function updateSelectionProgress(){
+
+var count=0;
+
+groups.forEach(function(group){
+
+if(getValue(group)){
+count++;
 }
-function badge(s){return '<span class="badge">'+(s==='recommended'?'Recommended':s==='likely'?'Likely compatible':'Requires verification')+'</span>'}
-function render(r,a){document.getElementById('selection-text').textContent=[a.board,a.size,a.resolution,a.interface,a.touchType,a.touchInterface].join(' · ');var t=document.getElementById('confidence-title'),d=document.getElementById('confidence-detail');if(r.score>=90&&r.boardStatus!=='verify'){t.textContent='Strong configuration match';d.textContent='The selected requirements align well with the recommended hardware approach.'}else if(r.score>=75&&r.boardStatus!=='verify'){t.textContent='Good configuration match';d.textContent='The configuration is practical, but exact module specifications should still be checked.'}else{t.textContent='Requires verification';d.textContent='One or more hardware constraints need closer verification.'}
-var rows=[['Recommended ESP32',r.board,r.boardStatus],['Recommended display size',r.size,'likely'],['Recommended resolution',r.resolution,'likely'],['Recommended display interface',r.iface,r.ifaceStatus],['Recommended touch technology',r.touchType,r.touchStatus],['Recommended touch interface',r.touchInterface,r.touchStatus],['PSRAM',r.psram,r.psram.indexOf('Required')!==-1?'recommended':'likely'],['LVGL suitability',r.lvgl,'likely'],['Estimated project difficulty',r.difficulty,'likely']];var tb=document.getElementById('spec-table-body');tb.innerHTML='';rows.forEach(function(x){var tr=document.createElement('tr');tr.innerHTML='<th scope="row">'+escape(x[0])+'</th><td><span class="spec-value">'+escape(x[1])+'</span>'+badge(x[2])+'</td>';tb.appendChild(tr)});document.getElementById('why-text').textContent=r.why;var wl=document.getElementById('warning-list-items');wl.innerHTML='';r.warnings.forEach(function(w){var li=document.createElement('li');li.textContent=w;wl.appendChild(li)});results.classList.remove('is-hidden')}
-function match(p,r){var s=0;if(p.esp32.indexOf(r.board)>=0)s+=5;if(p.sizes.indexOf(r.size)>=0)s+=4;if(p.resolutions.indexOf(r.resolution)>=0)s+=5;if(p.interfaces.indexOf(r.iface)>=0)s+=5;if(p.touch.indexOf(r.touchType)>=0)s+=3;if(p.touchInterfaces.indexOf(r.touchInterface)>=0)s+=3;if(r.psram.indexOf('Required')>=0&&p.psram)s+=3;return s}
-function renderProducts(r){grid.innerHTML='';products.map(function(p){return {p:p,s:match(p,r)}}).filter(function(x){return x.s>=5}).sort(function(a,b){return b.s-a.s}).slice(0,3).forEach(function(x){var c=document.createElement('article');c.className='product-card';c.innerHTML='<h3>'+escape(x.p.name)+'</h3><div class="product-match"><strong>'+Math.min(99,Math.round(x.s/23*100))+'% match</strong> <span>based on mapped specifications</span></div><p>'+escape(x.p.reason)+'</p><a class="btn-primary" href="'+x.p.href+'">View product</a>';grid.appendChild(c)});if(!grid.children.length)grid.innerHTML='<p>No mapped hardware currently matches this configuration. See the <a href="https://embeddednerd.com/esp32-touchscreen-displays-guide/">ESP32 Touchscreen Displays guide</a>.</p>';hardware.classList.remove('is-hidden')}
-form.addEventListener('change',progress);form.addEventListener('submit',function(e){e.preventDefault();var a=validate();if(!a)return;last=recommend(a);render(last,a);renderProducts(last);results.scrollIntoView({behavior:'smooth',block:'start'})});document.getElementById('reset-btn').addEventListener('click',function(){form.reset();clearErrors();results.classList.add('is-hidden');hardware.classList.add('is-hidden');last=null;document.getElementById('copy-feedback').textContent='';progress()});document.getElementById('copy-btn').addEventListener('click',function(){if(!last)return;var t='Embedded Nerd — ESP32 Touchscreen Selector\n\nRecommended configuration:\nESP32: '+last.board+'\nDisplay size: '+last.size+'\nResolution: '+last.resolution+'\nDisplay interface: '+last.iface+'\nTouch: '+last.touchType+'\nTouch interface: '+last.touchInterface+'\nPSRAM: '+last.psram+'\nLVGL: '+last.lvgl+'\nDifficulty: '+last.difficulty+'\n\nWhy: '+last.why+'\n\nWarnings:\n'+last.warnings.map(function(w){return '- '+w}).join('\n');navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t).then(function(){document.getElementById('copy-feedback').textContent='Copied to clipboard.'}):document.getElementById('copy-feedback').textContent='Could not copy — select and copy manually.'});if(navigator.share){var b=document.getElementById('share-btn');b.hidden=false;b.addEventListener('click',function(){if(last)navigator.share({title:'ESP32 Touchscreen Recommendation',text:'Embedded Nerd — ESP32 Touchscreen Selector\n\nRecommended ESP32: '+last.board+'\nDisplay: '+last.size+' · '+last.resolution+'\nInterface: '+last.iface+'\nTouch: '+last.touchType+' · '+last.touchInterface+'\nPSRAM: '+last.psram}).catch(function(){})})}progress();
+
+});
+
+var percent=Math.round((count/groups.length)*100);
+
+var countEl=document.getElementById("selection-count");
+var percentEl=document.getElementById("selection-percent");
+var progressEl=document.getElementById("selection-progress");
+
+if(countEl){
+countEl.textContent=count;
+}
+
+if(percentEl){
+percentEl.textContent=percent+"%";
+}
+
+if(progressEl){
+progressEl.style.width=percent+"%";
+}
+
+}
+
+form.addEventListener("change", updateSelectionProgress);
+updateSelectionProgress();
+
+
+/*
+=========================================================
+PRODUCT DATABASE
+
+Map your real Embedded Nerd products here.
+
+For external affiliate links use:
+target="_blank"
+rel="nofollow sponsored noopener"
+
+=========================================================
+*/
+
+var products=[
+
+{
+name:'ILI9341 2.8" SPI TFT + XPT2046 Touch',
+image:'/assets/images/products/ili9341-xpt2046-2-8-touchscreen.webp',
+href:'/products/ili9341-xpt2046-2-8-touchscreen/',
+reason:'Compact SPI touchscreen for smaller ESP32 projects. The ILI9341 display and XPT2046 resistive touch controller make this a straightforward low-pin-count option.',
+esp32:['ESP32','ESP32-S2','ESP32-S3'],
+sizes:['2.4–2.8"'],
+resolutions:['240x320','320x240'],
+interfaces:['SPI'],
+touch:['Resistive'],
+touchInterfaces:['SPI'],
+psram:false
+},
+
+{
+name:'Waveshare ESP32-S3-Touch-LCD-4.3',
+image:'/assets/images/products/waveshare-esp32-s3-touch-lcd-4-3.webp',
+href:'/products/waveshare-esp32-s3-touch-lcd-4-3/',
+reason:'Integrated ESP32-S3 touchscreen platform for 4.3-inch 800×480 graphical interfaces and more demanding GUI projects.',
+esp32:['ESP32-S3'],
+sizes:['4.3"'],
+resolutions:['800x480'],
+interfaces:['RGB'],
+touch:['Capacitive'],
+touchInterfaces:['I²C'],
+psram:true
+},
+
+{
+name:'Waveshare ESP32-S3-Touch-LCD-7',
+image:'/assets/images/products/waveshare-esp32-s3-touch-lcd-7.webp',
+href:'/products/waveshare-esp32-s3-touch-lcd-7/',
+reason:'Large ESP32-S3 touchscreen platform aimed at dashboards, HMI and Raspberry Pi-style interfaces.',
+esp32:['ESP32-S3'],
+sizes:['7"'],
+resolutions:['1024x600'],
+interfaces:['RGB'],
+touch:['Capacitive'],
+touchInterfaces:['I²C'],
+psram:true
+}
+
+];
+
+
+/*
+=========================================================
+VALUE HELPERS
+=========================================================
+*/
+
+function getValue(name){
+
+var el=form.querySelector(
+'input[name="'+name+'"]:checked'
+);
+
+return el ? el.value : null;
+
+}
+
+
+function isHighResolution(res){
+
+return res==="800x480" ||
+       res==="1024x600";
+
+}
+
+
+function isLargeSize(size){
+
+return size==='5"' ||
+       size==='7"';
+
+}
+
+
+function escapeHtml(value){
+
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/*
+=========================================================
+VALIDATION
+=========================================================
+*/
+
+function clearErrors(){
+
+groups.forEach(function(group){
+
+var fs=form.querySelector(
+'fieldset[data-group="'+group+'"]'
+);
+
+if(fs){
+fs.classList.remove("has-error");
+}
+
+});
+
+}
+
+
+function validate(){
+
+clearErrors();
+
+var answers={};
+var firstInvalid=null;
+
+groups.forEach(function(group){
+
+var value=getValue(group);
+
+answers[group]=value;
+
+if(!value){
+
+var fs=form.querySelector(
+'fieldset[data-group="'+group+'"]'
+);
+
+if(fs){
+
+fs.classList.add("has-error");
+
+if(!firstInvalid){
+firstInvalid=fs;
+}
+
+}
+
+}
+
+});
+
+
+if(firstInvalid){
+
+firstInvalid.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+var input=firstInvalid.querySelector("input");
+
+if(input){
+input.focus();
+}
+
+return null;
+
+}
+
+return answers;
+
+}
+
+
+/*
+=========================================================
+RECOMMENDATION ENGINE
+=========================================================
+*/
+
+function computeRecommendation(a){
+
+var warnings=[];
+var reasons=[];
+
+var score=100;
+
+var boardRec;
+var boardStatus="recommended";
+
+var interfaceRec;
+var interfaceStatus="recommended";
+
+var sizeRec=
+a.size==="Other / Not sure"
+?"Choose according to enclosure and viewing distance"
+:a.size;
+
+var resolutionRec=
+a.resolution==="Not sure"
+?"Choose according to UI requirements"
+:a.resolution;
+
+var touchRec;
+var touchInterfaceRec;
+var touchStatus="recommended";
+
+var psramRec;
+var lvglRec;
+
+
+/*
+DISPLAY DEMAND
+*/
+
+var demand=0;
+
+if(isHighResolution(a.resolution)){
+demand+=3;
+}
+
+if(a.interface==="RGB"){
+demand+=3;
+}
+
+if(a.interface==="8080 / Parallel"){
+demand+=2;
+}
+
+if(isLargeSize(a.size)){
+demand+=1;
+}
+
+if(a.lvgl==="Yes"){
+demand+=2;
+}
+
+if(a.psram==="Required"){
+demand+=2;
+}
+
+
+/*
+BOARD
+*/
+
+if(
+a.interface==="RGB" ||
+isHighResolution(a.resolution) ||
+(a.lvgl==="Yes" && isLargeSize(a.size)) ||
+a.psram==="Required"
+){
+
+boardRec="ESP32-S3";
+
+}else if(
+a.board==="ESP32" ||
+a.board==="ESP32-S2" ||
+a.board==="ESP32-S3" ||
+a.board==="ESP32-C3"
+){
+
+boardRec=a.board;
+
+}else{
+
+boardRec="ESP32 or ESP32-S3";
+
+}
+
+
+/*
+BOARD STATUS
+*/
+
+if(a.board==="Not sure"){
+
+boardStatus="recommended";
+
+}else if(
+boardRec==="ESP32 or ESP32-S3" &&
+(a.board==="ESP32" || a.board==="ESP32-S3")
+){
+
+boardStatus="likely";
+
+}else if(a.board===boardRec){
+
+boardStatus="recommended";
+
+}else{
+
+boardStatus="verify";
+
+score-=20;
+
+warnings.push(
+"Your selected "+a.board+
+" is not the preferred board for this configuration. "+
+"The tool recommends "+boardRec+
+", but the exact board and display combination must still be verified."
+);
+
+}
+
+
+/*
+C3 / HIGH DEMAND
+*/
+
+if(
+a.board==="ESP32-C3" &&
+(
+a.interface==="RGB" ||
+isHighResolution(a.resolution)
+)
+){
+
+score-=15;
+
+warnings.push(
+"The ESP32-C3 is not the preferred platform for this high-demand display configuration. Consider an ESP32-S3 and verify the exact hardware requirements."
+);
+
+}
+
+
+/*
+INTERFACE
+*/
+
+if(a.interface==="SPI"){
+
+interfaceRec="SPI";
+
+reasons.push(
+"SPI keeps GPIO usage relatively low and is practical for many small and medium displays."
+);
+
+}else if(a.interface==="RGB"){
+
+interfaceRec="RGB";
+
+reasons.push(
+"RGB provides high pixel-data throughput, but requires more GPIOs and careful display timing configuration."
+);
+
+}else if(a.interface==="8080 / Parallel"){
+
+interfaceRec="8080 / Parallel";
+
+reasons.push(
+"8080/parallel can provide higher throughput than SPI, but uses more GPIOs and requires controller-specific verification."
+);
+
+}else{
+
+if(isHighResolution(a.resolution)){
+
+interfaceRec="RGB or 8080 / Parallel";
+
+interfaceStatus="likely";
+
+reasons.push(
+"Because the interface is unknown but the resolution is high, RGB or 8080/parallel should be investigated before selecting a specific module."
+);
+
+}else{
+
+interfaceRec="SPI";
+
+reasons.push(
+"Because the interface is unknown and the display demand is relatively modest, SPI is the simplest starting point."
+);
+
+}
+
+}
+
+
+/*
+RGB
+*/
+
+if(interfaceRec==="RGB"){
+
+warnings.push(
+"RGB displays use substantially more GPIOs than SPI. Check the exact display pinout and available ESP32 GPIOs."
+);
+
+if(isHighResolution(a.resolution)){
+
+warnings.push(
+"High-resolution RGB displays can require significant memory for frame buffers. An ESP32-S3 with suitable PSRAM is the safer choice."
+);
+
+}
+
+}
+
+
+/*
+SPI
+*/
+
+if(
+interfaceRec==="SPI" &&
+isHighResolution(a.resolution)
+){
+
+score-=10;
+
+warnings.push(
+"SPI can be used with some higher-resolution displays, but practical refresh performance may be lower than RGB or parallel interfaces."
+);
+
+}
+
+
+/*
+TOUCH
+*/
+
+if(a.touchType==="No touch"){
+
+touchRec="No touch";
+touchInterfaceRec="N/A";
+
+}else if(a.touchType==="Capacitive"){
+
+touchRec="Capacitive";
+
+if(a.touchInterface==="I²C"){
+
+touchInterfaceRec="I²C";
+
+}else if(a.touchInterface==="SPI"){
+
+touchInterfaceRec="SPI";
+touchStatus="verify";
+
+score-=5;
+
+warnings.push(
+"SPI capacitive touch is possible, but I²C is more common. Verify the exact touch controller."
+);
+
+}else{
+
+touchInterfaceRec="I²C";
+touchStatus="likely";
+
+warnings.push(
+"Many capacitive touch controllers use I²C. Verify the exact controller, address and interrupt requirements."
+);
+
+}
+
+}else if(a.touchType==="Resistive"){
+
+touchRec="Resistive";
+
+if(a.touchInterface==="SPI"){
+
+touchInterfaceRec="SPI";
+
+}else if(a.touchInterface==="I²C"){
+
+touchInterfaceRec="I²C";
+touchStatus="verify";
+
+score-=5;
+
+warnings.push(
+"I²C resistive touch exists, but SPI is more commonly found with controllers such as the XPT2046. Verify the controller."
+);
+
+}else{
+
+touchInterfaceRec="SPI";
+touchStatus="likely";
+
+warnings.push(
+"Many resistive touch controllers use SPI. Verify the exact controller and required chip-select/interrupt pins."
+);
+
+}
+
+}else{
+
+touchRec="Capacitive or resistive — verify";
+
+if(a.touchInterface==="I²C"){
+
+touchInterfaceRec="I²C";
+touchStatus="likely";
+
+}else if(a.touchInterface==="SPI"){
+
+touchInterfaceRec="SPI";
+touchStatus="likely";
+
+}else{
+
+touchInterfaceRec="I²C or SPI — verify";
+touchStatus="verify";
+
+}
+
+warnings.push(
+"Touch technology is unknown. Check the touchscreen controller before assuming capacitive or resistive operation."
+);
+
+}
+
+
+/*
+PSRAM
+*/
+
+if(a.psram==="Required"){
+
+psramRec="Required by project";
+
+}else if(
+isHighResolution(a.resolution) ||
+interfaceRec==="RGB" ||
+(a.lvgl==="Yes" && demand>=4) ||
+isLargeSize(a.size)
+){
+
+psramRec="Strongly recommended; may be required";
+
+reasons.push(
+"PSRAM is strongly recommended because this configuration can require larger graphics buffers or more memory."
+);
+
+}else{
+
+psramRec="Not normally required";
+
+}
+
+
+/*
+LVGL
+*/
+
+if(a.lvgl==="Yes"){
+
+if(
+boardRec==="ESP32-S3" &&
+(
+isHighResolution(a.resolution) ||
+interfaceRec==="RGB"
+)
+){
+
+lvglRec="Excellent fit";
+
+}else if(interfaceRec==="SPI"){
+
+lvglRec="Good fit; keep buffers appropriate to available RAM";
+
+}else{
+
+lvglRec="Suitable with memory and driver verification";
+
+}
+
+reasons.push(
+"LVGL is suitable for graphical touchscreen interfaces, but available RAM, frame buffers and display-driver support should be checked for the exact hardware."
+);
+
+}else if(a.lvgl==="No"){
+
+lvglRec="Not required";
+
+}else{
+
+lvglRec="Optional; depends on UI complexity";
+
+}
+
+
+/*
+SIZE / RESOLUTION UNKNOWN
+*/
+
+if(a.size==="Other / Not sure"){
+
+warnings.push(
+"Display size is unknown. Choose according to viewing distance, enclosure space and intended UI."
+);
+
+}
+
+if(a.resolution==="Not sure"){
+
+warnings.push(
+"Display resolution is unknown. Verify it before choosing the final ESP32 memory and interface configuration."
+);
+
+}
+
+
+/*
+PROJECT
+*/
+
+if(
+a.project==="IoT dashboard" ||
+a.project==="Home automation" ||
+a.project==="HMI / control panel" ||
+a.project==="Raspberry Pi-style interface"
+){
+
+reasons.push(
+"Your project type benefits from a graphical interface, making suitable display bandwidth, touch input and GUI support important."
+);
+
+}
+
+
+/*
+DIFFICULTY
+*/
+
+var difficultyPoints=0;
+
+if(interfaceRec==="RGB") difficultyPoints+=2;
+if(interfaceRec==="8080 / Parallel") difficultyPoints+=2;
+if(isHighResolution(a.resolution)) difficultyPoints+=2;
+if(isLargeSize(a.size)) difficultyPoints+=1;
+if(a.lvgl==="Yes") difficultyPoints+=1;
+if(a.psram==="Required") difficultyPoints+=1;
+if(a.touchType!=="No touch") difficultyPoints+=1;
+if(boardStatus==="verify") difficultyPoints+=2;
+if(touchStatus==="verify") difficultyPoints+=1;
+
+var difficulty=
+difficultyPoints<=2
+?"Beginner"
+:difficultyPoints<=5
+?"Intermediate"
+:"Advanced";
+
+
+/*
+GENERAL WARNING
+*/
+
+warnings.push(
+"Not every ESP32 board is compatible with every display module. Verify the exact display controller, touch controller, pinout, voltage, memory, interface and driver support before ordering."
+);
+
+
+/*
+WHY
+*/
+
+reasons.unshift(
+"The recommendation is based primarily on resolution, display interface, memory demand and your project requirements."
+);
+
+reasons.push(
+"The recommended board is "+boardRec+
+" because it provides the most appropriate balance of peripheral support and memory headroom for this configuration."
+);
+
+return{
+
+score:Math.max(0,Math.min(100,score)),
+
+board:boardRec,
+boardStatus:boardStatus,
+
+size:sizeRec,
+
+resolution:resolutionRec,
+
+iface:interfaceRec,
+ifaceStatus:interfaceStatus,
+
+touchType:touchRec,
+touchInterface:touchInterfaceRec,
+touchStatus:touchStatus,
+
+psram:psramRec,
+
+lvgl:lvglRec,
+
+difficulty:difficulty,
+
+why:reasons.join(" "),
+
+warnings:warnings
+
+};
+
+}
+
+
+/*
+=========================================================
+RENDER
+=========================================================
+*/
+
+function badge(status){
+
+if(status==="recommended")
+return '<span class="badge recommended">Recommended</span>';
+
+if(status==="likely")
+return '<span class="badge likely">Likely compatible</span>';
+
+return '<span class="badge verify">Requires verification</span>';
+
+}
+
+
+function renderResults(rec,a){
+
+document.getElementById("selection-text")
+.textContent=[
+a.board,
+a.size,
+a.resolution,
+a.interface,
+a.touchType,
+a.touchInterface
+].join(" · ");
+
+
+var title=
+document.getElementById("confidence-title");
+
+var detail=
+document.getElementById("confidence-detail");
+
+
+if(rec.score>=90 && rec.boardStatus!=="verify"){
+
+title.textContent="Strong configuration match";
+
+detail.textContent=
+"The selected requirements align well with the recommended hardware approach.";
+
+}else if(rec.score>=75 && rec.boardStatus!=="verify"){
+
+title.textContent="Good configuration match";
+
+detail.textContent=
+"The configuration is practical, but exact module specifications should still be checked.";
+
+}else{
+
+title.textContent="Requires verification";
+
+detail.textContent=
+"One or more hardware constraints need closer verification.";
+
+}
+
+
+var rows=[
+
+["Recommended ESP32",rec.board,rec.boardStatus],
+
+["Recommended display size",rec.size,"likely"],
+
+["Recommended resolution",rec.resolution,"likely"],
+
+["Recommended display interface",rec.iface,rec.ifaceStatus],
+
+["Recommended touch technology",rec.touchType,rec.touchStatus],
+
+["Recommended touch interface",rec.touchInterface,rec.touchStatus],
+
+["PSRAM",rec.psram,
+rec.psram.indexOf("Required")!==-1
+?"recommended"
+:"likely"],
+
+["LVGL suitability",rec.lvgl,"likely"],
+
+["Estimated project difficulty",rec.difficulty,"likely"]
+
+];
+
+
+var tbody=
+document.getElementById("spec-table-body");
+
+tbody.innerHTML="";
+
+
+rows.forEach(function(row){
+
+var tr=document.createElement("tr");
+
+var th=document.createElement("th");
+
+th.scope="row";
+
+th.textContent=row[0];
+
+var td=document.createElement("td");
+
+td.innerHTML=
+'<span class="spec-value">'+
+escapeHtml(row[1])+
+"</span>"+
+badge(row[2]);
+
+tr.appendChild(th);
+tr.appendChild(td);
+
+tbody.appendChild(tr);
+
+});
+
+
+document.getElementById("why-text")
+.textContent=rec.why;
+
+
+var warningList=
+document.getElementById("warning-list-items");
+
+warningList.innerHTML="";
+
+
+rec.warnings.forEach(function(w){
+
+var li=document.createElement("li");
+
+li.textContent=w;
+
+warningList.appendChild(li);
+
+});
+
+
+results.classList.remove("is-hidden");
+
+}
+
+
+/*
+=========================================================
+PRODUCT MATCHING
+
+The score is based on the recommendation, not the user's
+raw selection. This means the product section supports
+the recommended solution instead of simply echoing inputs.
+
+=========================================================
+*/
+
+function productMatch(product,rec){
+
+var score=0;
+
+if(product.esp32.indexOf(rec.board)!==-1)
+score+=5;
+
+if(product.sizes.indexOf(rec.size)!==-1)
+score+=4;
+
+if(product.resolutions.indexOf(rec.resolution)!==-1)
+score+=5;
+
+if(product.interfaces.indexOf(rec.iface)!==-1)
+score+=5;
+
+if(product.touch.indexOf(rec.touchType)!==-1)
+score+=3;
+
+if(product.touchInterfaces.indexOf(rec.touchInterface)!==-1)
+score+=3;
+
+if(
+rec.psram.indexOf("Required")!==-1 &&
+product.psram
+)
+score+=3;
+
+return score;
+
+}
+
+
+function renderProducts(rec){
+
+productGrid.innerHTML="";
+
+
+var ranked=products
+.map(function(product){
+
+return{
+product:product,
+score:productMatch(product,rec)
+};
+
+})
+.filter(function(item){
+
+return item.score>=5;
+
+})
+.sort(function(a,b){
+
+return b.score-a.score;
+
+})
+.slice(0,3);
+
+
+if(!ranked.length){
+
+productGrid.innerHTML=
+"<p>No mapped hardware currently matches this configuration. "+
+'See the <a href="/esp32-touchscreen-displays-guide/">ESP32 Touchscreen Displays guide</a> for more options.</p>';
+
+hardware.classList.remove("is-hidden");
+
+return;
+
+}
+
+
+ranked.forEach(function(item){
+
+var p=item.product;
+
+var card=document.createElement("article");
+
+card.className="product-card";
+
+
+var thumb=document.createElement("div");
+
+thumb.className="product-thumb";
+
+
+if(p.image){
+
+var img=document.createElement("img");
+
+img.src=p.image;
+
+img.alt=p.name;
+
+img.loading="lazy";
+
+thumb.appendChild(img);
+
+}
+
+
+var h3=document.createElement("h3");
+
+h3.textContent=p.name;
+
+
+var match=document.createElement("div");
+
+match.className="product-match";
+
+var matchPercent=Math.min(99,Math.round((item.score/23)*100));
+
+match.innerHTML="<strong>"+matchPercent+"% match</strong> <span>based on mapped specifications</span>";
+
+
+var reason=document.createElement("p");
+
+reason.textContent=p.reason;
+
+
+var link=document.createElement("a");
+
+link.className="btn-primary";
+
+link.href=p.href;
+
+link.textContent="View product";
+
+
+card.appendChild(thumb);
+card.appendChild(h3);
+card.appendChild(match);
+card.appendChild(reason);
+card.appendChild(link);
+
+productGrid.appendChild(card);
+
+});
+
+
+hardware.classList.remove("is-hidden");
+
+}
+
+
+/*
+=========================================================
+SUBMIT
+=========================================================
+*/
+
+function handleSelectorSubmit(e){
+
+if(e){
+e.preventDefault();
+e.stopPropagation();
+}
+
+var answers=validate();
+
+if(!answers){
+return false;
+}
+
+lastRecommendation=
+computeRecommendation(answers);
+
+renderResults(
+lastRecommendation,
+answers
+);
+
+renderProducts(
+lastRecommendation
+);
+
+results.scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
+
+return false;
+}
+
+window.embeddedNerdTouchscreenSubmit=handleSelectorSubmit;
+
+form.addEventListener("submit",handleSelectorSubmit);
+
+
+/*
+=========================================================
+RESET
+=========================================================
+*/
+
+document
+.getElementById("reset-btn")
+.addEventListener("click",function(){
+
+form.reset();
+clearErrors();
+
+results.classList.add("is-hidden");
+hardware.classList.add("is-hidden");
+
+lastRecommendation=null;
+
+var feedback=document.getElementById("copy-feedback");
+if(feedback){
+feedback.textContent="";
+}
+
+var shareButton=document.getElementById("share-btn");
+if(shareButton){
+shareButton.hidden=true;
+}
+
+updateSelectionProgress();
+
+});
+
+
+/*
+=========================================================
+COPY
+=========================================================
+*/
+
+document
+.getElementById("copy-btn")
+.addEventListener("click",function(){
+
+if(!lastRecommendation){
+return;
+}
+
+var rec=lastRecommendation;
+
+var text=[
+
+"Embedded Nerd — ESP32 Touchscreen Selector",
+
+"",
+
+"Recommended configuration:",
+
+"ESP32: "+rec.board,
+
+"Display size: "+rec.size,
+
+"Resolution: "+rec.resolution,
+
+"Display interface: "+rec.iface,
+
+"Touch: "+rec.touchType,
+
+"Touch interface: "+rec.touchInterface,
+
+"PSRAM: "+rec.psram,
+
+"LVGL: "+rec.lvgl,
+
+"Difficulty: "+rec.difficulty,
+
+"",
+
+"Why: "+rec.why,
+
+"",
+
+"Warnings:"
+
+].concat(
+
+rec.warnings.map(function(w){
+
+return"- "+w;
+
+})
+
+).join("\n");
+
+
+var feedback=
+document.getElementById("copy-feedback");
+
+
+function done(ok){
+
+feedback.textContent=
+ok
+?"Copied to clipboard."
+:"Could not copy — select and copy manually.";
+
+}
+
+
+if(
+navigator.clipboard &&
+navigator.clipboard.writeText
+){
+
+navigator.clipboard
+.writeText(text)
+.then(
+function(){done(true);},
+function(){done(false);}
+);
+
+}else{
+
+try{
+
+var textarea=document.createElement("textarea");
+
+textarea.value=text;
+
+textarea.style.position="fixed";
+textarea.style.opacity="0";
+
+document.body.appendChild(textarea);
+
+textarea.focus();
+textarea.select();
+
+var ok=document.execCommand("copy");
+
+document.body.removeChild(textarea);
+
+done(ok);
+
+}catch(error){
+
+done(false);
+
+}
+
+}
+
+});
+
+
+/*
+=========================================================
+SHARE
+=========================================================
+*/
+
+var shareButton=
+document.getElementById("share-btn");
+
+
+if(navigator.share){
+
+shareButton.hidden=false;
+
+shareButton.addEventListener(
+"click",
+function(){
+
+if(!lastRecommendation){
+return;
+}
+
+navigator.share({
+
+title:"ESP32 Touchscreen Recommendation",
+
+text:
+"Embedded Nerd — ESP32 Touchscreen Selector\n\n"+
+"Recommended ESP32: "+
+lastRecommendation.board+
+"\nDisplay: "+
+lastRecommendation.size+
+" · "+
+lastRecommendation.resolution+
+"\nInterface: "+
+lastRecommendation.iface+
+"\nTouch: "+
+lastRecommendation.touchType+
+" · "+
+lastRecommendation.touchInterface+
+"\nPSRAM: "+
+lastRecommendation.psram
+
+}).catch(function(){});
+
+}
+);
+
+}
+
+}
+
+if(document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", initTouchscreenSelector, {once:true});
+}else{
+  initTouchscreenSelector();
+}
+
 })();
