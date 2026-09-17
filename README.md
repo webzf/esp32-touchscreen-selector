@@ -62,7 +62,7 @@ Open `index.html` in a browser, or serve the directory with any static web serve
 ## Repository structure
 
 ```text
-essp32-touchscreen-selector/
+esp32-touchscreen-selector/
 ├── index.html
 ├── css/
 │   └── selector.css
