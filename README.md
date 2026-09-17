@@ -4,7 +4,7 @@ A lightweight, dependency-free web tool for choosing an ESP32 touchscreen config
 
 🚀 **[Try the live ESP32 Touchscreen Selector](https://embeddednerd.com/tools/esp32-touchscreen-selector/)**
 
-![ESP32 Touchscreen Selector](assets/esp32-touchscreen-selector-promo.webp)
+![ESP32 Touchscreen Selector](assets/esp32-touchscreen-selector-promo.svg)
 
 ## Why this tool exists
 
@@ -62,14 +62,14 @@ Open `index.html` in a browser, or serve the directory with any static web serve
 ## Repository structure
 
 ```text
-esp32-touchscreen-selector/
+essp32-touchscreen-selector/
 ├── index.html
 ├── css/
 │   └── selector.css
 ├── js/
 │   └── selector.js
 ├── assets/
-│   └── esp32-touchscreen-selector-promo.webp
+│   └── esp32-touchscreen-selector-promo.svg
 ├── .github/
 │   └── ISSUE_TEMPLATE/
 │       ├── bug_report.md
