@@ -1,6 +1,6 @@
 # ESP32 Touchscreen Selector
 
-The **ESP32 Touchscreen Selector** helps makers and developers choose a suitable ESP32 touchscreen configuration based on the board, display size, resolution, interface, touch technology, PSRAM and LVGL requirements.
+The **ESP32 Touchscreen Selector** is a free interactive tool for choosing a suitable ESP32 touchscreen configuration based on the board, display size, resolution, interface, touch technology, PSRAM and LVGL requirements.
 
 🚀 **Try the live ESP32 Touchscreen Selector:**  
 https://embeddednerd.com/tools/esp32-touchscreen-selector/
@@ -41,17 +41,22 @@ Recommendations are practical guidance. Exact hardware specifications must still
 
 ## Example: choosing an ESP32 touchscreen for an LVGL GUI
 
-Imagine you want to build a touchscreen control panel with:
+A typical demanding configuration might look like this:
 
-- A medium or large display
-- A higher resolution
-- Capacitive touch
-- An LVGL-based graphical interface
-- A project that needs comfortable graphics performance
+| Requirement | Example choice |
+|---|---|
+| ESP32 | ESP32-S3 |
+| Display size | 4.3" |
+| Resolution | 800×480 |
+| Display interface | RGB |
+| Touch | Capacitive |
+| Touch interface | I²C |
+| Graphics | LVGL |
+| Memory | PSRAM recommended |
 
-The selector evaluates these requirements together instead of matching only the display size. For demanding configurations, it can point toward an **ESP32-S3**, indicate when **PSRAM** is useful, and highlight compatibility details that should be verified before choosing the final hardware.
+For this type of configuration, the selector evaluates the requirements together rather than matching only the display size. It can point toward an **ESP32-S3**, indicate when **PSRAM** is useful, and highlight hardware compatibility details that should be verified before choosing a final module.
 
-This is particularly useful when comparing **ESP32, ESP32-S3 and display-interface options** before purchasing a module.
+The same approach can be used when comparing smaller SPI displays, parallel/8080 displays, different touch interfaces, or less demanding ESP32 projects.
 
 ## How it works
 
@@ -77,7 +82,7 @@ These are general considerations, not universal compatibility guarantees.
 
 ## Recommendation logic
 
-The selector's recommendation engine uses practical rules including:
+The recommendation engine uses practical rules including:
 
 - ESP32-S3 for demanding RGB, high-resolution, large-display and LVGL configurations.
 - PSRAM guidance based on resolution, interface, display size, LVGL and project requirements.
@@ -97,9 +102,9 @@ The selector's recommendation engine uses practical rules including:
 - ESP32-S3 touchscreen projects
 - Embedded interfaces and control panels
 
-## Screenshots
+## Screenshots and project artwork
 
-The repository includes the promotional image in `assets/esp32-touchscreen-selector-promo.svg`.
+The repository includes the promotional artwork used for the project in `assets/esp32-touchscreen-selector-promo.svg`.
 
 ## Run locally
 
