@@ -1,130 +1,125 @@
 # ESP32 Touchscreen Selector
 
-A lightweight, dependency-free web tool for choosing an ESP32 touchscreen configuration based on display, touch, memory and GUI requirements.
+The ESP32 Touchscreen Selector helps makers choose a suitable ESP32 touchscreen configuration based on their board, display requirements, touch technology, PSRAM and LVGL needs.
 
-🚀 **[Try the live ESP32 Touchscreen Selector](https://embeddednerd.com/tools/esp32-touchscreen-selector/)**
+🚀 **Try the live ESP32 Touchscreen Selector:**  
+https://embeddednerd.com/tools/esp32-touchscreen-selector/
 
-![ESP32 Touchscreen Selector](assets/esp32-touchscreen-selector-promo.svg)
+![ESP32 Touchscreen Selector](assets/esp32-touchscreen-selector-promo.webp)
 
-## Why this tool exists
+## What is the ESP32 Touchscreen Selector?
 
-Choosing an ESP32 touchscreen is more than choosing a screen size. The ESP32 variant, resolution, display interface, touch controller, touch interface, PSRAM and GUI requirements can all affect the practical hardware choice.
+Choosing an ESP32 touchscreen is not only about screen size. Compatibility can depend on the ESP32 variant, resolution, display interface, touch controller, touch interface, PSRAM and graphics framework requirements.
 
-The selector turns those requirements into a practical starting configuration and highlights areas that should be verified before buying hardware.
+The tool helps users narrow down a practical configuration before selecting hardware.
 
-## What it considers
+## What can you select?
 
-- ESP32, ESP32-S2, ESP32-S3 and ESP32-C3
-- Display size and resolution
-- SPI, RGB and 8080 / Parallel display interfaces
-- Capacitive and resistive touch
-- I²C and SPI touch interfaces
-- PSRAM requirements
-- LVGL requirements
-- Project type and graphical complexity
+- ESP32 board
+- Display size
+- Resolution
+- Display interface
+- Touch technology
+- Touch interface
+- Project type
+- LVGL requirement
+- PSRAM requirement
 
-## What you get
+## What does the tool provide?
 
-- Recommended ESP32 variant
+- Recommended ESP32 configuration
 - Recommended display characteristics
-- Touch technology and interface guidance
+- Touch technology recommendation
+- Touch interface recommendation
 - PSRAM guidance
 - LVGL suitability
 - Estimated project difficulty
 - Compatibility warnings
-- Matching hardware suggestions
+- Matching product suggestions
 
-The result is guidance rather than a hardware-compatibility guarantee. Always verify the exact module documentation before purchasing.
+Recommendations are practical guidance. Exact hardware specifications must still be verified before purchase.
 
-## Recommendation approach
+## How it works
 
-The selector evaluates the combination of requirements instead of relying on a single field. In particular, it considers memory demand, display bandwidth, GPIO requirements and graphical complexity.
+The selector evaluates the user's requirements and scores possible configurations rather than simply matching one field.
 
-Examples include:
+"Not sure" selections are handled by producing a likely configuration together with verification warnings. The result is intended to narrow the hardware search, not replace a manufacturer's documentation.
 
-- Higher-resolution RGB projects tend to point toward ESP32-S3 configurations.
-- Larger displays and LVGL projects can increase the need for PSRAM.
-- ESP32-C3 selections are flagged for additional verification with demanding RGB or high-resolution configurations.
-- Existing user selections are respected, with conflicts reported rather than silently replaced.
-- Unknown selections produce practical guidance together with verification warnings.
+## ESP32 touchscreen compatibility considerations
 
-## Run locally
+- **SPI displays** — relatively few pins and straightforward wiring for many small and medium displays.
+- **RGB displays** — higher pixel-data throughput, but more GPIOs and stricter hardware requirements.
+- **8080 / parallel displays** — a different throughput/GPIO trade-off from SPI; exact controller support must be verified.
+- **Capacitive touch** — common in modern interfaces, often paired with dedicated touch controllers.
+- **Resistive touch** — useful for stylus or pressure-based input; controller implementations vary.
+- **I²C touch** — common for capacitive controllers.
+- **SPI touch** — common for some resistive touch controllers.
+- **PSRAM** — increasingly valuable for larger frame buffers and demanding graphical interfaces.
+- **LVGL** — useful for sophisticated embedded GUIs, with memory and driver requirements that depend on the project.
+- **ESP32-S3** — a strong starting point for demanding RGB, higher-resolution, larger-display and LVGL configurations.
+- **ESP32-C3** — suitable for many projects, but demanding RGB/high-resolution configurations need additional verification.
 
-No build system or external dependencies are required.
+These are general considerations, not universal compatibility guarantees.
 
-```bash
-git clone https://github.com/webzf/esp32-touchscreen-selector.git
-cd esp32-touchscreen-selector
-```
+## Recommendation logic
 
-Open `index.html` in a browser, or serve the directory with any static web server.
+The selector's recommendation engine uses practical rules including:
 
-## Repository structure
+- ESP32-S3 for demanding RGB, high-resolution, large-display and LVGL configurations.
+- PSRAM guidance based on resolution, interface, display size, LVGL and project requirements.
+- Warnings when ESP32-C3 is selected for demanding RGB/high-resolution configurations.
+- Respect for existing user-selected hardware, with conflicts reported rather than silently replacing the selection.
+- Useful recommendations for unknown selections, with explicit verification warnings.
+- Verification of the exact display controller, touch controller, GPIO/pinout, voltage, memory, interface and software-driver support.
 
-```text
-esp32-touchscreen-selector/
-├── index.html
-├── css/
-│   └── selector.css
-├── js/
-│   └── selector.js
-├── assets/
-│   └── esp32-touchscreen-selector-promo.svg
-├── .github/
-│   └── ISSUE_TEMPLATE/
-│       ├── bug_report.md
-│       └── feature_request.md
-├── LICENSE
-└── README.md
-```
+## Example use cases
 
-## Canonical live version
+- ESP32 IoT dashboards
+- Home automation panels
+- HMI/control interfaces
+- Portable touchscreen devices
+- LVGL GUI projects
+- Data displays
+- ESP32-S3 touchscreen projects
+- Raspberry Pi-style embedded interfaces
 
-The hosted Embedded Nerd version is the canonical user-facing tool:
+## Screenshots
 
-**[embeddednerd.com/tools/esp32-touchscreen-selector/](https://embeddednerd.com/tools/esp32-touchscreen-selector/)**
+The repository includes the promotional image in `assets/esp32-touchscreen-selector-promo.webp`.
 
-This repository is intended for source inspection, local testing, issue reports, feature requests and contributions.
+## Open source
 
-## Related Embedded Nerd guide
+This repository contains the standalone project implementation and technical reference. The canonical user-facing version remains the hosted Embedded Nerd tool:
 
-**[ESP32 Touchscreen Displays: Complete Guide](https://embeddednerd.com/esp32-touchscreen-displays-guide/)**
+https://embeddednerd.com/tools/esp32-touchscreen-selector/
 
-Use the guide for deeper information about display interfaces, touchscreen technologies, ESP32-S3, PSRAM, LVGL and choosing touchscreen hardware.
+The GitHub repository is intended for source inspection, issues, feature requests and contributions.
 
-## Contributing
+## Feedback and contributions
 
-Issues and pull requests are welcome. Useful contributions include:
+Please use GitHub Issues to:
 
-- Additional ESP32 boards
-- Additional touchscreen displays
-- Touch-controller compatibility rules
-- Better recommendation rules
-- Bug fixes
-- Accessibility and usability improvements
-- Documentation improvements
+- Report bugs
+- Suggest compatibility rules
+- Request additional ESP32 boards
+- Request additional displays
+- Suggest touchscreen controllers
+- Suggest improvements to the recommendation engine
 
-When reporting a compatibility problem, include the selected board, display size, resolution, interface, touch technology, touch interface, LVGL and PSRAM settings where possible.
+## Related Embedded Nerd resources
 
-## Important compatibility note
+### ESP32 Touchscreen Displays Guide
 
-Before ordering hardware, verify:
+https://embeddednerd.com/esp32-touchscreen-displays-guide/
 
-- Display controller
-- Touch controller
-- GPIO and pinout
-- Logic voltage and power requirements
-- Available RAM and PSRAM
-- Display interface
-- Touch interface
-- Arduino / ESP-IDF / LVGL driver support
+### ESP32 Touchscreen Selector
 
-Different modules using the same display size or controller can have different wiring and software requirements.
+https://embeddednerd.com/tools/esp32-touchscreen-selector/
 
 ## License
 
-MIT License. See [LICENSE](LICENSE).
+This project is released under the **MIT License**. See [LICENSE](LICENSE).
 
-## Topics
+## GitHub topics
 
 `esp32` `esp32-s3` `esp32-display` `esp32-touchscreen` `touchscreen` `lvgl` `iot` `embedded-systems` `electronics` `arduino` `maker` `embedded` `tft-display`
