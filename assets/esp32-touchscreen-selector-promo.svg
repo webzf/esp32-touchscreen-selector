@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+<title id="title">ESP32 Touchscreen Selector</title>
+<desc id="desc">Choose an ESP32 touchscreen configuration based on display, touch, PSRAM and LVGL requirements.</desc>
+<rect width="1200" height="630" fill="#111827"/>
+<rect x="55" y="55" width="1090" height="520" rx="28" fill="#182235" stroke="#4b5563" stroke-width="2"/>
+<text x="90" y="115" fill="#9ca3af" font-family="Arial,sans-serif" font-size="24" font-weight="700" letter-spacing="3">EMBEDDED NERD TOOL</text>
+<text x="90" y="190" fill="#ffffff" font-family="Arial,sans-serif" font-size="58" font-weight="800">ESP32 Touchscreen</text>
+<text x="90" y="258" fill="#ffffff" font-family="Arial,sans-serif" font-size="58" font-weight="800">Selector</text>
+<text x="90" y="315" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="25">Choose a practical ESP32 display configuration</text>
+<text x="90" y="350" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="25">for your resolution, interface, touch, PSRAM and LVGL needs.</text>
+<g transform="translate(90 410)">
+<rect width="205" height="64" rx="14" fill="#243247" stroke="#64748b"/>
+<text x="102" y="40" text-anchor="middle" fill="#f8fafc" font-family="Arial,sans-serif" font-size="21" font-weight="700">ESP32 / S3</text>
+<rect x="225" width="170" height="64" rx="14" fill="#243247" stroke="#64748b"/>
+<text x="310" y="40" text-anchor="middle" fill="#f8fafc" font-family="Arial,sans-serif" font-size="21" font-weight="700">SPI / RGB</text>
+<rect x="415" width="180" height="64" rx="14" fill="#243247" stroke="#64748b"/>
+<text x="505" y="40" text-anchor="middle" fill="#f8fafc" font-family="Arial,sans-serif" font-size="21" font-weight="700">Touch</text>
+<rect x="615" width="180" height="64" rx="14" fill="#243247" stroke="#64748b"/>
+<text x="705" y="40" text-anchor="middle" fill="#f8fafc" font-family="Arial,sans-serif" font-size="21" font-weight="700">PSRAM + LVGL</text>
+</g>
+<text x="90" y="535" fill="#94a3b8" font-family="Arial,sans-serif" font-size="20">embeddednerd.com/tools/esp32-touchscreen-selector/</text>
+</svg>
