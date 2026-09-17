@@ -5,7 +5,7 @@ The ESP32 Touchscreen Selector helps makers choose a suitable ESP32 touchscreen 
 🚀 **Try the live ESP32 Touchscreen Selector:**  
 https://embeddednerd.com/tools/esp32-touchscreen-selector/
 
-![ESP32 Touchscreen Selector](assets/esp32-touchscreen-selector-promo.webp)
+![ESP32 Touchscreen Selector](assets/esp32-touchscreen-selector-promo.svg)
 
 ## What is the ESP32 Touchscreen Selector?
 
@@ -85,7 +85,7 @@ The selector's recommendation engine uses practical rules including:
 
 ## Screenshots
 
-The repository includes the promotional image in `assets/esp32-touchscreen-selector-promo.webp`.
+The repository includes the promotional image in `assets/esp32-touchscreen-selector-promo.svg`.
 
 ## Open source
 
