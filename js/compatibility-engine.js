@@ -133,8 +133,11 @@ function scorePreferences(p, prefs){
     else{misses.push(label+" (unknown data)");}
   }
   if(prefs.family){soft("ESP32 family: "+prefs.family,fieldMatches(p.esp32.family,prefs.family),true);}
+  if(prefs.product_type){soft("Hardware type: "+prefs.product_type,fieldMatches(p.product_type,prefs.product_type),valueKnown(p.product_type));}
+  if(prefs.display_present!==null && prefs.display_present!==undefined){soft("Display: "+(prefs.display_present?"present":"none"),p.display.display_present===prefs.display_present,valueKnown(p.display.display_present));}
   if(prefs.display_technology){soft("Display: "+prefs.display_technology,fieldMatches(p.display.technology,prefs.display_technology),valueKnown(p.display.technology));}
   if(prefs.display_shape){soft("Shape: "+prefs.display_shape,fieldMatches(p.display.shape,prefs.display_shape),valueKnown(p.display.shape));}
+  if(prefs.size_min!==null && prefs.size_min!==undefined){soft("Display size ≥ "+prefs.size_min+"\"",valueKnown(p.display.size_inches)&&Number(p.display.size_inches)>=Number(prefs.size_min),valueKnown(p.display.size_inches));}
   if(prefs.size_exact!==null && prefs.size_exact!==undefined){soft("Display size: "+prefs.size_exact+"\"",valueKnown(p.display.size_inches)&&Number(p.display.size_inches)===Number(prefs.size_exact),valueKnown(p.display.size_inches));}
   if(prefs.resolution){soft("Resolution: "+prefs.resolution,!!(p.display.resolution&&p.display.resolution.width+"x"+p.display.resolution.height===prefs.resolution),!!p.display.resolution);}
   if(prefs.touch!==null && prefs.touch!==undefined){soft("Touch: "+(prefs.touch?"yes":"no"),p.touch.touch===prefs.touch,valueKnown(p.touch.touch));}
@@ -164,7 +167,8 @@ function evaluate(products, requirements, preferences){
     return {product:p,score:s.score,matches:s.matches,misses:s.misses};
   }).sort(function(a,b){return b.score-a.score || a.product.name.localeCompare(b.product.name);});
   return {
-    total:valid.length,
+    total:normalized.length,
+    valid:valid.length,
     invalid:normalized.length-valid.length,
     passed:passed.length,
     displayed:ranked.length,
