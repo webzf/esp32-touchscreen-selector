@@ -2,7 +2,7 @@
   "schema_version": "2.0",
   "products": [
     {
-      "id": "ili9341-2-8-xpt2046",
+      "id": "ili9341-xpt2046-2-8-touchscreen",
       "name": "ILI9341 2.8\" SPI TFT + XPT2046 Touch",
       "manufacturer": null,
       "product_type": "display_module",
@@ -201,7 +201,7 @@
         "transparent": null,
         "shape": "rectangular",
         "size_inches": 7,
-        "resolution": {"width": 1024, "height": 600},
+        "resolution": {"width": 800, "height": 480},
         "aspect_ratio": "128:75",
         "controller": null,
         "interface": "RGB"
