@@ -78,4 +78,21 @@ assert.ok(selectorSource.includes('catalog could not be loaded'));
 assert.ok(selectorSource.includes('psram_min-required'));
 assert.ok(selectorSource.includes('family==="ESP32-C3"'));
 
-console.log("V2 compatibility engine + selector integration tests: PASS");
+
+// HTML ↔ selector.js integration contract checks.
+const html=fs.readFileSync(__dirname+"/../index.html","utf8");
+const selectorIds=[...selectorSource.matchAll(/(?:getElementById|\\$)\\(["']([^"']+)["']\\)/g)].map(m=>m[1]);
+const missingIds=[...new Set(selectorIds)].filter(id=>!html.includes('id="'+id+'"'));
+assert.deepEqual(missingIds,[]);
+assert.ok(html.includes('id="selector-form"'));
+assert.ok(html.includes('id="product-grid"'));
+assert.ok(html.includes('id="results"'));
+assert.ok(html.includes('id="empty-state"'));
+assert.ok(html.includes('id="exclusion-list"'));
+assert.ok(html.includes('id="catalog-error"'));
+assert.ok(html.includes('id="browse-btn"'));
+assert.ok(html.includes('compatibility-engine.js'));
+assert.ok(html.includes('selector.js'));
+assert.ok(html.includes('aria-live="polite"'));
+
+console.log("V2 engine + selector + HTML integration tests: PASS");
