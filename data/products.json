@@ -171,10 +171,10 @@
       "manufacturer": "Waveshare",
       "product_type": "board_with_display",
       "category": "board_with_display",
-      "description": "Integrated ESP32-S3 touchscreen board with a 7-inch 1024×600 display.",
+      "description": "Integrated ESP32-S3 touchscreen board with a 7-inch 800×480 display.",
       "product_url": "/products/waveshare-esp32-s3-touch-lcd-7/",
       "documentation_url": null,
-      "tags": ["Waveshare", "ESP32-S3", "1024x600", "RGB", "capacitive-touch"],
+      "tags": ["Waveshare", "ESP32-S3", "800x480", "RGB", "capacitive-touch"],
       "esp32": {
         "family": ["ESP32-S3"],
         "exact_mcu": "ESP32-S3",
