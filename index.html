@@ -54,11 +54,11 @@
 <div id="browse-note" class="browse-panel" hidden><label for="hardware-search">Search the catalog</label><input id="hardware-search" type="search" placeholder="Product, manufacturer, MCU, display or tag"></div>
 <div id="catalog-error" class="error-panel" hidden></div><div id="catalog-warning" class="warning-panel" hidden>Some catalog entries failed validation and are excluded from compatibility calculations.</div>
 </section>
-<section id="results" class="results" hidden aria-live="polite"><div class="results-heading"><div><span class="eyebrow">RESULTS</span><h2><span id="result-count">0</span> matching hardware</h2><p id="result-summary"></p></div></div>
+<section id="results" class="results" hidden aria-live="polite"><div class="results-heading"><div><span class="eyebrow">RESULTS</span><h2><span id="result-count">0</span> matching hardware</h2><p id="result-summary"></p><p class="result-meta"><span id="result-total">0</span> valid catalog entries · <span id="result-excluded">0</span> excluded</p></div></div>
 <div id="empty-state" class="empty-state" hidden><h3>No hardware meets all mandatory requirements.</h3><p id="empty-state-text"></p><p>Try changing one or more filters from <strong>Required</strong> to a preference.</p></div>
 <div id="exclusion-panel" class="exclusion-panel"><h3>Why other products were excluded</h3><p>Mandatory filters are evaluated before preference scoring.</p><ul id="exclusion-list"></ul></div>
 <div id="product-grid" class="product-grid"></div></section>
-<footer class="footer"><p>The catalog is deliberately conservative: unknown specifications remain unknown rather than being guessed. Verify exact controller, pinout, voltage, memory and driver support before purchase.</p><p><a href="https://embeddednerd.com/esp32-touchscreen-displays-guide/">ESP32 Touchscreen Displays Guide</a> · <a href="https://embeddednerd.com/tools/esp32-touchscreen-selector/">Embedded Nerd selector</a></p></footer>
+<footer class="footer"><p>The catalog is deliberately conservative: unknown specifications remain unknown rather than being guessed. Verify exact controller, pinout, voltage, memory and driver support before purchase.</p><p>Some product links may be affiliate links. If you buy through them, Embedded Nerd may earn a commission at no extra cost to you.</p><p><a href="https://embeddednerd.com/esp32-touchscreen-displays-guide/">ESP32 Touchscreen Displays Guide</a> · <a href="https://embeddednerd.com/tools/esp32-touchscreen-selector/">Embedded Nerd selector</a></p></footer>
 </main>
 <script src="js/compatibility-engine.js" defer></script><script src="js/selector.js" defer></script>
 </body></html>
