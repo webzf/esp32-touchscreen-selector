@@ -157,7 +157,7 @@ function card(item){
     '</div>'+
     '<div class="product-actions">'+
       '<a class="btn-small btn-link" href="'+esc(p.product_url ? (p.product_url.indexOf("http")===0 ? p.product_url : EMBEDDED_NERD_ORIGIN + p.product_url) : "#")+'">View technical details</a>'+
-      '<a class="btn-small btn-commerce" href="'+esc(commerceUrl(p))+'" rel="sponsored">Where to buy</a>'+
+      '<a class="btn-small btn-commerce" href="'+esc(commerceUrl(p))+'" rel="nofollow sponsored noopener">Where to buy</a>'+
     '</div>'+
   '</article>';
 }
