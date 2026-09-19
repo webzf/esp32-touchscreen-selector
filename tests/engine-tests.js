@@ -62,4 +62,20 @@ assert.equal(browse.valid,3);
 assert.equal(browse.passed,3);
 assert.equal(browse.displayed,3);
 
-console.log("V2 compatibility engine tests: PASS");
+
+// Selector integration contract checks (static, DOM-free).
+const selectorSource=fs.readFileSync(__dirname+"/../js/selector.js","utf8");
+assert.ok(selectorSource.includes('Engine.evaluate(products,b.r,b.p)'));
+assert.ok(selectorSource.includes('required(k)'));
+assert.ok(selectorSource.includes('setMode("browse")'));
+assert.ok(selectorSource.includes('searchMatch(p,q)'));
+assert.ok(selectorSource.includes('View technical details'));
+assert.ok(selectorSource.includes('Where to buy'));
+assert.ok(selectorSource.includes('rel="nofollow sponsored noopener"'));
+assert.ok(selectorSource.includes('encodeURIComponent(p.id)'));
+assert.ok(selectorSource.includes('data/products.json'));
+assert.ok(selectorSource.includes('catalog could not be loaded'));
+assert.ok(selectorSource.includes('psram_min-required'));
+assert.ok(selectorSource.includes('family==="ESP32-C3"'));
+
+console.log("V2 compatibility engine + selector integration tests: PASS");
