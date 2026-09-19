@@ -173,10 +173,11 @@ function exclusions(ev){
 
 function show(ev){
   $("result-count").textContent=ev.passed;
-  $("result-total").textContent=ev.total;
-  $("result-excluded").textContent=Math.max(0,ev.total-ev.passed);
+  $("result-total").textContent=ev.valid;
+  $("result-excluded").textContent=Math.max(0,ev.valid-ev.passed);
   $("result-summary").textContent=
-    ev.passed+" matching hardware. "+Math.max(0,ev.total-ev.passed)+" excluded by mandatory requirements.";
+    ev.passed+" matching hardware. "+Math.max(0,ev.valid-ev.passed)+" excluded by mandatory requirements."+
+    (ev.invalid ? " "+ev.invalid+" catalog entr"+(ev.invalid===1?"y":"ies")+" failed validation." : "");
 
   exclusions(ev);
   $("exclusion-panel").hidden=Object.keys(ev.exclusions).length===0;
