@@ -13,7 +13,7 @@
 <header class="hero"><span class="eyebrow">ESP32 HARDWARE DISCOVERY</span><h1>ESP32 Hardware &amp; Display Selector</h1><p>Find ESP32 boards and display hardware that fit your project. <strong>Required</strong> filters exclude incompatible hardware; other selections influence ranking.</p></header>
 <section class="tool" aria-labelledby="tool-title">
 <h2 id="tool-title" class="sr-only">Hardware selector</h2>
-<div class="mode-bar"><button type="button" id="mode-requirements" class="mode-button active" data-mode="requirements">Find hardware</button><button type="button" id="browse-btn" class="mode-button" data-mode="browse">Browse all hardware</button><span class="catalog-status"><span id="catalog-count">0</span> catalog entries</span></div>
+<div class="mode-bar"><button type="button" id="mode-requirements" class="mode-button active" data-mode="requirements">Filter &amp; find hardware</button><button type="button" id="browse-btn" class="mode-button" data-mode="browse">Browse all hardware</button><span class="catalog-status"><span id="catalog-count">0</span> catalog entries</span></div>
 <form id="selector-form">
 <section class="filter-section"><div class="section-heading"><div><span class="step">01</span><h2>What are you looking for?</h2></div><p>Choose a hardware category and filters. Selections become <strong>Required</strong> automatically; uncheck <strong>Required</strong> when you want a preference instead.</p></div>
 <div class="filter-grid">
@@ -51,7 +51,7 @@
 </div></section>
 <div class="form-actions"><button type="submit" class="btn-primary">Find compatible hardware</button><button type="button" id="reset-btn" class="btn-secondary">Reset</button></div>
 </form>
-<div id="browse-note" class="browse-panel" hidden><label for="hardware-search">Search the catalog</label><input id="hardware-search" type="search" placeholder="Product, manufacturer, MCU, display or tag"></div>
+<div id="browse-note" class="browse-panel" hidden><label for="hardware-search">Search all hardware</label><p>Search by product, manufacturer, MCU, display or tag.</p><input id="hardware-search" type="search" placeholder="e.g. ESP32-S3, Waveshare, OLED, touch"></div>
 <div id="catalog-error" class="error-panel" hidden></div><div id="catalog-warning" class="warning-panel" hidden>Some catalog entries failed validation and are excluded from compatibility calculations.</div>
 </section>
 <section id="results" class="results" hidden aria-live="polite"><div class="results-heading"><div><span class="eyebrow">RESULTS</span><h2><span id="result-count">0</span> matching hardware</h2><p id="result-summary"></p><p class="result-meta"><span id="result-total">0</span> valid catalog entries · <span id="result-excluded">0</span> excluded</p></div></div>
