@@ -232,9 +232,15 @@ function reset(){
   form.reset();
   requiredTouched={};
   $("hardware-search").value="";
+  document.querySelectorAll("#selector-form input[type=checkbox]").forEach(function(e){e.checked=false;});
+  document.querySelectorAll("#selector-form select").forEach(function(e){e.selectedIndex=0;});
+  document.querySelectorAll("#selector-form input[type=number]").forEach(function(e){e.value="";});
   results.hidden=true;
+  $("catalog-error").hidden=true;
+  $("catalog-warning").hidden=true;
   setMode("requirements");
   conditional();
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 form.addEventListener("change",function(e){
