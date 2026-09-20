@@ -108,7 +108,7 @@ function setMode(mode){
   document.querySelectorAll("[data-mode]").forEach(function(b){
     b.classList.toggle("active",b.dataset.mode===mode);
   });
-  $("browse-note").hidden=mode!=="browse";$("quick-start").hidden=mode==="browse";
+  $("browse-note").hidden=mode!=="browse";$("quick-start").hidden=mode==="browse";var adv=$("advanced-filters");if(adv)adv.hidden=mode==="browse";
   document.querySelectorAll("#selector-form .filter-section").forEach(function(s){
     s.hidden=mode==="browse";
   });
@@ -243,7 +243,7 @@ function reset(shouldScroll){
   $("catalog-error").hidden=true;
   $("catalog-warning").hidden=true;
   setMode("requirements");
-  conditional();updateLiveCount();syncUrl();if(shouldScroll!==false)window.scrollTo({top:0,behavior:"smooth"});}
+  conditional();updateLiveCount();syncUrl();var adv=$("advanced-filters");if(adv)adv.open=false;if(shouldScroll!==false)window.scrollTo({top:0,behavior:"smooth"});}
 
 form.addEventListener("change",function(e){
   if(e.target&&e.target.id){
