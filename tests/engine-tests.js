@@ -80,6 +80,16 @@ assert.ok(selectorSource.includes('data/products.json'));
 assert.ok(selectorSource.includes('catalog could not be loaded'));
 assert.ok(selectorSource.includes('psram_min-required'));
 assert.ok(selectorSource.includes('family==="ESP32-C3"'));
+assert.ok(selectorSource.includes('setupAdvancedFilters'));
+assert.ok(selectorSource.includes('setupPresets'));
+assert.ok(selectorSource.includes('relaxSuggestions'));
+assert.ok(selectorSource.includes('syncFilterDependencies'));
+assert.ok(selectorSource.includes('updateLiveCount'));
+assert.ok(selectorSource.includes('syncUrl'));
+assert.ok(selectorSource.includes('URLSearchParams'));
+assert.ok(selectorSource.includes('window.requestAnimationFrame'));
+assert.ok(selectorSource.includes('advanced-filters'));
+assert.ok(selectorSource.includes('Share setup'));
 
 
 // HTML ↔ selector.js integration contract checks.
@@ -97,5 +107,10 @@ assert.ok(html.includes('id="browse-btn"'));
 assert.ok(html.includes('compatibility-engine.js'));
 assert.ok(html.includes('selector.js'));
 assert.ok(html.includes('aria-live="polite"'));
+assert.ok(html.includes('id="quick-start"'));
+assert.ok(html.includes('data-preset="s3-psram"'));
+assert.ok(html.includes('data-preset="touch-spi"'));
+assert.ok(html.includes('id="share-btn"'));
+assert.ok(html.includes('id="live-count"'));
 
 console.log("V2 engine + selector + HTML integration tests: PASS");
