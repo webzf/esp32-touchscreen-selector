@@ -196,9 +196,11 @@ function show(ev){
   $("result-count").textContent=ev.passed;
   $("result-total").textContent=ev.valid;
   $("result-excluded").textContent=Math.max(0,ev.valid-ev.passed);
-  $("result-summary").textContent=
-    ev.passed+" matching hardware. "+Math.max(0,ev.valid-ev.passed)+" excluded by mandatory requirements."+
-    (ev.invalid ? " "+ev.invalid+" catalog entr"+(ev.invalid===1?"y":"ies")+" failed validation." : "");
+  var active=Object.keys(build().r).length+Object.keys(build().p).length;
+  $("result-summary").textContent=active
+    ? ev.passed+" compatible hardware found for your current setup. "+Math.max(0,ev.valid-ev.passed)+" excluded by mandatory requirements."+
+      (ev.invalid ? " "+ev.invalid+" catalog entr"+(ev.invalid===1?"y":"ies")+" failed validation." : "")
+    : ev.passed+" hardware entries available in the catalog.";
 
   exclusions(ev);
   $("exclusion-panel").hidden=Object.keys(ev.exclusions).length===0;
