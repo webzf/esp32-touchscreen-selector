@@ -207,7 +207,6 @@ function show(ev){
   exclusions(ev);
   $("exclusion-panel").hidden=Object.keys(ev.exclusions).length===0;
 
-  document.querySelectorAll(".relax-action").forEach(function(btn){btn.addEventListener("click",function(){applyRelax(btn.getAttribute("data-relax-key"));});});
   if(!ev.ranked.length){
     $("empty-state").hidden=false;
     var ss=relaxSuggestions();$("empty-state-text").innerHTML="No hardware meets all mandatory requirements."+(ss.length?" The quickest ways to broaden the search are:<ul class=\"relax-list\">"+ss.map(function(x){return "<li><button type=\"button\" class=\"relax-action\" data-relax-key=\""+esc(x.key)+"\">Remove <strong>"+esc(x.label)+"</strong> from Required → <strong>+"+x.gain+"</strong> compatible result"+(x.gain===1?"":"s")+"</button></li>";}).join("")+"</ul>":" Try relaxing one or more required filters.");
@@ -257,6 +256,7 @@ function reset(shouldScroll){
   setMode("requirements");
   conditional();updateLiveCount();syncUrl();var adv=$("advanced-filters");if(adv)adv.open=false;if(shouldScroll!==false)window.scrollTo({top:0,behavior:"smooth"});}
 
+$("empty-state").addEventListener("click",function(e){var btn=e.target.closest(".relax-action");if(btn)applyRelax(btn.getAttribute("data-relax-key"));});
 form.addEventListener("change",function(e){
   if(e.target&&e.target.id){
     if(/-required$/.test(e.target.id)){
