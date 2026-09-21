@@ -112,5 +112,17 @@ assert.ok(html.includes('data-preset="s3-psram"'));
 assert.ok(html.includes('data-preset="touch-spi"'));
 assert.ok(html.includes('id="share-btn"'));
 assert.ok(html.includes('id="live-count"'));
+assert.ok(html.includes('id="lvgl_support"'));
+assert.ok(html.includes('id="lvgl_level"'));
+assert.ok(html.includes('id="battery"'));
+assert.ok(html.includes('id="imu"'));
+assert.ok(html.includes('id="rtc"'));
+assert.ok(html.includes('id="audio"'));
+assert.ok(selectorSource.includes('both("lvgl_support"'));
+assert.ok(selectorSource.includes('both("lvgl_level"'));
+assert.ok(selectorSource.includes('both("battery"'));
+assert.ok(selectorSource.includes('both("imu"'));
+assert.ok(selectorSource.includes('both("rtc"'));
+assert.ok(selectorSource.includes('both("audio"'));
 
 console.log("V2 engine + selector + HTML integration tests: PASS");
