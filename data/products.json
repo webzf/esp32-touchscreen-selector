@@ -553,7 +553,9 @@
         "imu": true,
         "rtc": true,
         "audio": true
-      }
+      },
+      "image": "https://www.waveshare.com/img/devkit/ESP32-S3-Touch-LCD-1.85B/ESP32-S3-Touch-LCD-1.85B-details-1.jpg",
+      "image_alt": "Waveshare ESP32-S3-Touch-LCD-1.85B touchscreen board"
     }
   ]
 }
