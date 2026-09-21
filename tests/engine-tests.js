@@ -11,11 +11,11 @@ assert.equal(E.matchesRequirement(s3,{native_usb:false}),false);
 assert.equal(E.scorePreferences(s3,{family:"ESP32-S3",display_shape:"round",native_usb:true}).score,100);
 assert.equal(E.evaluate([s3,uart,c3],{native_usb:true},{}).passed,2);
 assert.equal(E.evaluate([s3,uart,c3],{native_usb:true,psram_min:1},{}).passed,1);
-assert.equal(E.evaluate([s3,uart,c3],{free_gpio_min:20},{}).passed,0);
+assert.equal(E.evaluate([s3,uart,c3],{free_gpio_min:20},{}).passed,0);\nassert.equal(E.matchesRequirement(s3,{lvgl_support:true}),false);\nassert.equal(E.matchesRequirement(s3,{imu:true}),false);\nassert.equal(E.scorePreferences(s3,{lvgl_support:true}).score,0);
 
 // Real catalog validation and representative V2 scenarios.
 const catalog=JSON.parse(fs.readFileSync(__dirname+"/../data/products.json","utf8"));
-assert.equal(catalog.schema_version,"2.0");
+assert.equal(catalog.schema_version,"2.1");
 assert.ok(Array.isArray(catalog.products));
 const catalogErrors=catalog.products.map(p=>E.validateProduct(p));
 assert.equal(catalogErrors.filter(e=>e.length>0).length,0);
@@ -35,13 +35,13 @@ assert.equal(E.matchesRequirement(ws43,{ce:true}),false);
 
 // Verified hardware requirements.
 assert.equal(E.matchesRequirement(ws43,{family:"ESP32-S3",psram_min:8,flash_min:16,touch:true,touch_type:"capacitive",touch_interface:"I2C",microsd:true,battery_charging:true}),true);
-assert.equal(E.matchesRequirement(ws7,{family:"ESP32-S3",psram_min:8,flash_min:8,resolution:"800x480"}),true);
+assert.equal(E.matchesRequirement(ws7,{family:"ESP32-S3",psram_min:8,flash_min:8,resolution:"800x480"}),true);\nassert.equal(E.matchesRequirement(ws43,{lvgl_support:true}),false);\nassert.equal(E.matchesRequirement(ws43,{battery:true}),false);\nassert.equal(E.matchesRequirement(ws43,{imu:true}),false);
 assert.equal(E.matchesRequirement(ili,{product_type:"display_module",display_interface:"SPI",touch_type:"resistive",touch_interface:"SPI",display_shape:"rectangular"}),true);
 
 // Preference ranking remains soft and transparent when data is unknown.
 const unknownUsb=E.scorePreferences(ws43,{native_usb:true});
 assert.equal(unknownUsb.score,0);
-assert.ok(unknownUsb.misses.includes("Native USB (unknown data)"));
+assert.ok(unknownUsb.misses.includes("Native USB (unknown data)"));\nconst unknownLvgl=E.scorePreferences(ws43,{lvgl_support:true});\nassert.equal(unknownLvgl.score,0);\nassert.ok(unknownLvgl.misses.includes("LVGL support (unknown data)"));
 
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
 assert.equal(catalogEval.valid,3);
