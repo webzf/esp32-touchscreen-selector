@@ -113,7 +113,7 @@ function matchesRequirement(p, req){
   if(req.free_gpio_min!==null && req.free_gpio_min!==undefined && !numericAtLeast(p.hardware.free_gpio, req.free_gpio_min)) return false;
   if(req.lvgl_support!==null && req.lvgl_support!==undefined && !meetsBoolean(p.software.lvgl.support, req.lvgl_support)) return false;
   if(req.lvgl_level && !fieldMatches(p.software.lvgl.level, req.lvgl_level)) return false;
-  ["battery","imu","rtc","audio"].forEach(function(k){if(req[k]!==null && req[k]!==undefined && !meetsBoolean(p.features[k],req[k])) return false;});
+  for(var i=0;i<4;i++){var feature=["battery","imu","rtc","audio"][i];if(req[feature]!==null && req[feature]!==undefined && !meetsBoolean(p.features[feature],req[feature])) return false;}
   return true;
 }
 
