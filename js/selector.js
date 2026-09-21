@@ -138,7 +138,8 @@ function commerceUrl(p){
   return EMBEDDED_NERD_ORIGIN+COMMERCE_PATH+encodeURIComponent(p.id)+"/";
 }
 
-function card(item){
+function card(item,requirements){
+  requirements=requirements||{};
   var p=item.product,d=p.display||{},t=p.touch||{},u=p.usb||{},h=p.hardware||{};
   var display=d.display_present
     ? ((d.size_inches?d.size_inches+'″ ':'')+
@@ -150,33 +151,69 @@ function card(item){
     ["MCU",(p.esp32.family||[]).join(", ")||"Unknown"],
     ["Display",display],
     ["Touch",t.touch===true?(t.touch_type||"Yes"):t.touch===false?"No":"Unknown"],
-    ["Flash",p.esp32.flash_mb!=null?p.esp32.flash_mb+" MB":"Unknown"],
-    ["PSRAM",p.esp32.psram_mb!=null?p.esp32.psram_mb+" MB":"Unknown"],
+    ["Memory",[
+      p.esp32.flash_mb!=null?p.esp32.flash_mb+" MB Flash":null,
+      p.esp32.psram_mb!=null?p.esp32.psram_mb+" MB PSRAM":null
+    ].filter(Boolean).join(" · ")||"Unknown"],
     ["USB",u.native_usb===true?"Native USB":u.uart_bridge===true?"UART bridge":u.usb_available===true?"USB":"Unknown"],
-    ["Peripherals",[h.microsd===true?"microSD":null,h.battery_charging===true?"Battery charging":null].filter(Boolean).join(" · ")||"—"],
-    ["Project features",[p.software&&p.software.lvgl&&p.software.lvgl.support===true?"LVGL":null,p.features&&p.features.battery===true?"Battery":null,p.features&&p.features.imu===true?"IMU":null,p.features&&p.features.rtc===true?"RTC":null,p.features&&p.features.audio===true?"Audio":null].filter(Boolean).join(" · ")||"Unknown"]
+    ["Features",[h.microsd===true?"microSD":null,h.battery_charging===true?"Battery charging":null].filter(Boolean).join(" · ")||"—"]
   ];
 
+  var mandatory=[];
+  if(requirements.family)mandatory.push("ESP32 family: "+requirements.family);
+  if(requirements.product_type)mandatory.push("Hardware type: "+requirements.product_type.replace(/_/g," "));
+  if(requirements.display_present!==null&&requirements.display_present!==undefined)mandatory.push("Display: "+(requirements.display_present?"present":"none"));
+  if(requirements.display_technology)mandatory.push("Display: "+requirements.display_technology);
+  if(requirements.display_shape)mandatory.push("Shape: "+requirements.display_shape);
+  if(requirements.size_min!==null&&requirements.size_min!==undefined)mandatory.push("Display size ≥ "+requirements.size_min+"″");
+  if(requirements.resolution)mandatory.push("Resolution: "+requirements.resolution);
+  if(requirements.touch!==null&&requirements.touch!==undefined)mandatory.push("Touch: "+(requirements.touch?"yes":"no"));
+  if(requirements.touch_type)mandatory.push("Touch type: "+requirements.touch_type);
+  if(requirements.touch_interface)mandatory.push("Touch bus: "+requirements.touch_interface);
+  if(requirements.display_interface)mandatory.push("Display bus: "+requirements.display_interface);
+  if(requirements.native_usb!==null&&requirements.native_usb!==undefined)mandatory.push("Native USB: "+(requirements.native_usb?"yes":"no"));
+  if(requirements.microsd!==null&&requirements.microsd!==undefined)mandatory.push("microSD: "+(requirements.microsd?"present":"not present"));
+  if(requirements.battery_charging!==null&&requirements.battery_charging!==undefined)mandatory.push("Battery charging: "+(requirements.battery_charging?"present":"not present"));
+  if(requirements.flash_min!==null&&requirements.flash_min!==undefined)mandatory.push("Flash ≥ "+requirements.flash_min+" MB");
+  if(requirements.psram_min!==null&&requirements.psram_min!==undefined)mandatory.push("PSRAM ≥ "+requirements.psram_min+" MB");
+  if(requirements.free_gpio_min!==null&&requirements.free_gpio_min!==undefined)mandatory.push("Free GPIO ≥ "+requirements.free_gpio_min);
+  if(requirements.ce!==null&&requirements.ce!==undefined)mandatory.push("CE: "+(requirements.ce?"yes":"no"));
+  if(requirements.fcc!==null&&requirements.fcc!==undefined)mandatory.push("FCC: "+(requirements.fcc?"yes":"no"));
+
+  var image=p.image||"";
+  var imageAlt=p.image_alt||p.name||"Hardware product";
+  var technicalUrl=p.product_url ? (p.product_url.indexOf("http")===0 ? p.product_url : EMBEDDED_NERD_ORIGIN + p.product_url) : "#";
+  var imageHtml=image
+    ? '<div class="product-image-wrap"><img class="product-image" src="'+esc(image)+'" alt="'+esc(imageAlt)+'" loading="lazy" width="640" height="400"></div>'
+    : '';
+
+  var contextual=[];
+  if(Object.keys(requirements).length){
+    mandatory.forEach(function(x){contextual.push('<span class="compat-badge compat-required">'+esc(x)+' ✓</span>');});
+    item.matches.slice(0,5).forEach(function(x){contextual.push('<span class="compat-badge compat-preference">'+esc(x)+' ✓</span>');});
+  }else{
+    [p.esp32.family&&p.esp32.family[0],d.display_present===true?(d.interface||d.technology||"Display"):null,t.touch===true?"Touch":null,p.esp32.psram_mb!=null?"PSRAM "+p.esp32.psram_mb+"MB":null,u.native_usb===true?"Native USB":null].filter(Boolean).forEach(function(x){
+      contextual.push('<span class="compat-badge">'+esc(x)+' ✓</span>');
+    });
+  }
+
   return '<article class="product-card">'+
+    imageHtml+
     '<div class="product-head"><div>'+
       '<span class="eyebrow">'+esc(p.manufacturer||"Manufacturer unknown")+'</span>'+
-      '<h3>'+esc(p.name)+'</h3>'+
+      '<h3><a class="product-title-link" href="'+esc(technicalUrl)+'">'+esc(p.name)+'</a></h3>'+
       '<span class="type-badge">'+esc((p.product_type||"hardware").replace(/_/g," "))+'</span>'+
     '</div>'+
     (item.score?'<strong class="match-badge">'+item.score+'% preference match</strong>':"")+
     '</div>'+
-    '<div class="match-badges">'+[p.esp32.family&&p.esp32.family[0],d.display_present===true?(d.interface||d.technology||"Display"):null,t.touch===true?"Touch":null,p.esp32.psram_mb!=null?"PSRAM "+p.esp32.psram_mb+"MB":null,u.native_usb===true?"Native USB":null,p.software&&p.software.lvgl&&p.software.lvgl.support===true?"LVGL":null,p.features&&p.features.battery===true?"Battery":null,p.features&&p.features.imu===true?"IMU":null,p.features&&p.features.rtc===true?"RTC":null,p.features&&p.features.audio===true?"Audio":null].filter(Boolean).map(function(x){return '<span class="compat-badge">'+esc(x)+' ✓</span>';}).join('')+'</div>'+'<div class="quick-specs">'+specs.map(function(x){
+    '<div class="match-badges">'+contextual.join('')+'</div>'+
+    '<div class="quick-specs">'+specs.map(function(x){
       return '<div><span>'+esc(x[0])+'</span><strong>'+esc(x[1])+'</strong></div>';
     }).join("")+'</div>'+
-    '<div class="match-explanation">'+
-      '<strong>Matches</strong>'+
-      '<ul>'+((item.matches.length?item.matches:["No selected preference confirmed"]).map(function(x){
-        return "<li>✓ "+esc(x)+"</li>";
-      }).join(""))+'</ul>'+
-      (item.misses.length?
-        '<strong>Preferences not met</strong><ul>'+item.misses.slice(0,4).map(function(x){
-          return "<li>~ "+esc(x)+"</li>";
-        }).join("")+'</ul>':"")+
+    (mandatory.length?'<div class="match-explanation mandatory-match"><strong>✓ Required</strong><ul>'+mandatory.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ul></div>':"")+
+    '<div class="match-explanation preference-match"><strong>✓ Preferences matched</strong>'+
+      (item.matches.length?'<ul>'+item.matches.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ul>':"<p>No optional preferences selected.</p>")+
+      (item.misses.length?'<strong class="not-matched-heading">~ Not matched</strong><ul class="not-matched-list">'+item.misses.slice(0,4).map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ul>':"")+
     '</div>'+
     '<div class="product-actions">'+
       '<a class="btn-small btn-link" href="'+esc(p.product_url ? (p.product_url.indexOf("http")===0 ? p.product_url : EMBEDDED_NERD_ORIGIN + p.product_url) : "#")+'">View technical details</a>'+
@@ -184,7 +221,6 @@ function card(item){
     '</div>'+
   '</article>';
 }
-
 function exclusions(ev){
   var keys=Object.keys(ev.exclusions).sort(function(a,b){
     return ev.exclusions[b]-ev.exclusions[a];
