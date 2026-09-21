@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.0",
+  "schema_version": "2.1",
   "products": [
     {
       "id": "ili9341-xpt2046-2-8-touchscreen",
@@ -117,7 +117,20 @@
           "url": "/products/ili9341-xpt2046-2-8-touchscreen/"
         }
       ],
-      "data_quality": "migrated_legacy"
+      "data_quality": "migrated_legacy",
+      "software": {
+        "lvgl": {
+          "support": null,
+          "level": null,
+          "framework": null
+        }
+      },
+      "features": {
+        "battery": null,
+        "imu": null,
+        "rtc": null,
+        "audio": null
+      }
     },
     {
       "id": "waveshare-esp32-s3-touch-lcd-4-3",
@@ -237,7 +250,20 @@
           "url": "/products/waveshare-esp32-s3-touch-lcd-4-3/"
         }
       ],
-      "data_quality": "verified_manufacturer"
+      "data_quality": "verified_manufacturer",
+      "software": {
+        "lvgl": {
+          "support": null,
+          "level": null,
+          "framework": null
+        }
+      },
+      "features": {
+        "battery": null,
+        "imu": null,
+        "rtc": null,
+        "audio": null
+      }
     },
     {
       "id": "waveshare-esp32-s3-touch-lcd-7",
@@ -357,7 +383,20 @@
           "url": "/products/waveshare-esp32-s3-touch-lcd-7/"
         }
       ],
-      "data_quality": "verified_manufacturer"
+      "data_quality": "verified_manufacturer",
+      "software": {
+        "lvgl": {
+          "support": null,
+          "level": null,
+          "framework": null
+        }
+      },
+      "features": {
+        "battery": null,
+        "imu": null,
+        "rtc": null,
+        "audio": null
+      }
     }
   ]
 }
