@@ -140,7 +140,7 @@
       "category": "board_with_display",
       "description": "Integrated ESP32-S3 touchscreen board with a 4.3-inch 800×480 display.",
       "product_url": "/products/waveshare-esp32-s3-touch-lcd-4-3/",
-      "documentation_url": null,
+      "documentation_url": "https://docs.waveshare.com/ESP32-S3-Touch-LCD-4.3",
       "tags": [
         "Waveshare",
         "ESP32-S3",
@@ -253,13 +253,13 @@
       "data_quality": "verified_manufacturer",
       "software": {
         "lvgl": {
-          "support": null,
-          "level": null,
-          "framework": null
+          "support": true,
+          "level": "ready",
+          "framework": "Arduino, ESP-IDF"
         }
       },
       "features": {
-        "battery": null,
+        "battery": true,
         "imu": null,
         "rtc": null,
         "audio": null
@@ -273,7 +273,7 @@
       "category": "board_with_display",
       "description": "Integrated ESP32-S3 touchscreen board with a 7-inch 800×480 display.",
       "product_url": "/products/waveshare-esp32-s3-touch-lcd-7/",
-      "documentation_url": null,
+      "documentation_url": "https://docs.waveshare.com/ESP32-S3-Touch-LCD-7",
       "tags": [
         "Waveshare",
         "ESP32-S3",
@@ -386,13 +386,13 @@
       "data_quality": "verified_manufacturer",
       "software": {
         "lvgl": {
-          "support": null,
-          "level": null,
-          "framework": null
+          "support": true,
+          "level": "ready",
+          "framework": "Arduino, ESP-IDF"
         }
       },
       "features": {
-        "battery": null,
+        "battery": true,
         "imu": null,
         "rtc": null,
         "audio": null
