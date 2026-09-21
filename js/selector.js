@@ -75,6 +75,12 @@ function build(){
   both("flash_min",num("flash_min"));
   both("psram_min",num("psram_min"));
   both("free_gpio_min",num("free_gpio_min"));
+  both("lvgl_support",boolVal("lvgl_support"));
+  both("lvgl_level",selected("lvgl_level"));
+  both("battery",boolVal("battery"));
+  both("imu",boolVal("imu"));
+  both("rtc",boolVal("rtc"));
+  both("audio",boolVal("audio"));
 
   return {r:r,p:p};
 }
@@ -145,7 +151,8 @@ function card(item){
     ["Flash",p.esp32.flash_mb!=null?p.esp32.flash_mb+" MB":"Unknown"],
     ["PSRAM",p.esp32.psram_mb!=null?p.esp32.psram_mb+" MB":"Unknown"],
     ["USB",u.native_usb===true?"Native USB":u.uart_bridge===true?"UART bridge":u.usb_available===true?"USB":"Unknown"],
-    ["Peripherals",[h.microsd===true?"microSD":null,h.battery_charging===true?"Battery charging":null].filter(Boolean).join(" · ")||"—"]
+    ["Peripherals",[h.microsd===true?"microSD":null,h.battery_charging===true?"Battery charging":null].filter(Boolean).join(" · ")||"—"],
+    ["Project features",[p.software&&p.software.lvgl&&p.software.lvgl.support===true?"LVGL":null,p.features&&p.features.battery===true?"Battery":null,p.features&&p.features.imu===true?"IMU":null,p.features&&p.features.rtc===true?"RTC":null,p.features&&p.features.audio===true?"Audio":null].filter(Boolean).join(" · ")||"Unknown"]
   ];
 
   return '<article class="product-card">'+
@@ -156,7 +163,7 @@ function card(item){
     '</div>'+
     (item.score?'<strong class="match-badge">'+item.score+'% preference match</strong>':"")+
     '</div>'+
-    '<div class="match-badges">'+[p.esp32.family&&p.esp32.family[0],d.display_present===true?(d.interface||d.technology||"Display"):null,t.touch===true?"Touch":null,p.esp32.psram_mb!=null?"PSRAM "+p.esp32.psram_mb+"MB":null,u.native_usb===true?"Native USB":null].filter(Boolean).map(function(x){return '<span class="compat-badge">'+esc(x)+' ✓</span>';}).join('')+'</div>'+'<div class="quick-specs">'+specs.map(function(x){
+    '<div class="match-badges">'+[p.esp32.family&&p.esp32.family[0],d.display_present===true?(d.interface||d.technology||"Display"):null,t.touch===true?"Touch":null,p.esp32.psram_mb!=null?"PSRAM "+p.esp32.psram_mb+"MB":null,u.native_usb===true?"Native USB":null,p.software&&p.software.lvgl&&p.software.lvgl.support===true?"LVGL":null,p.features&&p.features.battery===true?"Battery":null,p.features&&p.features.imu===true?"IMU":null,p.features&&p.features.rtc===true?"RTC":null,p.features&&p.features.audio===true?"Audio":null].filter(Boolean).map(function(x){return '<span class="compat-badge">'+esc(x)+' ✓</span>';}).join('')+'</div>'+'<div class="quick-specs">'+specs.map(function(x){
       return '<div><span>'+esc(x[0])+'</span><strong>'+esc(x[1])+'</strong></div>';
     }).join("")+'</div>'+
     '<div class="match-explanation">'+
