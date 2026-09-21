@@ -263,7 +263,8 @@
         "imu": null,
         "rtc": null,
         "audio": null
-      }
+      },
+      "manufacturer_sku": "25948"
     },
     {
       "id": "waveshare-esp32-s3-touch-lcd-7",
@@ -396,7 +397,8 @@
         "imu": null,
         "rtc": null,
         "audio": null
-      }
+      },
+      "manufacturer_sku": "27078"
     },
     {
       "id": "waveshare-esp32-s3-touch-lcd-1-85b",
