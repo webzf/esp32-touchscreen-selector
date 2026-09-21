@@ -22,12 +22,13 @@ assert.equal(catalog.schema_version,"2.1");
 assert.ok(Array.isArray(catalog.products));
 const catalogErrors=catalog.products.map(p=>E.validateProduct(p));
 assert.equal(catalogErrors.filter(e=>e.length>0).length,0);
-assert.equal(catalog.products.length,3);
+assert.equal(catalog.products.length,4);
 
 const ili=catalog.products.find(p=>p.id==="ili9341-xpt2046-2-8-touchscreen");
 const ws43=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-4-3");
 const ws7=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-7");
-assert.ok(ili && ws43 && ws7);
+const ws185=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-1-85b");
+assert.ok(ili && ws43 && ws7 && ws185);
 
 // Unknown data must never satisfy a mandatory requirement.
 assert.equal(E.matchesRequirement(ws43,{native_usb:true}),false);
@@ -41,8 +42,10 @@ assert.equal(E.matchesRequirement(ws43,{family:"ESP32-S3",psram_min:8,flash_min:
 assert.equal(E.matchesRequirement(ws7,{family:"ESP32-S3",psram_min:8,flash_min:8,resolution:"800x480"}),true);
 assert.equal(E.matchesRequirement(ws43,{lvgl_support:true}),false);
 assert.equal(E.matchesRequirement(ws43,{battery:true}),false);
+assert.equal(E.matchesRequirement(ws185,{family:"ESP32-S3",psram_min:8,flash_min:16,native_usb:true,touch:true,touch_type:"capacitive",touch_interface:"I2C",display_interface:"QSPI",display_shape:"round",microsd:true,battery:true,imu:true,rtc:true,audio:true,lvgl_support:true,lvgl_level:"ready"}),true);
 assert.equal(E.matchesRequirement(ws43,{imu:true}),false);
 assert.equal(E.matchesRequirement(ili,{product_type:"display_module",display_interface:"SPI",touch_type:"resistive",touch_interface:"SPI",display_shape:"rectangular"}),true);
+assert.equal(E.matchesRequirement(ws185,{battery:true,imu:true,rtc:true,audio:true,lvgl_support:true}),true);
 
 // Preference ranking remains soft and transparent when data is unknown.
 const unknownUsb=E.scorePreferences(ws43,{native_usb:true});
@@ -53,12 +56,12 @@ assert.equal(unknownLvgl.score,0);
 assert.ok(unknownLvgl.misses.includes("LVGL support (unknown data)"));
 
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
-assert.equal(catalogEval.valid,3);
+assert.equal(catalogEval.valid,4);
 assert.equal(catalogEval.passed,2);
 assert.equal(catalogEval.ranked.length,2);
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
-assert.equal(flashEval.passed,1);
+assert.equal(flashEval.passed,2);
 assert.equal(flashEval.ranked[0].product.id,"waveshare-esp32-s3-touch-lcd-4-3");
 
 const noMatch=E.evaluate(catalog.products,{family:"ESP32-C3",psram_min:1},{});
@@ -66,10 +69,10 @@ assert.equal(noMatch.passed,0);
 assert.ok(noMatch.exclusions["Insufficient/unknown PSRAM"]>=1);
 
 const browse=E.evaluate(catalog.products,{}, {});
-assert.equal(browse.total,3);
-assert.equal(browse.valid,3);
-assert.equal(browse.passed,3);
-assert.equal(browse.displayed,3);
+assert.equal(browse.total,4);
+assert.equal(browse.valid,4);
+assert.equal(browse.passed,4);
+assert.equal(browse.displayed,4);
 
 
 // Selector integration contract checks (static, DOM-free).
