@@ -40,7 +40,7 @@ assert.equal(E.matchesRequirement(ws43,{ce:true}),false);
 // Verified hardware requirements.
 assert.equal(E.matchesRequirement(ws43,{family:"ESP32-S3",psram_min:8,flash_min:16,touch:true,touch_type:"capacitive",touch_interface:"I2C",microsd:true,battery_charging:true}),true);
 assert.equal(E.matchesRequirement(ws7,{family:"ESP32-S3",psram_min:8,flash_min:8,resolution:"800x480"}),true);
-assert.equal(E.matchesRequirement(ws43,{lvgl_support:true}),false);
+assert.equal(E.matchesRequirement(ws43,{lvgl_support:true}),true);
 assert.equal(E.matchesRequirement(ws43,{battery:true}),true);
 assert.equal(E.matchesRequirement(ws185,{family:"ESP32-S3",psram_min:8,flash_min:16,native_usb:true,touch:true,touch_type:"capacitive",touch_interface:"I2C",display_interface:"QSPI",display_shape:"round",microsd:true,battery:true,imu:true,rtc:true,audio:true,lvgl_support:true,lvgl_level:"ready"}),true);
 assert.equal(E.matchesRequirement(ws43,{imu:true}),false);
@@ -51,9 +51,8 @@ assert.equal(E.matchesRequirement(ws185,{battery:true,imu:true,rtc:true,audio:tr
 const unknownUsb=E.scorePreferences(ws43,{native_usb:true});
 assert.equal(unknownUsb.score,0);
 assert.ok(unknownUsb.misses.includes("Native USB (unknown data)"));
-const unknownLvgl=E.scorePreferences(ws43,{lvgl_support:true});
-assert.equal(unknownLvgl.score,0);
-assert.ok(unknownLvgl.misses.includes("LVGL support (unknown data)"));
+const knownLvgl=E.scorePreferences(ws43,{lvgl_support:true});
+assert.equal(knownLvgl.score,100);
 
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
 assert.equal(catalogEval.valid,4);
