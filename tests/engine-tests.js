@@ -22,13 +22,14 @@ assert.equal(catalog.schema_version,"2.1");
 assert.ok(Array.isArray(catalog.products));
 const catalogErrors=catalog.products.map(p=>E.validateProduct(p));
 assert.equal(catalogErrors.filter(e=>e.length>0).length,0);
-assert.equal(catalog.products.length,4);
+assert.equal(catalog.products.length,5);
 
 const ili=catalog.products.find(p=>p.id==="ili9341-xpt2046-2-8-touchscreen");
 const ws43=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-4-3");
 const ws7=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-7");
 const ws185=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-1-85b");
-assert.ok(ili && ws43 && ws7 && ws185);
+const c6amoled=catalog.products.find(p=>p.id==="waveshare-esp32-c6-touch-amoled-1-8");
+assert.ok(ili && ws43 && ws7 && ws185 && c6amoled);
 
 // Unknown data must never satisfy a mandatory requirement.
 assert.equal(E.matchesRequirement(ws43,{native_usb:true}),false);
@@ -47,6 +48,27 @@ assert.equal(E.matchesRequirement(ws43,{imu:true}),false);
 assert.equal(E.matchesRequirement(ili,{product_type:"display_module",display_interface:"SPI",touch_type:"resistive",touch_interface:"SPI",display_shape:"rectangular"}),true);
 assert.equal(E.matchesRequirement(ws185,{battery:true,imu:true,rtc:true,audio:true,lvgl_support:true}),true);
 
+// Verified ESP32-C6 AMOLED product requirements.
+assert.equal(c6amoled.esp32.family.includes("ESP32-C6"),true);
+assert.equal(c6amoled.display.technology,"AMOLED");
+assert.equal(c6amoled.display.size_inches,1.8);
+assert.equal(c6amoled.display.resolution.width,368);
+assert.equal(c6amoled.display.resolution.height,448);
+assert.equal(c6amoled.display.interface,"QSPI");
+assert.equal(c6amoled.touch.touch_type,"capacitive");
+assert.equal(c6amoled.touch.touch_interface,"I2C");
+assert.equal(c6amoled.esp32.flash_mb,16);
+assert.equal(c6amoled.esp32.psram_mb,null);
+assert.equal(c6amoled.hardware.battery_charging,true);
+assert.equal(c6amoled.features.imu,true);
+assert.equal(c6amoled.features.rtc,true);
+assert.equal(c6amoled.features.audio,true);
+assert.equal(c6amoled.hardware.microsd,true);
+assert.equal(E.matchesRequirement(c6amoled,{family:"ESP32-C6",display_technology:"AMOLED",touch:true,touch_type:"capacitive",touch_interface:"I2C",display_interface:"QSPI",battery:true,battery_charging:true}),true);
+assert.equal(E.matchesRequirement(c6amoled,{family:"ESP32-C6",display_technology:"AMOLED",touch:true,touch_type:"capacitive",touch_interface:"I2C",battery:true}),true);
+assert.equal(c6amoled.display.controller,"SH8601 (V1) / CO5300 (V2)");
+assert.equal(c6amoled.touch.touch_controller,"FT3168 / FT6146 (V1) / CST820 (V2)");
+
 // Preference ranking remains soft and transparent when data is unknown.
 const unknownUsb=E.scorePreferences(ws43,{native_usb:true});
 assert.equal(unknownUsb.score,0);
@@ -55,7 +77,7 @@ const knownLvgl=E.scorePreferences(ws43,{lvgl_support:true});
 assert.equal(knownLvgl.score,100);
 
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
-assert.equal(catalogEval.valid,4);
+assert.equal(catalogEval.valid,5);
 assert.equal(catalogEval.passed,3);
 assert.equal(catalogEval.ranked.length,3);
 
@@ -68,10 +90,10 @@ assert.equal(noMatch.passed,0);
 assert.ok(noMatch.exclusions["Insufficient/unknown PSRAM"]>=1);
 
 const browse=E.evaluate(catalog.products,{}, {});
-assert.equal(browse.total,4);
-assert.equal(browse.valid,4);
-assert.equal(browse.passed,4);
-assert.equal(browse.displayed,4);
+assert.equal(browse.total,5);
+assert.equal(browse.valid,5);
+assert.equal(browse.passed,5);
+assert.equal(browse.displayed,5);
 
 
 // Selector integration contract checks (static, DOM-free).
@@ -93,6 +115,7 @@ assert.ok(selectorSource.includes('psram_min-required'));
 assert.ok(selectorSource.includes('family==="ESP32-C3"'));
 assert.ok(selectorSource.includes('setupAdvancedFilters'));
 assert.ok(selectorSource.includes('setupPresets'));
+assert.ok(selectorSource.includes('c6-amoled-touch-battery'));
 assert.ok(selectorSource.includes('relaxSuggestions'));
 assert.ok(selectorSource.includes('syncFilterDependencies'));
 assert.ok(selectorSource.includes('updateLiveCount'));
@@ -121,6 +144,7 @@ assert.ok(html.includes('aria-live="polite"'));
 assert.ok(html.includes('id="quick-start"'));
 assert.ok(html.includes('data-preset="s3-psram"'));
 assert.ok(html.includes('data-preset="touch-spi"'));
+assert.ok(html.includes('data-preset="c6-amoled-touch-battery"'));
 assert.ok(html.includes('id="share-btn"'));
 assert.ok(html.includes('id="live-count"'));
 assert.ok(html.includes('id="lvgl_support"'));
