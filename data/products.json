@@ -562,6 +562,164 @@
       "manufacturer_sku_variants": [
         "34556"
       ]
+    },
+    {
+      "id": "waveshare-esp32-c6-touch-amoled-1-8",
+      "name": "Waveshare ESP32-C6-Touch-AMOLED-1.8",
+      "manufacturer": "Waveshare",
+      "product_type": "board_with_display",
+      "category": "board_with_display",
+      "description": "Integrated ESP32-C6 board with a 1.8-inch 368×448 capacitive AMOLED display, QMI8658 IMU, PCF85063 RTC, audio, TF card, battery charging and native USB. V1 uses SH8601 with FT3168/FT6146; V2 uses CO5300 with CST820.",
+      "product_url": "/products/waveshare-esp32-c6-touch-amoled-1-8/",
+      "documentation_url": "https://docs.waveshare.com/ESP32-C6-Touch-AMOLED-1.8",
+      "tags": [
+        "Waveshare",
+        "ESP32-C6",
+        "368x448",
+        "AMOLED",
+        "QSPI",
+        "capacitive-touch",
+        "LVGL",
+        "IMU",
+        "RTC",
+        "audio",
+        "battery"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32-C6"
+        ],
+        "exact_mcu": "ESP32-C6",
+        "cores": null,
+        "cpu_frequency_mhz": 160,
+        "flash_mb": 16,
+        "ram_mb": null,
+        "psram_mb": null
+      },
+      "wireless": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true
+      },
+      "usb": {
+        "usb_available": true,
+        "usb_type": "USB",
+        "native_usb": true,
+        "uart_bridge": null,
+        "native_usb_functionality": [
+          "programming",
+          "logging"
+        ],
+        "usb_notes": "ESP32-C6 native USB via USB Type-C."
+      },
+      "display": {
+        "display_present": true,
+        "technology": "AMOLED",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "rectangular",
+        "size_inches": 1.8,
+        "resolution": {
+          "width": 368,
+          "height": 448
+        },
+        "aspect_ratio": null,
+        "controller": "SH8601 (V1) / CO5300 (V2)",
+        "interface": "QSPI"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "capacitive",
+        "touch_controller": "FT3168 / FT6146 (V1) / CST820 (V2)",
+        "touch_interface": "I2C"
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": null,
+        "uart": true,
+        "rgb": null,
+        "other": [
+          "QSPI",
+          "USB"
+        ]
+      },
+      "display_touch_bus": {
+        "display_bus": "QSPI",
+        "touch_bus": "I2C",
+        "shared_bus": false,
+        "separate_bus": true,
+        "chip_select": null,
+        "dc": null,
+        "irq": null,
+        "reset": null,
+        "relevant_gpio": []
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": null,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": true,
+        "battery": true,
+        "battery_charging": true,
+        "power_input": "USB Type-C / 3.7V Li-battery",
+        "connectors": [
+          "I2C",
+          "UART",
+          "USB"
+        ],
+        "buttons": true,
+        "led": null,
+        "camera": null,
+        "audio": true,
+        "sensors": [
+          "QMI8658 6-axis IMU",
+          "PCF85063 RTC"
+        ],
+        "other_peripherals": [
+          "AXP2101 power-management IC",
+          "ES8311 audio codec",
+          "onboard speaker output",
+          "microphone",
+          "TF card slot"
+        ]
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": null,
+        "mounting_holes": null,
+        "form_factor": null
+      },
+      "sources": [
+        {
+          "type": "manufacturer-documentation",
+          "url": "https://docs.waveshare.com/ESP32-C6-Touch-AMOLED-1.8"
+        }
+      ],
+      "data_quality": "verified_manufacturer",
+      "software": {
+        "lvgl": {
+          "support": true,
+          "level": "ready",
+          "framework": "Arduino, ESP-IDF"
+        }
+      },
+      "features": {
+        "battery": true,
+        "imu": true,
+        "rtc": true,
+        "audio": true
+      },
+      "manufacturer_sku": "33305",
+      "manufacturer_sku_variants": [
+        "33366"
+      ]
     }
   ]
 }
