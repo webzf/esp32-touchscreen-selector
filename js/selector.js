@@ -310,7 +310,7 @@ $("reset-btn").addEventListener("click",function(){reset(true);});
 $("share-btn").addEventListener("click",function(){syncUrl();var b=$("share-btn");if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(location.href).then(function(){b.textContent="Link copied";setTimeout(function(){b.textContent="Share setup";},1800);});}else{window.prompt("Copy this selector URL:",location.href);}});
 $("mode-requirements").addEventListener("click",function(){setMode("requirements");});setupAdvancedFilters();setupPresets();loadUrl();
 
-fetch("data/products.json")
+fetch("data/products.json?v=20260922-1")
   .then(function(r){
     if(!r.ok)throw Error("Catalog load failed");
     return r.json();
