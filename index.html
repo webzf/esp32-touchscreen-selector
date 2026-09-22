@@ -24,7 +24,7 @@
 </div></section>
 <section class="filter-section"><div class="section-heading"><div><span class="step">02</span><h2>Display</h2></div><p>Only properties that materially affect selection are exposed.</p></div>
 <div class="filter-grid">
-<div class="filter-card"><label for="display_technology">Technology</label><select id="display_technology" name="display_technology"><option value="">Any</option><option>OLED</option><option>LCD</option><option>TFT</option><option>e-paper</option><option>other</option></select><label class="required-toggle"><input id="display_technology-required" type="checkbox"> Required</label></div>
+<div class="filter-card"><label for="display_technology">Technology</label><select id="display_technology" name="display_technology"><option value="">Any</option><option>OLED</option><option>LCD</option><option>TFT</option><option>AMOLED</option><option>e-paper</option><option>other</option></select><label class="required-toggle"><input id="display_technology-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="display_shape">Shape</label><select id="display_shape" name="display_shape"><option value="">Any</option><option>rectangular</option><option>square</option><option>round</option><option>other</option></select><label class="required-toggle"><input id="display_shape-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="size_min">Minimum display size (inches)</label><select id="size_min" name="size_min"><option value="">Any</option><option value="2">2″</option><option value="3">3″</option><option value="4">4″</option><option value="5">5″</option></select><label class="required-toggle"><input id="size_min-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="resolution">Resolution</label><select id="resolution" name="resolution"><option value="">Any</option><option value="240x320">240×320</option><option value="320x240">320×240</option><option value="480x320">480×320</option><option value="800x480">800×480</option><option value="1024x600">1024×600</option></select><label class="required-toggle"><input id="resolution-required" type="checkbox"> Required</label></div>
@@ -61,7 +61,6 @@
 </div></section>
 <div class="form-actions"><button type="submit" class="btn-primary">Find compatible hardware</button><button type="button" id="reset-btn" class="btn-secondary">Reset</button><button type="button" id="share-btn" class="btn-secondary">Share setup</button><span id="live-count" class="live-count" aria-live="polite">Choose filters to see matching hardware.</span></div>
 </form>
-
 <div id="catalog-error" class="error-panel" hidden></div><div id="catalog-warning" class="warning-panel" hidden>Some catalog entries failed validation and are excluded from compatibility calculations.</div>
 </section>
 <section id="results" class="results" hidden aria-live="polite"><div class="results-heading"><div><span class="eyebrow">RESULTS</span><h2><span id="result-count">0</span> matching hardware</h2><p id="result-summary"></p><p class="result-meta"><span id="result-total">0</span> valid catalog entries · <span id="result-excluded">0</span> excluded</p></div></div>
