@@ -1,0 +1,567 @@
+{
+  "schema_version": "2.1",
+  "products": [
+    {
+      "id": "ili9341-xpt2046-2-8-touchscreen",
+      "name": "ILI9341 2.8\" SPI TFT + XPT2046 Touch",
+      "manufacturer": null,
+      "product_type": "display_module",
+      "category": "display_module",
+      "description": "Compact SPI TFT touchscreen module.",
+      "product_url": "/products/ili9341-xpt2046-2-8-touchscreen/",
+      "documentation_url": null,
+      "tags": [
+        "ILI9341",
+        "XPT2046",
+        "SPI",
+        "TFT",
+        "resistive-touch"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32",
+          "ESP32-S2",
+          "ESP32-S3"
+        ],
+        "exact_mcu": null,
+        "cores": null,
+        "cpu_frequency_mhz": null,
+        "flash_mb": null,
+        "ram_mb": null,
+        "psram_mb": null
+      },
+      "wireless": {
+        "wifi": null,
+        "bluetooth": null,
+        "ble": null
+      },
+      "usb": {
+        "usb_available": null,
+        "usb_type": null,
+        "native_usb": null,
+        "uart_bridge": null,
+        "native_usb_functionality": [],
+        "usb_notes": null
+      },
+      "display": {
+        "display_present": true,
+        "technology": "TFT",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "rectangular",
+        "size_inches": 2.8,
+        "resolution": {
+          "width": 240,
+          "height": 320
+        },
+        "aspect_ratio": null,
+        "controller": "ILI9341",
+        "interface": "SPI"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "resistive",
+        "touch_controller": "XPT2046",
+        "touch_interface": "SPI"
+      },
+      "interfaces": {
+        "i2c": null,
+        "spi": true,
+        "uart": null,
+        "rgb": null,
+        "other": []
+      },
+      "display_touch_bus": {
+        "display_bus": "SPI",
+        "touch_bus": "SPI",
+        "shared_bus": true,
+        "separate_bus": false,
+        "chip_select": null,
+        "dc": null,
+        "irq": null,
+        "reset": null,
+        "relevant_gpio": []
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": null,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": null,
+        "battery": null,
+        "battery_charging": null,
+        "power_input": null,
+        "connectors": [],
+        "buttons": null,
+        "led": null,
+        "camera": null,
+        "audio": null,
+        "sensors": [],
+        "other_peripherals": []
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": null,
+        "mounting_holes": null,
+        "form_factor": null
+      },
+      "sources": [
+        {
+          "type": "embedded-nerd-product",
+          "url": "/products/ili9341-xpt2046-2-8-touchscreen/"
+        }
+      ],
+      "data_quality": "migrated_legacy",
+      "software": {
+        "lvgl": {
+          "support": null,
+          "level": null,
+          "framework": null
+        }
+      },
+      "features": {
+        "battery": null,
+        "imu": null,
+        "rtc": null,
+        "audio": null
+      }
+    },
+    {
+      "id": "waveshare-esp32-s3-touch-lcd-4-3",
+      "name": "Waveshare ESP32-S3-Touch-LCD-4.3",
+      "manufacturer": "Waveshare",
+      "product_type": "board_with_display",
+      "category": "board_with_display",
+      "description": "Integrated ESP32-S3 touchscreen board with a 4.3-inch 800×480 display.",
+      "product_url": "/products/waveshare-esp32-s3-touch-lcd-4-3/",
+      "documentation_url": "https://docs.waveshare.com/ESP32-S3-Touch-LCD-4.3",
+      "tags": [
+        "Waveshare",
+        "ESP32-S3",
+        "800x480",
+        "RGB",
+        "capacitive-touch"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32-S3"
+        ],
+        "exact_mcu": "ESP32-S3",
+        "cores": null,
+        "cpu_frequency_mhz": null,
+        "flash_mb": 16,
+        "ram_mb": null,
+        "psram_mb": 8
+      },
+      "wireless": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true
+      },
+      "usb": {
+        "usb_available": true,
+        "usb_type": null,
+        "native_usb": null,
+        "uart_bridge": null,
+        "native_usb_functionality": [],
+        "usb_notes": null
+      },
+      "display": {
+        "display_present": true,
+        "technology": "TFT",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "rectangular",
+        "size_inches": 4.3,
+        "resolution": {
+          "width": 800,
+          "height": 480
+        },
+        "aspect_ratio": "5:3",
+        "controller": null,
+        "interface": "RGB"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "capacitive",
+        "touch_controller": null,
+        "touch_interface": "I2C"
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": true,
+        "uart": true,
+        "rgb": true,
+        "other": []
+      },
+      "display_touch_bus": {
+        "display_bus": "RGB",
+        "touch_bus": "I2C",
+        "shared_bus": false,
+        "separate_bus": true,
+        "chip_select": null,
+        "dc": null,
+        "irq": null,
+        "reset": null,
+        "relevant_gpio": []
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": null,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": true,
+        "battery": null,
+        "battery_charging": true,
+        "power_input": null,
+        "connectors": [],
+        "buttons": null,
+        "led": null,
+        "camera": null,
+        "audio": null,
+        "sensors": [],
+        "other_peripherals": []
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": null,
+        "mounting_holes": null,
+        "form_factor": null
+      },
+      "sources": [
+        {
+          "type": "manufacturer-documentation",
+          "url": "https://docs.waveshare.com/ESP32-S3-Touch-LCD-4.3"
+        },
+        {
+          "type": "embedded-nerd-product",
+          "url": "/products/waveshare-esp32-s3-touch-lcd-4-3/"
+        }
+      ],
+      "data_quality": "verified_manufacturer",
+      "software": {
+        "lvgl": {
+          "support": true,
+          "level": "ready",
+          "framework": "Arduino, ESP-IDF"
+        }
+      },
+      "features": {
+        "battery": true,
+        "imu": null,
+        "rtc": null,
+        "audio": null
+      },
+      "manufacturer_sku": "25948"
+    },
+    {
+      "id": "waveshare-esp32-s3-touch-lcd-7",
+      "name": "Waveshare ESP32-S3-Touch-LCD-7",
+      "manufacturer": "Waveshare",
+      "product_type": "board_with_display",
+      "category": "board_with_display",
+      "description": "Integrated ESP32-S3 touchscreen board with a 7-inch 800×480 display.",
+      "product_url": "/products/waveshare-esp32-s3-touch-lcd-7/",
+      "documentation_url": "https://docs.waveshare.com/ESP32-S3-Touch-LCD-7",
+      "tags": [
+        "Waveshare",
+        "ESP32-S3",
+        "800x480",
+        "RGB",
+        "capacitive-touch"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32-S3"
+        ],
+        "exact_mcu": "ESP32-S3",
+        "cores": null,
+        "cpu_frequency_mhz": null,
+        "flash_mb": 8,
+        "ram_mb": null,
+        "psram_mb": 8
+      },
+      "wireless": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true
+      },
+      "usb": {
+        "usb_available": true,
+        "usb_type": null,
+        "native_usb": null,
+        "uart_bridge": null,
+        "native_usb_functionality": [],
+        "usb_notes": null
+      },
+      "display": {
+        "display_present": true,
+        "technology": "TFT",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "rectangular",
+        "size_inches": 7,
+        "resolution": {
+          "width": 800,
+          "height": 480
+        },
+        "aspect_ratio": "128:75",
+        "controller": null,
+        "interface": "RGB"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "capacitive",
+        "touch_controller": null,
+        "touch_interface": "I2C"
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": true,
+        "uart": true,
+        "rgb": true,
+        "other": []
+      },
+      "display_touch_bus": {
+        "display_bus": "RGB",
+        "touch_bus": "I2C",
+        "shared_bus": false,
+        "separate_bus": true,
+        "chip_select": null,
+        "dc": null,
+        "irq": null,
+        "reset": null,
+        "relevant_gpio": []
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": null,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": true,
+        "battery": null,
+        "battery_charging": true,
+        "power_input": null,
+        "connectors": [],
+        "buttons": null,
+        "led": null,
+        "camera": null,
+        "audio": null,
+        "sensors": [],
+        "other_peripherals": []
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": null,
+        "mounting_holes": null,
+        "form_factor": null
+      },
+      "sources": [
+        {
+          "type": "manufacturer-documentation",
+          "url": "https://docs.waveshare.com/ESP32-S3-Touch-LCD-7"
+        },
+        {
+          "type": "embedded-nerd-product",
+          "url": "/products/waveshare-esp32-s3-touch-lcd-7/"
+        }
+      ],
+      "data_quality": "verified_manufacturer",
+      "software": {
+        "lvgl": {
+          "support": true,
+          "level": "ready",
+          "framework": "Arduino, ESP-IDF"
+        }
+      },
+      "features": {
+        "battery": true,
+        "imu": null,
+        "rtc": null,
+        "audio": null
+      },
+      "manufacturer_sku": "27078"
+    },
+    {
+      "id": "waveshare-esp32-s3-touch-lcd-1-85b",
+      "name": "Waveshare ESP32-S3-Touch-LCD-1.85B",
+      "manufacturer": "Waveshare",
+      "product_type": "board_with_display",
+      "category": "board_with_display",
+      "description": "Highly integrated ESP32-S3 touchscreen board with a 1.85-inch 360×360 display, 8MB PSRAM, IMU, RTC, audio, battery support, microSD, and native USB.",
+      "product_url": "/products/waveshare-esp32-s3-touch-lcd-1-85b/",
+      "documentation_url": "https://docs.waveshare.com/ESP32-S3-Touch-LCD-1.85B",
+      "tags": [
+        "Waveshare",
+        "ESP32-S3",
+        "360x360",
+        "QSPI",
+        "capacitive-touch",
+        "LVGL",
+        "IMU",
+        "RTC",
+        "audio",
+        "battery"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32-S3"
+        ],
+        "exact_mcu": "ESP32-S3R8",
+        "cores": 2,
+        "cpu_frequency_mhz": 240,
+        "flash_mb": 16,
+        "ram_mb": null,
+        "psram_mb": 8
+      },
+      "wireless": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true
+      },
+      "usb": {
+        "usb_available": true,
+        "usb_type": "USB",
+        "native_usb": true,
+        "uart_bridge": null,
+        "native_usb_functionality": [
+          "programming",
+          "logging"
+        ],
+        "usb_notes": "ESP32-S3 native USB via USB Type-C."
+      },
+      "display": {
+        "display_present": true,
+        "technology": "TFT",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "round",
+        "size_inches": 1.85,
+        "resolution": {
+          "width": 360,
+          "height": 360
+        },
+        "aspect_ratio": "1:1",
+        "controller": "ST77916",
+        "interface": "QSPI"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "capacitive",
+        "touch_controller": "CST816S",
+        "touch_interface": "I2C"
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": true,
+        "uart": true,
+        "rgb": null,
+        "other": [
+          "QSPI",
+          "USB"
+        ]
+      },
+      "display_touch_bus": {
+        "display_bus": "QSPI",
+        "touch_bus": "I2C",
+        "shared_bus": false,
+        "separate_bus": true,
+        "chip_select": null,
+        "dc": null,
+        "irq": null,
+        "reset": null,
+        "relevant_gpio": []
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": null,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": true,
+        "battery": true,
+        "battery_charging": true,
+        "power_input": "USB Type-C / 3.7V Li-battery",
+        "connectors": [
+          "I2C",
+          "UART",
+          "USB"
+        ],
+        "buttons": true,
+        "led": null,
+        "camera": null,
+        "audio": true,
+        "sensors": [
+          "QMI8658 6-axis IMU",
+          "PCF85063 RTC"
+        ],
+        "other_peripherals": [
+          "ES8311 audio codec",
+          "ES7210 audio input/echo cancellation",
+          "BQ27220 battery gauge",
+          "dual microphones",
+          "speaker pads"
+        ]
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": null,
+        "mounting_holes": null,
+        "form_factor": "compact electronic-badge form factor"
+      },
+      "sources": [
+        {
+          "type": "manufacturer-documentation",
+          "url": "https://docs.waveshare.com/ESP32-S3-Touch-LCD-1.85B"
+        },
+        {
+          "type": "manufacturer-product-page",
+          "url": "https://www.waveshare.com/esp32-s3-touch-lcd-1.85b.htm"
+        }
+      ],
+      "data_quality": "verified_manufacturer",
+      "software": {
+        "lvgl": {
+          "support": true,
+          "level": "ready",
+          "framework": "Arduino, ESP-IDF"
+        }
+      },
+      "features": {
+        "battery": true,
+        "imu": true,
+        "rtc": true,
+        "audio": true
+      },
+      "image": "https://www.waveshare.com/img/devkit/ESP32-S3-Touch-LCD-1.85B/ESP32-S3-Touch-LCD-1.85B-details-1.jpg",
+      "image_alt": "Waveshare ESP32-S3-Touch-LCD-1.85B touchscreen board",
+      "manufacturer_sku": "34554",
+      "manufacturer_sku_variants": [
+        "34556"
+      ]
+    }
+  ]
+}
