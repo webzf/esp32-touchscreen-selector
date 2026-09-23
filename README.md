@@ -1,6 +1,6 @@
-# ESP32 Touchscreen Selector
+# ESP32 Hardware & Display Selector
 
-The **ESP32 Touchscreen Selector** is a free interactive tool for choosing a suitable ESP32 touchscreen configuration based on the board, display size, resolution, interface, touch technology, PSRAM and LVGL requirements.
+The **ESP32 Hardware & Display Selector** is a free interactive tool for choosing compatible ESP32 boards, touchscreen displays and display modules based on MCU family, display size, resolution, interface, touch technology, PSRAM, GPIO, LVGL and other hardware requirements.
 
 🚀 **Try the live ESP32 Touchscreen Selector:**  
 https://embeddednerd.com/tools/esp32-touchscreen-selector/
@@ -159,3 +159,16 @@ This project is released under the **MIT License**. See [LICENSE](LICENSE).
 ## GitHub topics
 
 `esp32` `esp32-s3` `esp32-display` `esp32-touchscreen` `touchscreen` `lvgl` `iot` `embedded-systems` `electronics` `arduino` `maker` `embedded` `tft-display`
+
+## ESP32 display and touchscreen use cases
+
+The selector is useful for common hardware searches such as:
+
+- ESP32-S3 + LVGL + PSRAM displays
+- ESP32 AMOLED touchscreen projects
+- ESP32-C6 display and touchscreen hardware
+- 800×480 ESP32 displays
+- SPI touchscreen displays
+- ESP32 boards with native USB, microSD or battery charging
+
+The live tool also provides focused presets and conservative compatibility checks so unknown specifications are not treated as confirmed matches.
