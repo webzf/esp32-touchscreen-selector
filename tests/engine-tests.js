@@ -22,14 +22,15 @@ assert.equal(catalog.schema_version,"2.1");
 assert.ok(Array.isArray(catalog.products));
 const catalogErrors=catalog.products.map(p=>E.validateProduct(p));
 assert.equal(catalogErrors.filter(e=>e.length>0).length,0);
-assert.equal(catalog.products.length,5);
+assert.equal(catalog.products.length,6);
 
 const ili=catalog.products.find(p=>p.id==="ili9341-xpt2046-2-8-touchscreen");
 const ws43=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-4-3");
 const ws7=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-7");
 const ws185=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-1-85b");
 const c6amoled=catalog.products.find(p=>p.id==="waveshare-esp32-c6-touch-amoled-1-8");
-assert.ok(ili && ws43 && ws7 && ws185 && c6amoled);
+const s3amoled175=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-amoled-1-75");
+assert.ok(ili && ws43 && ws7 && ws185 && c6amoled && s3amoled175);
 
 // Unknown data must never satisfy a mandatory requirement.
 assert.equal(E.matchesRequirement(ws43,{native_usb:true}),false);
@@ -69,6 +70,30 @@ assert.equal(E.matchesRequirement(c6amoled,{family:"ESP32-C6",display_technology
 assert.equal(c6amoled.display.controller,"SH8601 (V1) / CO5300 (V2)");
 assert.equal(c6amoled.touch.touch_controller,"FT3168 / FT6146 (V1) / CST820 (V2)");
 
+// Verified ESP32-S3 AMOLED 1.75 product requirements.
+assert.equal(s3amoled175.esp32.family.includes("ESP32-S3"),true);
+assert.equal(s3amoled175.esp32.exact_mcu,"ESP32-S3R8");
+assert.equal(s3amoled175.esp32.flash_mb,16);
+assert.equal(s3amoled175.esp32.psram_mb,8);
+assert.equal(s3amoled175.display.technology,"AMOLED");
+assert.equal(s3amoled175.display.shape,"round");
+assert.equal(s3amoled175.display.size_inches,1.75);
+assert.equal(s3amoled175.display.resolution.width,466);
+assert.equal(s3amoled175.display.resolution.height,466);
+assert.equal(s3amoled175.display.interface,"QSPI");
+assert.equal(s3amoled175.display.controller,"CO5300");
+assert.equal(s3amoled175.touch.touch_type,"capacitive");
+assert.equal(s3amoled175.touch.touch_interface,"I2C");
+assert.equal(s3amoled175.touch.touch_controller,"CST9217");
+assert.equal(s3amoled175.hardware.microsd,true);
+assert.equal(s3amoled175.hardware.battery,true);
+assert.equal(s3amoled175.hardware.battery_charging,true);
+assert.equal(s3amoled175.features.imu,true);
+assert.equal(s3amoled175.features.rtc,true);
+assert.equal(s3amoled175.features.audio,true);
+assert.equal(E.matchesRequirement(s3amoled175,{family:"ESP32-S3",display_technology:"AMOLED",display_shape:"round",resolution:"466x466",touch:true,touch_type:"capacitive",touch_interface:"I2C",display_interface:"QSPI",psram_min:8,flash_min:16,battery:true,battery_charging:true,imu:true,rtc:true,audio:true,lvgl_support:true}),true);
+assert.equal(E.matchesRequirement(s3amoled175,{family:"ESP32-S3",display_technology:"AMOLED",resolution:"600x450"}),false);
+
 // Preference ranking remains soft and transparent when data is unknown.
 const unknownUsb=E.scorePreferences(ws43,{native_usb:true});
 assert.equal(unknownUsb.score,0);
@@ -77,8 +102,8 @@ const knownLvgl=E.scorePreferences(ws43,{lvgl_support:true});
 assert.equal(knownLvgl.score,100);
 
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
-assert.equal(catalogEval.valid,5);
-assert.equal(catalogEval.passed,3);
+assert.equal(catalogEval.valid,6);
+assert.equal(catalogEval.passed,4);
 assert.equal(catalogEval.ranked.length,3);
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
@@ -90,10 +115,10 @@ assert.equal(noMatch.passed,0);
 assert.ok(noMatch.exclusions["Insufficient/unknown PSRAM"]>=1);
 
 const browse=E.evaluate(catalog.products,{}, {});
-assert.equal(browse.total,5);
-assert.equal(browse.valid,5);
-assert.equal(browse.passed,5);
-assert.equal(browse.displayed,5);
+assert.equal(browse.total,6);
+assert.equal(browse.valid,6);
+assert.equal(browse.passed,6);
+assert.equal(browse.displayed,6);
 
 
 // Selector integration contract checks (static, DOM-free).
