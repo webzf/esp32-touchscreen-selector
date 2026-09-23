@@ -107,7 +107,7 @@ assert.equal(catalogEval.passed,4);
 assert.equal(catalogEval.ranked.length,4);
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
-assert.equal(flashEval.passed,2);
+assert.equal(flashEval.passed,3);
 assert.equal(flashEval.ranked[0].product.id,"waveshare-esp32-s3-touch-lcd-1-85b");
 
 const noMatch=E.evaluate(catalog.products,{family:"ESP32-C3",psram_min:1},{});
