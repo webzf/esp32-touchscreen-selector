@@ -104,7 +104,7 @@ assert.equal(knownLvgl.score,100);
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
 assert.equal(catalogEval.valid,6);
 assert.equal(catalogEval.passed,4);
-assert.equal(catalogEval.ranked.length,3);
+assert.equal(catalogEval.ranked.length,4);
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
 assert.equal(flashEval.passed,2);
