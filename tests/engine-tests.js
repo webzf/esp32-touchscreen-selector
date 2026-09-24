@@ -116,10 +116,10 @@ assert.equal(noMatch.passed,0);
 assert.ok(noMatch.exclusions["Insufficient/unknown PSRAM"]>=1);
 
 const browse=E.evaluate(catalog.products,{}, {});
-assert.equal(browse.total,6);
-assert.equal(browse.valid,6);
-assert.equal(browse.passed,6);
-assert.equal(browse.displayed,6);
+assert.equal(browse.total,7);
+assert.equal(browse.valid,7);
+assert.equal(browse.passed,7);
+assert.equal(browse.displayed,7);
 
 
 // Selector integration contract checks (static, DOM-free).
