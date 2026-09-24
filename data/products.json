@@ -130,7 +130,8 @@
         "imu": null,
         "rtc": null,
         "audio": null
-      }
+      },
+      "image": "https://user-images.githubusercontent.com/6020549/59007633-3f332600-8862-11eb-8103-4d8f-bbfb303456f4.JPG"
     },
     {
       "id": "waveshare-esp32-s3-touch-lcd-4-3",
@@ -264,7 +265,8 @@
         "rtc": null,
         "audio": null
       },
-      "manufacturer_sku": "25948"
+      "manufacturer_sku": "25948",
+      "image": "https://docs.waveshare.com/assets/images/ESP32-S3-Touch-LCD-4.3-details-intro-412ade570ab519921350b8144d907b94.webp"
     },
     {
       "id": "waveshare-esp32-s3-touch-lcd-7",
@@ -398,7 +400,8 @@
         "rtc": null,
         "audio": null
       },
-      "manufacturer_sku": "27078"
+      "manufacturer_sku": "27078",
+      "image": "https://docs.waveshare.com/assets/images/ESP32-S3-Touch-LCD-7-Intro1-1354f76103c5429920a42f7a5ca1dc7d.webp"
     },
     {
       "id": "waveshare-esp32-s3-touch-lcd-1-85b",
@@ -719,7 +722,8 @@
       "manufacturer_sku": "33305",
       "manufacturer_sku_variants": [
         "33366"
-      ]
+      ],
+      "image": "https://docs.waveshare.com/assets/images/ESP32-C6-Touch-AMOLED-1.8-intro-45dc721c2271aec3041376e5d1df6236.webp"
     },
     {
       "id": "waveshare-esp32-s3-touch-amoled-1-75",
