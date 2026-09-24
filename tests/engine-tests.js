@@ -152,7 +152,7 @@ assert.equal(catalogEval.ranked.length,6);
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
 assert.equal(flashEval.passed,5);
-assert.equal(flashEval.ranked[0].product.id,"waveshare-esp32-s3-touch-amoled-1-75");
+assert.equal(flashEval.ranked[0].product.id,"sunton-esp32-8048s043c");
 
 const noMatch=E.evaluate(catalog.products,{family:"ESP32-C3",psram_min:1},{});
 assert.equal(noMatch.passed,0);
