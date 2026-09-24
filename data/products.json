@@ -131,7 +131,7 @@
         "rtc": null,
         "audio": null
       },
-      "image": "https://raw.githubusercontent.com/webzf/ztronics/master/assets/images/products/ili9341-xpt2046-2-8-touchscreen.webp",
+      "image": "https://embeddednerd.com/assets/images/products/ili9341-xpt2046-2-8-touchscreen.webp",
       "image_alt": "ILI9341 2.8\" SPI TFT + XPT2046 Touch product image"
     },
     {
@@ -267,7 +267,7 @@
         "audio": null
       },
       "manufacturer_sku": "25948",
-      "image": "https://raw.githubusercontent.com/webzf/ztronics/master/assets/images/products/waveshare-esp32-s3-touch-lcd-4-3.webp",
+      "image": "https://embeddednerd.com/assets/images/products/waveshare-esp32-s3-touch-lcd-4-3.webp",
       "image_alt": "Waveshare ESP32-S3-Touch-LCD-4.3 product image"
     },
     {
@@ -403,7 +403,7 @@
         "audio": null
       },
       "manufacturer_sku": "27078",
-      "image": "https://raw.githubusercontent.com/webzf/ztronics/master/assets/images/products/waveshare-esp32-s3-touch-lcd-7.webp",
+      "image": "https://embeddednerd.com/assets/images/products/waveshare-esp32-s3-touch-lcd-7.webp",
       "image_alt": "Waveshare ESP32-S3-Touch-LCD-7 product image"
     },
     {
