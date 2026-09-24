@@ -883,6 +883,244 @@
         "31262",
         "31264"
       ]
+    },
+    {
+      "id": "waveshare-esp32-s3-touch-lcd-5b",
+      "name": "Waveshare ESP32-S3-Touch-LCD-5B",
+      "manufacturer": "Waveshare",
+      "product_type": "board_with_display",
+      "category": "board_with_display",
+      "description": "Integrated ESP32-S3 touchscreen board with a 5-inch 1024×600 RGB IPS display, 5-point capacitive touch, 16MB Flash, 8MB PSRAM, CAN, RS485, I2C, TF card and USB.",
+      "product_url": "/products/waveshare-esp32-s3-touch-lcd-5b/",
+      "documentation_url": "https://docs.waveshare.com/ESP32-S3-Touch-LCD-5",
+      "tags": [
+        "Waveshare",
+        "ESP32-S3",
+        "1024x600",
+        "5-inch",
+        "IPS",
+        "RGB",
+        "capacitive-touch",
+        "GT911",
+        "ST7262",
+        "LVGL",
+        "CAN",
+        "RS485",
+        "PSRAM"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32-S3"
+        ],
+        "exact_mcu": "ESP32-S3",
+        "cores": 2,
+        "cpu_frequency_mhz": 240,
+        "flash_mb": 16,
+        "ram_mb": null,
+        "psram_mb": 8
+      },
+      "wireless": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true
+      },
+      "usb": {
+        "usb_available": true,
+        "usb_type": "USB Type-C",
+        "native_usb": null,
+        "uart_bridge": null,
+        "native_usb_functionality": [],
+        "usb_notes": "Integrated full-speed USB; Type-C is used for power and programming/logging."
+      },
+      "display": {
+        "display_present": true,
+        "technology": "IPS",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "rectangular",
+        "size_inches": 5,
+        "resolution": {
+          "width": 1024,
+          "height": 600
+        },
+        "aspect_ratio": "128:75",
+        "controller": "ST7262",
+        "interface": "RGB"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "capacitive",
+        "touch_controller": "GT911",
+        "touch_interface": "I2C"
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": null,
+        "uart": true,
+        "rgb": true,
+        "other": [
+          "CAN",
+          "RS485",
+          "USB",
+          "TF"
+        ]
+      },
+      "display_touch_bus": {
+        "display_bus": "RGB",
+        "touch_bus": "I2C",
+        "shared_bus": false,
+        "separate_bus": true,
+        "chip_select": null,
+        "dc": null,
+        "irq": 4,
+        "reset": null,
+        "relevant_gpio": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          7,
+          8,
+          9,
+          10,
+          14,
+          17,
+          18,
+          21,
+          38,
+          39,
+          40,
+          41,
+          42,
+          45,
+          46,
+          47,
+          48
+        ]
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": null,
+        "reserved_gpio": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          7,
+          8,
+          9,
+          10,
+          14,
+          17,
+          18,
+          21,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48
+        ],
+        "display_gpio": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          7,
+          10,
+          14,
+          17,
+          18,
+          21,
+          38,
+          39,
+          40,
+          41,
+          42,
+          45,
+          46,
+          47,
+          48
+        ],
+        "touch_gpio": [
+          4,
+          8,
+          9
+        ],
+        "microsd": true,
+        "battery": true,
+        "battery_charging": true,
+        "power_input": "USB Type-C 5V / DC 7-36V / 3.7V single-cell Li-ion",
+        "connectors": [
+          "I2C",
+          "CAN",
+          "RS485",
+          "USB",
+          "TF",
+          "battery"
+        ],
+        "buttons": true,
+        "led": true,
+        "camera": null,
+        "audio": false,
+        "sensors": [
+          "PCF85063 RTC"
+        ],
+        "other_peripherals": [
+          "CH422G I/O expander",
+          "isolated digital inputs/outputs",
+          "battery management",
+          "GT911 touch controller"
+        ]
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": null,
+        "mounting_holes": null,
+        "form_factor": "5-inch embedded HMI development board"
+      },
+      "sources": [
+        {
+          "type": "manufacturer-documentation",
+          "url": "https://docs.waveshare.com/ESP32-S3-Touch-LCD-5"
+        },
+        {
+          "type": "manufacturer-product-page",
+          "url": "https://www.waveshare.com/esp32-s3-touch-lcd-5.htm?sku=28151"
+        }
+      ],
+      "data_quality": "verified_manufacturer",
+      "software": {
+        "lvgl": {
+          "support": true,
+          "level": "ready",
+          "framework": "Arduino, ESP-IDF"
+        }
+      },
+      "features": {
+        "battery": true,
+        "imu": false,
+        "rtc": true,
+        "audio": false
+      },
+      "image": "https://www.waveshare.com/img/devkit/ESP32-S3-Touch-LCD-5/ESP32-S3-Touch-LCD-5-details-1.jpg",
+      "image_alt": "Waveshare ESP32-S3-Touch-LCD-5B 5-inch 1024x600 capacitive touchscreen development board",
+      "manufacturer_sku": "28151"
     }
   ]
 }
