@@ -22,7 +22,7 @@ assert.equal(catalog.schema_version,"2.1");
 assert.ok(Array.isArray(catalog.products));
 const catalogErrors=catalog.products.map(p=>E.validateProduct(p));
 assert.equal(catalogErrors.filter(e=>e.length>0).length,0);
-assert.equal(catalog.products.length,7);
+assert.equal(catalog.products.length,9);
 
 const ili=catalog.products.find(p=>p.id==="ili9341-xpt2046-2-8-touchscreen");
 const ws43=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-4-3");
@@ -31,7 +31,8 @@ const ws185=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-1-85b"
 const c6amoled=catalog.products.find(p=>p.id==="waveshare-esp32-c6-touch-amoled-1-8");
 const s3amoled175=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-amoled-1-75");
 const s3amoled241=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-amoled-2-41");
-assert.ok(ili && ws43 && ws7 && ws185 && c6amoled && s3amoled175 && s3amoled241);
+const cyd=catalog.products.find(p=>p.id==="esp32-2432s028-2-8-cyd");
+assert.ok(ili && ws43 && ws7 && ws185 && c6amoled && s3amoled175 && s3amoled241 && cyd);
 
 // Unknown data must never satisfy a mandatory requirement.
 assert.equal(E.matchesRequirement(ws43,{native_usb:true}),false);
@@ -49,6 +50,27 @@ assert.equal(E.matchesRequirement(ws185,{family:"ESP32-S3",psram_min:8,flash_min
 assert.equal(E.matchesRequirement(ws43,{imu:true}),false);
 assert.equal(E.matchesRequirement(ili,{product_type:"display_module",display_interface:"SPI",touch_type:"resistive",touch_interface:"SPI",display_shape:"rectangular"}),true);
 assert.equal(E.matchesRequirement(ws185,{battery:true,imu:true,rtc:true,audio:true,lvgl_support:true}),true);
+ 
+// Verified ESP32-2432S028 CYD family requirements.
+assert.equal(cyd.product_type,"board_with_display");
+assert.equal(cyd.esp32.family.includes("ESP32"),true);
+assert.equal(cyd.esp32.exact_mcu,"ESP32-WROOM-32");
+assert.equal(cyd.esp32.flash_mb,4);
+assert.equal(cyd.esp32.psram_mb,null);
+assert.equal(cyd.display.size_inches,2.8);
+assert.equal(cyd.display.resolution.width,240);
+assert.equal(cyd.display.resolution.height,320);
+assert.equal(cyd.display.interface,"SPI");
+assert.equal(cyd.display.controller,null);
+assert.equal(cyd.touch.touch_type,"resistive");
+assert.equal(cyd.touch.touch_controller,"XPT2046");
+assert.equal(cyd.touch.touch_interface,"SPI");
+assert.equal(cyd.usb.native_usb,false);
+assert.equal(cyd.usb.uart_bridge,true);
+assert.equal(cyd.hardware.microsd,true);
+assert.equal(E.matchesRequirement(cyd,{family:"ESP32",display_present:true,size_min:2.8,resolution:"240x320",touch:true,touch_type:"resistive",touch_interface:"SPI",display_interface:"SPI"}),true);
+assert.equal(E.matchesRequirement(cyd,{native_usb:true}),false);
+assert.equal(E.matchesRequirement(cyd,{psram_min:1}),false);
 
 // Verified ESP32-C6 AMOLED product requirements.
 assert.equal(c6amoled.esp32.family.includes("ESP32-C6"),true);
@@ -124,12 +146,12 @@ const knownLvgl=E.scorePreferences(ws43,{lvgl_support:true});
 assert.equal(knownLvgl.score,100);
 
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
-assert.equal(catalogEval.valid,7);
-assert.equal(catalogEval.passed,5);
-assert.equal(catalogEval.ranked.length,5);
+assert.equal(catalogEval.valid,8);
+assert.equal(catalogEval.passed,6);
+assert.equal(catalogEval.ranked.length,6);
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
-assert.equal(flashEval.passed,4);
+assert.equal(flashEval.passed,5);
 assert.equal(flashEval.ranked[0].product.id,"waveshare-esp32-s3-touch-amoled-1-75");
 
 const noMatch=E.evaluate(catalog.products,{family:"ESP32-C3",psram_min:1},{});
@@ -137,10 +159,10 @@ assert.equal(noMatch.passed,0);
 assert.ok(noMatch.exclusions["Insufficient/unknown PSRAM"]>=1);
 
 const browse=E.evaluate(catalog.products,{}, {});
-assert.equal(browse.total,7);
-assert.equal(browse.valid,7);
-assert.equal(browse.passed,7);
-assert.equal(browse.displayed,7);
+assert.equal(browse.total,9);
+assert.equal(browse.valid,9);
+assert.equal(browse.passed,9);
+assert.equal(browse.displayed,9);
 
 
 // Selector integration contract checks (static, DOM-free).
