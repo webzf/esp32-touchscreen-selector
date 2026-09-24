@@ -131,7 +131,7 @@
         "rtc": null,
         "audio": null
       },
-      "image": "https://user-images.githubusercontent.com/6020549/59007633-3f332600-8862-11eb-8103-4d8f-bbfb303456f4.JPG"
+      "image": "https://raw.githubusercontent.com/mboehmerm/Touch-Display-ili9341-320x240/main/pictures/Touch_Display_ili9341_2.8.jpg"
     },
     {
       "id": "waveshare-esp32-s3-touch-lcd-4-3",
