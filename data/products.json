@@ -130,7 +130,9 @@
         "imu": null,
         "rtc": null,
         "audio": null
-      }
+      },
+      "image": "/assets/images/products/ili9341-xpt2046-2-8-touchscreen.webp",
+      "image_alt": "ILI9341 2.8\" SPI TFT + XPT2046 Touch product image"
     },
     {
       "id": "waveshare-esp32-s3-touch-lcd-4-3",
@@ -264,7 +266,9 @@
         "rtc": null,
         "audio": null
       },
-      "manufacturer_sku": "25948"
+      "manufacturer_sku": "25948",
+      "image": "/assets/images/products/waveshare-esp32-s3-touch-lcd-4-3.webp",
+      "image_alt": "Waveshare ESP32-S3-Touch-LCD-4.3 product image"
     },
     {
       "id": "waveshare-esp32-s3-touch-lcd-7",
@@ -398,7 +402,9 @@
         "rtc": null,
         "audio": null
       },
-      "manufacturer_sku": "27078"
+      "manufacturer_sku": "27078",
+      "image": "/assets/images/products/waveshare-esp32-s3-touch-lcd-7.webp",
+      "image_alt": "Waveshare ESP32-S3-Touch-LCD-7 product image"
     },
     {
       "id": "waveshare-esp32-s3-touch-lcd-1-85b",
@@ -719,7 +725,9 @@
       "manufacturer_sku": "33305",
       "manufacturer_sku_variants": [
         "33366"
-      ]
+      ],
+      "image": "https://www.waveshare.com/img/devkit/ESP32-C6-Touch-AMOLED-1.8/ESP32-C6-Touch-AMOLED-1.8-details-1.jpg",
+      "image_alt": "Waveshare ESP32-C6-Touch-AMOLED-1.8 product image"
     },
     {
       "id": "waveshare-esp32-s3-touch-amoled-1-75",
