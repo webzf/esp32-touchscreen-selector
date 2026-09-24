@@ -1209,6 +1209,148 @@
       "manufacturer_sku": "ESP32-8048S043C",
       "image": "https://www.makerfabs.com/image/wiki_image/2022-10-28_22_36_00_0.jpg",
       "image_alt": "Sunton ESP32-8048S043C 4.3-inch ESP32-S3 CYD touchscreen board"
+    },
+    {
+      "id": "esp32-2432s028-2-8-cyd",
+      "name": "ESP32-2432S028 2.8\" CYD Touch",
+      "manufacturer": null,
+      "product_type": "board_with_display",
+      "category": "board_with_display",
+      "description": "ESP32-WROOM-based 2.8-inch CYD board with a 240×320 TFT touchscreen, Wi-Fi and Bluetooth. Controller and USB variant can differ between board revisions.",
+      "product_url": "/products/esp32-2432s028-2-8-cyd/",
+      "documentation_url": "https://github.com/kthxbyte/platformio-esp32-2432s028",
+      "tags": [
+        "CYD",
+        "ESP32-2432S028",
+        "ESP32-WROOM",
+        "240x320",
+        "TFT",
+        "resistive-touch",
+        "WROOM",
+        "LVGL"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32"
+        ],
+        "exact_mcu": "ESP32-WROOM-32",
+        "cores": 2,
+        "cpu_frequency_mhz": 240,
+        "flash_mb": 4,
+        "ram_mb": 520,
+        "psram_mb": null
+      },
+      "wireless": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true
+      },
+      "usb": {
+        "usb_available": true,
+        "usb_type": null,
+        "native_usb": false,
+        "uart_bridge": true,
+        "native_usb_functionality": [],
+        "usb_notes": "USB connector and revision can vary; documented boards use a CH340 USB-to-UART bridge."
+      },
+      "display": {
+        "display_present": true,
+        "technology": "TFT",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "rectangular",
+        "size_inches": 2.8,
+        "resolution": {
+          "width": 240,
+          "height": 320
+        },
+        "aspect_ratio": "3:4",
+        "controller": null,
+        "interface": "SPI"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "resistive",
+        "touch_controller": "XPT2046",
+        "touch_interface": "SPI"
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": true,
+        "uart": true,
+        "rgb": null,
+        "other": []
+      },
+      "display_touch_bus": {
+        "display_bus": "SPI",
+        "touch_bus": "SPI",
+        "shared_bus": false,
+        "separate_bus": true,
+        "chip_select": null,
+        "dc": null,
+        "irq": null,
+        "reset": null,
+        "relevant_gpio": []
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": null,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": true,
+        "battery": null,
+        "battery_charging": null,
+        "power_input": "5V",
+        "connectors": [],
+        "buttons": true,
+        "led": true,
+        "camera": null,
+        "audio": null,
+        "sensors": [],
+        "other_peripherals": []
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": "86 × 50 mm",
+        "mounting_holes": null,
+        "form_factor": "2.8-inch CYD board"
+      },
+      "sources": [
+        {
+          "type": "board-definition",
+          "url": "https://github.com/kthxbyte/platformio-esp32-2432s028"
+        },
+        {
+          "type": "hardware-reference",
+          "url": "https://esp3d.io/esp3d-tft/version_1x/hardware/esp32/sunton-28-2432/"
+        },
+        {
+          "type": "product-offer",
+          "url": "https://www.aliexpress.com/item/1005006604267846.html"
+        }
+      ],
+      "data_quality": "verified_secondary",
+      "software": {
+        "lvgl": {
+          "support": true,
+          "level": "ready",
+          "framework": null
+        }
+      },
+      "features": {
+        "battery": null,
+        "imu": null,
+        "rtc": null,
+        "audio": null
+      },
+      "image": null,
+      "image_alt": "ESP32-2432S028 2.8-inch CYD touchscreen board"
     }
   ]
 }
