@@ -883,6 +883,165 @@
         "31262",
         "31264"
       ]
+    },
+    {
+      "id": "waveshare-esp32-s3-touch-amoled-2-41",
+      "name": "Waveshare ESP32-S3-Touch-AMOLED-2.41",
+      "manufacturer": "Waveshare",
+      "product_type": "board_with_display",
+      "category": "board_with_display",
+      "description": "Integrated ESP32-S3 board with a 2.41-inch 600×450 capacitive AMOLED display, 16MB Flash, 8MB PSRAM, QMI8658 IMU, PCF85063 RTC, TF card and battery support.",
+      "product_url": "/products/waveshare-esp32-s3-touch-amoled-2-41/",
+      "documentation_url": "https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-2.41",
+      "tags": [
+        "Waveshare",
+        "ESP32-S3",
+        "600x450",
+        "AMOLED",
+        "QSPI",
+        "capacitive-touch",
+        "LVGL",
+        "PSRAM",
+        "IMU",
+        "RTC",
+        "battery",
+        "TF-card"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32-S3"
+        ],
+        "exact_mcu": "ESP32-S3R8",
+        "cores": 2,
+        "cpu_frequency_mhz": 240,
+        "flash_mb": 16,
+        "ram_mb": null,
+        "psram_mb": 8
+      },
+      "wireless": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true
+      },
+      "usb": {
+        "usb_available": true,
+        "usb_type": "USB",
+        "native_usb": true,
+        "uart_bridge": null,
+        "native_usb_functionality": [
+          "programming",
+          "logging"
+        ],
+        "usb_notes": "ESP32-S3 native USB via USB Type-C."
+      },
+      "display": {
+        "display_present": true,
+        "technology": "AMOLED",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "rectangular",
+        "size_inches": 2.41,
+        "resolution": {
+          "width": 600,
+          "height": 450
+        },
+        "aspect_ratio": "4:3",
+        "controller": "RM690B0",
+        "interface": "QSPI"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "capacitive",
+        "touch_controller": "FT6336",
+        "touch_interface": "I2C"
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": null,
+        "uart": true,
+        "rgb": null,
+        "other": [
+          "QSPI",
+          "USB"
+        ]
+      },
+      "display_touch_bus": {
+        "display_bus": "QSPI",
+        "touch_bus": "I2C",
+        "shared_bus": false,
+        "separate_bus": true,
+        "chip_select": null,
+        "dc": null,
+        "irq": null,
+        "reset": null,
+        "relevant_gpio": []
+      },
+      "hardware": {
+        "total_gpio": 34,
+        "free_gpio": null,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": true,
+        "battery": true,
+        "battery_charging": true,
+        "power_input": "USB Type-C / 3.7V Li-battery",
+        "connectors": [
+          "I2C",
+          "UART",
+          "USB"
+        ],
+        "buttons": true,
+        "led": null,
+        "camera": null,
+        "audio": null,
+        "sensors": [
+          "QMI8658 6-axis IMU",
+          "PCF85063 RTC"
+        ],
+        "other_peripherals": [
+          "TF card slot",
+          "34-pin GPIO header"
+        ]
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": null,
+        "mounting_holes": null,
+        "form_factor": "compact electronic development board"
+      },
+      "sources": [
+        {
+          "type": "manufacturer-documentation",
+          "url": "https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-2.41"
+        },
+        {
+          "type": "manufacturer-product-page",
+          "url": "https://www.waveshare.com/esp32-s3-touch-amoled-2.41.htm"
+        }
+      ],
+      "data_quality": "verified_manufacturer",
+      "software": {
+        "lvgl": {
+          "support": true,
+          "level": "ready",
+          "framework": "Arduino, ESP-IDF"
+        }
+      },
+      "features": {
+        "battery": true,
+        "imu": true,
+        "rtc": true,
+        "audio": null
+      },
+      "image": "https://www.waveshare.com/img/devkit/ESP32-S3-Touch-AMOLED-2.41/ESP32-S3-Touch-AMOLED-2.41-details-1.jpg",
+      "image_alt": "Waveshare ESP32-S3-Touch-AMOLED-2.41 2.41-inch AMOLED touchscreen board",
+      "manufacturer_sku": "30563"
     }
   ]
 }
