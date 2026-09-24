@@ -146,7 +146,7 @@ const knownLvgl=E.scorePreferences(ws43,{lvgl_support:true});
 assert.equal(knownLvgl.score,100);
 
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
-assert.equal(catalogEval.valid,8);
+assert.equal(catalogEval.valid,9);
 assert.equal(catalogEval.passed,6);
 assert.equal(catalogEval.ranked.length,6);
 
