@@ -1042,6 +1042,489 @@
       "image": "https://www.waveshare.com/img/devkit/ESP32-S3-Touch-AMOLED-2.41/ESP32-S3-Touch-AMOLED-2.41-details-1.jpg",
       "image_alt": "Waveshare ESP32-S3-Touch-AMOLED-2.41 2.41-inch AMOLED touchscreen board",
       "manufacturer_sku": "30563"
+    },
+    {
+      "id": "sunton-esp32-8048s043c",
+      "name": "Sunton ESP32-8048S043C",
+      "manufacturer": "Sunton",
+      "product_type": "board_with_display",
+      "category": "board_with_display",
+      "description": "ESP32-S3 CYD board with a 4.3-inch 800×480 IPS TFT, RGB parallel display interface, capacitive GT911 touch, microSD and USB-C.",
+      "product_url": "/products/sunton-esp32-8048s043c/",
+      "documentation_url": "https://github.com/rzeldent/platformio-espressif32-sunton",
+      "tags": [
+        "Sunton",
+        "CYD",
+        "Cheap Yellow Display",
+        "ESP32-S3",
+        "800x480",
+        "IPS",
+        "RGB",
+        "capacitive-touch",
+        "GT911",
+        "microSD",
+        "LVGL"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32-S3"
+        ],
+        "exact_mcu": "ESP32-S3-WROOM-1-MCN16R8",
+        "cores": 2,
+        "cpu_frequency_mhz": 240,
+        "flash_mb": 16,
+        "ram_mb": null,
+        "psram_mb": 8
+      },
+      "wireless": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true
+      },
+      "usb": {
+        "usb_available": true,
+        "usb_type": "USB-C",
+        "native_usb": false,
+        "uart_bridge": true,
+        "native_usb_functionality": [],
+        "usb_notes": "USB-C connection through CH340C USB-to-UART bridge."
+      },
+      "display": {
+        "display_present": true,
+        "technology": "TFT",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "rectangular",
+        "size_inches": 4.3,
+        "resolution": {
+          "width": 800,
+          "height": 480
+        },
+        "aspect_ratio": "5:3",
+        "controller": "ST7262",
+        "interface": "RGB"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "capacitive",
+        "touch_controller": "GT911",
+        "touch_interface": "I2C"
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": true,
+        "uart": true,
+        "rgb": true,
+        "other": [
+          "RGB565 parallel"
+        ]
+      },
+      "display_touch_bus": {
+        "display_bus": "RGB",
+        "touch_bus": "I2C",
+        "shared_bus": false,
+        "separate_bus": true,
+        "chip_select": null,
+        "dc": null,
+        "irq": null,
+        "reset": null,
+        "relevant_gpio": []
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": null,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": true,
+        "battery": null,
+        "battery_charging": null,
+        "power_input": "USB-C / 5V",
+        "connectors": [
+          "USB-C",
+          "I2C",
+          "SPI",
+          "UART"
+        ],
+        "buttons": true,
+        "led": null,
+        "camera": null,
+        "audio": null,
+        "sensors": [],
+        "other_peripherals": [
+          "CH340C USB-to-UART"
+        ]
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": null,
+        "mounting_holes": null,
+        "form_factor": "4.3-inch CYD board"
+      },
+      "sources": [
+        {
+          "type": "board-definition",
+          "url": "https://github.com/rzeldent/platformio-espressif32-sunton"
+        },
+        {
+          "type": "hardware-reference",
+          "url": "https://esp3d.io/esp3d-tft/version_1x/hardware/esp32-s3/sunton-43-8048/"
+        },
+        {
+          "type": "manufacturer-distributor-documentation",
+          "url": "https://wiki.makerfabs.com/Sunton_ESP32_S3_4.3_inch_800x400_IPS_with_Touch.html"
+        },
+        {
+          "type": "product-offer",
+          "url": "https://www.aliexpress.com/item/1005006110360174.html"
+        }
+      ],
+      "data_quality": "verified_secondary",
+      "software": {
+        "lvgl": {
+          "support": true,
+          "level": "ready",
+          "framework": "Arduino, ESP-IDF"
+        }
+      },
+      "features": {
+        "battery": null,
+        "imu": null,
+        "rtc": null,
+        "audio": null
+      },
+      "manufacturer_sku": "ESP32-8048S043C",
+      "image": "https://www.makerfabs.com/image/wiki_image/2022-10-28_22_36_00_0.jpg",
+      "image_alt": "Sunton ESP32-8048S043C 4.3-inch ESP32-S3 CYD touchscreen board"
+    },
+    {
+      "id": "esp32-2432s028-2-8-cyd",
+      "name": "ESP32-2432S028 2.8\" CYD Touch",
+      "manufacturer": "Various Manufacturers",
+      "product_type": "board_with_display",
+      "category": "board_with_display",
+      "description": "ESP32-WROOM-based 2.8-inch CYD board with a 240×320 TFT touchscreen, Wi-Fi and Bluetooth. Controller and USB variant can differ between board revisions.",
+      "product_url": "/products/esp32-2432s028-2-8-cyd/",
+      "documentation_url": "https://github.com/kthxbyte/platformio-esp32-2432s028",
+      "tags": [
+        "CYD",
+        "ESP32-2432S028",
+        "ESP32-WROOM",
+        "240x320",
+        "TFT",
+        "resistive-touch",
+        "WROOM",
+        "LVGL"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32"
+        ],
+        "exact_mcu": "ESP32-WROOM-32",
+        "cores": 2,
+        "cpu_frequency_mhz": 240,
+        "flash_mb": 4,
+        "ram_mb": 520,
+        "psram_mb": null
+      },
+      "wireless": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true
+      },
+      "usb": {
+        "usb_available": true,
+        "usb_type": null,
+        "native_usb": false,
+        "uart_bridge": true,
+        "native_usb_functionality": [],
+        "usb_notes": "USB connector and revision can vary; documented boards use a CH340 USB-to-UART bridge."
+      },
+      "display": {
+        "display_present": true,
+        "technology": "TFT",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "rectangular",
+        "size_inches": 2.8,
+        "resolution": {
+          "width": 240,
+          "height": 320
+        },
+        "aspect_ratio": "3:4",
+        "controller": null,
+        "interface": "SPI"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "resistive",
+        "touch_controller": "XPT2046",
+        "touch_interface": "SPI"
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": true,
+        "uart": true,
+        "rgb": null,
+        "other": []
+      },
+      "display_touch_bus": {
+        "display_bus": "SPI",
+        "touch_bus": "SPI",
+        "shared_bus": false,
+        "separate_bus": true,
+        "chip_select": null,
+        "dc": null,
+        "irq": null,
+        "reset": null,
+        "relevant_gpio": []
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": null,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": true,
+        "battery": null,
+        "battery_charging": null,
+        "power_input": "5V",
+        "connectors": [],
+        "buttons": true,
+        "led": true,
+        "camera": null,
+        "audio": null,
+        "sensors": [],
+        "other_peripherals": []
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": "86 × 50 mm",
+        "mounting_holes": null,
+        "form_factor": "2.8-inch CYD board"
+      },
+      "sources": [
+        {
+          "type": "board-definition",
+          "url": "https://github.com/kthxbyte/platformio-esp32-2432s028"
+        },
+        {
+          "type": "hardware-reference",
+          "url": "https://esp3d.io/esp3d-tft/version_1x/hardware/esp32/sunton-28-2432/"
+        },
+        {
+          "type": "product-offer",
+          "url": "https://www.aliexpress.com/item/1005006604267846.html"
+        }
+      ],
+      "data_quality": "verified_secondary",
+      "software": {
+        "lvgl": {
+          "support": true,
+          "level": "ready",
+          "framework": null
+        }
+      },
+      "features": {
+        "battery": null,
+        "imu": null,
+        "rtc": null,
+        "audio": null
+      },
+      "image": "https://cdn.espboards.net/boards/cyd-esp32-2432s028/cover-804.png",
+      "image_alt": "ESP32-2432S028 2.8-inch CYD touchscreen board"
+    },
+    {
+      "id": "waveshare-esp32-s3-touch-amoled-2-16",
+      "name": "Waveshare ESP32-S3-Touch-AMOLED-2.16",
+      "manufacturer": "Waveshare",
+      "product_type": "board_with_display",
+      "category": "board_with_display",
+      "description": "Integrated ESP32-S3 touchscreen board with a 2.16-inch 480×480 capacitive AMOLED display, 16MB Flash, 8MB PSRAM, IMU, RTC, audio, TF card and battery support.",
+      "product_url": "/products/waveshare-esp32-s3-touch-amoled-2-16/",
+      "documentation_url": "https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-2.16",
+      "tags": [
+        "Waveshare",
+        "ESP32-S3",
+        "480x480",
+        "AMOLED",
+        "QSPI",
+        "capacitive-touch",
+        "LVGL",
+        "PSRAM",
+        "IMU",
+        "RTC",
+        "audio",
+        "battery",
+        "TF-card"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32-S3"
+        ],
+        "exact_mcu": "ESP32-S3R8",
+        "cores": 2,
+        "cpu_frequency_mhz": 240,
+        "flash_mb": 16,
+        "ram_mb": null,
+        "psram_mb": 8
+      },
+      "wireless": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true
+      },
+      "usb": {
+        "usb_available": true,
+        "usb_type": "USB",
+        "native_usb": true,
+        "uart_bridge": null,
+        "native_usb_functionality": [
+          "programming",
+          "logging"
+        ],
+        "usb_notes": "ESP32-S3 native USB via USB Type-C."
+      },
+      "display": {
+        "display_present": true,
+        "technology": "AMOLED",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "square",
+        "size_inches": 2.16,
+        "resolution": {
+          "width": 480,
+          "height": 480
+        },
+        "aspect_ratio": "1:1",
+        "controller": "CO5300",
+        "interface": "QSPI"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "capacitive",
+        "touch_controller": "CST9220",
+        "touch_interface": "I2C"
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": null,
+        "uart": true,
+        "rgb": null,
+        "other": [
+          "QSPI",
+          "USB",
+          "I2S"
+        ]
+      },
+      "display_touch_bus": {
+        "display_bus": "QSPI",
+        "touch_bus": "I2C",
+        "shared_bus": false,
+        "separate_bus": true,
+        "chip_select": null,
+        "dc": null,
+        "irq": "GPIO11",
+        "reset": "GPIO40",
+        "relevant_gpio": [
+          "GPIO4",
+          "GPIO5",
+          "GPIO6",
+          "GPIO7",
+          "GPIO12",
+          "GPIO14",
+          "GPIO15",
+          "GPIO38",
+          "GPIO39",
+          "GPIO40"
+        ]
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": null,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": true,
+        "battery": true,
+        "battery_charging": true,
+        "power_input": "USB Type-C / 3.7V Li-battery",
+        "connectors": [
+          "I2C",
+          "UART",
+          "USB"
+        ],
+        "buttons": true,
+        "led": null,
+        "camera": null,
+        "audio": true,
+        "sensors": [
+          "QMI8658 6-axis IMU",
+          "PCF85063 RTC"
+        ],
+        "other_peripherals": [
+          "AXP2101 power-management IC",
+          "ES8311 audio codec",
+          "ES7210 microphone ADC",
+          "dual microphones",
+          "TF card slot"
+        ]
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": null,
+        "mounting_holes": null,
+        "form_factor": "compact electronic development board"
+      },
+      "sources": [
+        {
+          "type": "manufacturer-documentation",
+          "url": "https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-2.16"
+        },
+        {
+          "type": "manufacturer-product-page",
+          "url": "https://www.waveshare.com/esp32-s3-touch-amoled-2.16.htm"
+        },
+        {
+          "type": "aliexpress-offer",
+          "url": "https://pt.aliexpress.com/item/1005011976105072.html"
+        }
+      ],
+      "data_quality": "verified_manufacturer",
+      "software": {
+        "lvgl": {
+          "support": true,
+          "level": "ready",
+          "framework": "Arduino, ESP-IDF"
+        }
+      },
+      "features": {
+        "battery": true,
+        "imu": true,
+        "rtc": true,
+        "audio": true
+      },
+      "manufacturer_sku": "33969",
+      "manufacturer_sku_variants": [
+        "33970"
+      ],
+      "image": "https://www.waveshare.com/img/devkit/ESP32-S3-Touch-AMOLED-2.16/ESP32-S3-Touch-AMOLED-2.16-details-1.jpg",
+      "image_alt": "Waveshare ESP32-S3-Touch-AMOLED-2.16 2.16-inch AMOLED touchscreen board"
     }
   ]
 }
