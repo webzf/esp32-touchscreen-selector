@@ -562,7 +562,7 @@
         "rtc": true,
         "audio": true
       },
-      "image": "https://www.waveshare.com/img/devkit/ESP32-S3-Touch-LCD-1.85B/ESP32-S3-Touch-LCD-1.85B-details-1.jpg",
+      "image": "https://wsrv.nl/?url=www.waveshare.com%2Fimg%2Fdevkit%2FESP32-S3-Touch-LCD-1.85B%2FESP32-S3-Touch-LCD-1.85B-details-1.jpg&output=webp",
       "image_alt": "Waveshare ESP32-S3-Touch-LCD-1.85B touchscreen board",
       "manufacturer_sku": "34554",
       "manufacturer_sku_variants": [
@@ -726,7 +726,7 @@
       "manufacturer_sku_variants": [
         "33366"
       ],
-      "image": "https://www.waveshare.com/img/devkit/ESP32-C6-Touch-AMOLED-1.8/ESP32-C6-Touch-AMOLED-1.8-details-1.jpg",
+      "image": "https://wsrv.nl/?url=www.waveshare.com%2Fimg%2Fdevkit%2FESP32-C6-Touch-AMOLED-1.8%2FESP32-C6-Touch-AMOLED-1.8-details-1.jpg&output=webp",
       "image_alt": "Waveshare ESP32-C6-Touch-AMOLED-1.8 product image"
     },
     {
@@ -884,7 +884,7 @@
         "rtc": true,
         "audio": true
       },
-      "image": "https://www.waveshare.com/img/devkit/ESP32-S3-Touch-AMOLED-1.75/ESP32-S3-Touch-AMOLED-1.75-details-1.jpg",
+      "image": "https://wsrv.nl/?url=www.waveshare.com%2Fimg%2Fdevkit%2FESP32-S3-Touch-AMOLED-1.75%2FESP32-S3-Touch-AMOLED-1.75-details-1.jpg&output=webp",
       "image_alt": "Waveshare ESP32-S3-Touch-AMOLED-1.75 1.75-inch round AMOLED touchscreen board",
       "manufacturer_sku": "31261",
       "manufacturer_sku_variants": [
@@ -1047,7 +1047,7 @@
         "rtc": true,
         "audio": null
       },
-      "image": "https://www.waveshare.com/img/devkit/ESP32-S3-Touch-AMOLED-2.41/ESP32-S3-Touch-AMOLED-2.41-details-1.jpg",
+      "image": "https://wsrv.nl/?url=www.waveshare.com%2Fimg%2Fdevkit%2FESP32-S3-Touch-AMOLED-2.41%2FESP32-S3-Touch-AMOLED-2.41-details-1.jpg&output=webp",
       "image_alt": "Waveshare ESP32-S3-Touch-AMOLED-2.41 2.41-inch AMOLED touchscreen board",
       "manufacturer_sku": "30563"
     }
