@@ -95,7 +95,28 @@ assert.equal(s3amoled175.features.audio,true);
 assert.equal(E.matchesRequirement(s3amoled175,{family:"ESP32-S3",display_technology:"AMOLED",display_shape:"round",resolution:"466x466",touch:true,touch_type:"capacitive",touch_interface:"I2C",display_interface:"QSPI",psram_min:8,flash_min:16,battery:true,battery_charging:true,imu:true,rtc:true,audio:true,lvgl_support:true}),true);
 assert.equal(E.matchesRequirement(s3amoled175,{family:"ESP32-S3",display_technology:"AMOLED",resolution:"600x450"}),false);
 
-// Verified ESP32-S3 AMOLED 2.41 product requirements.\nassert.equal(s3amoled241.esp32.family.includes("ESP32-S3"),true);\nassert.equal(s3amoled241.esp32.exact_mcu,"ESP32-S3R8");\nassert.equal(s3amoled241.esp32.flash_mb,16);\nassert.equal(s3amoled241.esp32.psram_mb,8);\nassert.equal(s3amoled241.display.technology,"AMOLED");\nassert.equal(s3amoled241.display.size_inches,2.41);\nassert.equal(s3amoled241.display.resolution.width,600);\nassert.equal(s3amoled241.display.resolution.height,450);\nassert.equal(s3amoled241.display.interface,"QSPI");\nassert.equal(s3amoled241.touch.touch_type,"capacitive");\nassert.equal(s3amoled241.touch.touch_interface,"I2C");\nassert.equal(s3amoled241.hardware.microsd,true);\nassert.equal(s3amoled241.hardware.battery,true);\nassert.equal(s3amoled241.hardware.battery_charging,true);\nassert.equal(s3amoled241.features.imu,true);\nassert.equal(s3amoled241.features.rtc,true);\nassert.equal(s3amoled241.features.audio,null);\nassert.equal(E.matchesRequirement(s3amoled241,{family:"ESP32-S3",display_technology:"AMOLED",resolution:"600x450",touch:true,touch_type:"capacitive",touch_interface:"I2C",display_interface:"QSPI",psram_min:8,flash_min:16,battery:true,battery_charging:true,imu:true,rtc:true,lvgl_support:true}),true);\nassert.equal(E.matchesRequirement(s3amoled241,{resolution:"466x466"}),false);\n\n// Preference ranking remains soft and transparent when data is unknown.
+// Verified ESP32-S3 AMOLED 2.41 product requirements.
+assert.equal(s3amoled241.esp32.family.includes("ESP32-S3"),true);
+assert.equal(s3amoled241.esp32.exact_mcu,"ESP32-S3R8");
+assert.equal(s3amoled241.esp32.flash_mb,16);
+assert.equal(s3amoled241.esp32.psram_mb,8);
+assert.equal(s3amoled241.display.technology,"AMOLED");
+assert.equal(s3amoled241.display.size_inches,2.41);
+assert.equal(s3amoled241.display.resolution.width,600);
+assert.equal(s3amoled241.display.resolution.height,450);
+assert.equal(s3amoled241.display.interface,"QSPI");
+assert.equal(s3amoled241.touch.touch_type,"capacitive");
+assert.equal(s3amoled241.touch.touch_interface,"I2C");
+assert.equal(s3amoled241.hardware.microsd,true);
+assert.equal(s3amoled241.hardware.battery,true);
+assert.equal(s3amoled241.hardware.battery_charging,true);
+assert.equal(s3amoled241.features.imu,true);
+assert.equal(s3amoled241.features.rtc,true);
+assert.equal(s3amoled241.features.audio,null);
+assert.equal(E.matchesRequirement(s3amoled241,{family:"ESP32-S3",display_technology:"AMOLED",resolution:"600x450",touch:true,touch_type:"capacitive",touch_interface:"I2C",display_interface:"QSPI",psram_min:8,flash_min:16,battery:true,battery_charging:true,imu:true,rtc:true,lvgl_support:true}),true);
+assert.equal(E.matchesRequirement(s3amoled241,{resolution:"466x466"}),false);
+
+// Preference ranking remains soft and transparent when data is unknown.
 const unknownUsb=E.scorePreferences(ws43,{native_usb:true});
 assert.equal(unknownUsb.score,0);
 assert.ok(unknownUsb.misses.includes("Native USB (unknown data)"));
@@ -109,7 +130,7 @@ assert.equal(catalogEval.ranked.length,5);
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
 assert.equal(flashEval.passed,4);
-assert.equal(flashEval.ranked[0].product.id,"waveshare-esp32-s3-touch-lcd-1-85b");
+assert.equal(flashEval.ranked[0].product.id,"waveshare-esp32-s3-touch-amoled-1-75");
 
 const noMatch=E.evaluate(catalog.products,{family:"ESP32-C3",psram_min:1},{});
 assert.equal(noMatch.passed,0);
