@@ -1213,7 +1213,7 @@
     {
       "id": "esp32-2432s028-2-8-cyd",
       "name": "ESP32-2432S028 2.8\" CYD Touch",
-      "manufacturer": null,
+      "manufacturer": "Various Manufacturers",
       "product_type": "board_with_display",
       "category": "board_with_display",
       "description": "ESP32-WROOM-based 2.8-inch CYD board with a 240×320 TFT touchscreen, Wi-Fi and Bluetooth. Controller and USB variant can differ between board revisions.",
