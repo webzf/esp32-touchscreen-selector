@@ -2,15 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="ESP32 Hardware & Display Selector for finding boards, display modules and ESP32 hardware by compatibility requirements and preferences.">
-<meta property="og:title" content="ESP32 Hardware & Display Selector"><meta property="og:description" content="Find ESP32 boards and display hardware that fit your project requirements.">
-<title>ESP32 Hardware & Display Selector | Embedded Nerd</title>
+<title>ESP32 Board &amp; Display Selector – Find Compatible Hardware | Embedded Nerd</title>
+<meta name="description" content="Find compatible ESP32 boards, displays and touchscreen hardware by MCU, screen size, resolution, interface, touch, PSRAM, LVGL, USB and more. Free selector by Embedded Nerd.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://embeddednerd.com/tools/esp32-touchscreen-selector/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ESP32 Board &amp; Display Selector | Embedded Nerd">
+<meta property="og:description" content="Find compatible ESP32 boards, displays and touchscreen hardware by project requirements.">
+<meta property="og:url" content="https://embeddednerd.com/tools/esp32-touchscreen-selector/">
+<meta property="og:site_name" content="Embedded Nerd">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ESP32 Board &amp; Display Selector | Embedded Nerd">
+<meta name="twitter:description" content="Find compatible ESP32 boards, displays and touchscreen hardware by project requirements.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ESP32 Board & Display Selector","applicationCategory":"DeveloperApplication","operatingSystem":"Web","description":"Free interactive selector for finding compatible ESP32 boards, displays and touchscreen hardware by project requirements.","url":"https://embeddednerd.com/tools/esp32-touchscreen-selector/","publisher":{"@type":"Organization","name":"Embedded Nerd","url":"https://embeddednerd.com/"},"isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Embedded Nerd","item":"https://embeddednerd.com/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://embeddednerd.com/tools/"},{"@type":"ListItem","position":3,"name":"ESP32 Board & Display Selector","item":"https://embeddednerd.com/tools/esp32-touchscreen-selector/"}]}</script>
 <link rel="stylesheet" href="css/selector.css">
-</head>
-<body>
+</head><body>
 <main class="page-shell">
 <p class="site-label">Embedded Nerd · Open Source Tool</p>
-<header class="hero"><span class="eyebrow">ESP32 HARDWARE DISCOVERY</span><h1>ESP32 Hardware &amp; Display Selector</h1><p>Find ESP32 boards and display hardware that fit your project. <strong>Required</strong> filters exclude incompatible hardware; other selections influence ranking.</p></header>
+<header class="hero"><span class="eyebrow">ESP32 HARDWARE DISCOVERY</span><h1>ESP32 Board &amp; Display Selector</h1><p>Find compatible ESP32 boards, displays and touchscreen hardware for your project. Choose the requirements that matter and compare matching hardware. <strong>Required</strong> filters exclude incompatible hardware; other selections influence ranking.</p></header>
 <section class="tool" aria-labelledby="tool-title">
 <h2 id="tool-title" class="sr-only">Hardware selector</h2>
 <div class="mode-bar"><div class="mode-buttons"><button type="button" id="mode-requirements" class="mode-button active" data-mode="requirements">Filter &amp; find hardware</button><button type="button" id="browse-btn" class="mode-button" data-mode="browse">Browse all hardware</button></div><span class="catalog-status"><span id="catalog-count">0</span> catalog entries</span></div>
@@ -63,6 +73,7 @@
 </form>
 <div id="catalog-error" class="error-panel" hidden></div><div id="catalog-warning" class="warning-panel" hidden>Some catalog entries failed validation and are excluded from compatibility calculations.</div>
 </section>
+<section class="seo-intro" aria-labelledby="about-selector"><h2 id="about-selector">Choose the right ESP32 board or display for your project</h2><p>This free ESP32 hardware selector helps you compare development boards, display modules and boards with built-in displays using the specifications that affect real-world compatibility. Filter by ESP32 family, display technology, size, resolution, SPI, RGB, 8080 or QSPI interface, touchscreen type, PSRAM, GPIO, LVGL, USB, battery support and other hardware features.</p><p>It is useful when choosing an <strong>ESP32 touchscreen</strong>, an <strong>ESP32-S3 display</strong>, an <strong>ESP32 display for LVGL</strong>, or a board for a larger graphical interface. The selector separates mandatory requirements from preferences so you can see which hardware actually meets the constraints of your project.</p><h2>ESP32 display and touchscreen compatibility</h2><p>Display size alone does not determine whether an ESP32 board is suitable. Resolution, display interface, touch controller, touch interface, available PSRAM and GPIO usage can all affect a project. Larger RGB displays and demanding LVGL interfaces can have very different requirements from small SPI displays.</p><p>For background on choosing displays, interfaces, touch technologies, ESP32-S3 hardware, PSRAM and LVGL, see the <a href="https://embeddednerd.com/esp32-touchscreen-displays-guide/">ESP32 Touchscreen Displays Guide</a>. When you find a board in the selector, verify the manufacturer&#39;s exact controller, pinout, voltage, memory and software-driver support before purchase.</p></section>
 <section id="results" class="results" hidden aria-live="polite"><div class="results-heading"><div><span class="eyebrow">RESULTS</span><h2><span id="result-count">0</span> matching hardware</h2><p id="result-summary"></p><p class="result-meta"><span id="result-total">0</span> valid catalog entries · <span id="result-excluded">0</span> excluded</p></div></div>
 <div id="empty-state" class="empty-state" hidden><h3>No hardware meets all mandatory requirements.</h3><p id="empty-state-text"></p><p>Try changing one or more filters from <strong>Required</strong> to a preference.</p></div>
 <div id="exclusion-panel" class="exclusion-panel"><h3>Why other products were excluded</h3><p>Mandatory filters are evaluated before preference scoring.</p><ul id="exclusion-list"></ul></div>
