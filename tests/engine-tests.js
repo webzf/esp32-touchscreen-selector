@@ -108,6 +108,8 @@ const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{}
 assert.equal(catalogEval.valid,10);
 assert.equal(catalogEval.passed,7);
 assert.equal(catalogEval.ranked.length,7);
+assert.equal(catalogEval.excluded.length,3);
+assert.ok(Array.isArray(catalogEval.excluded[0].reasons));
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
 assert.equal(flashEval.passed,6);
@@ -116,6 +118,7 @@ assert.equal(flashEval.ranked[0].product.id,"sunton-esp32-8048s043c");
 const noMatch=E.evaluate(catalog.products,{family:"ESP32-C3",psram_min:1},{});
 assert.equal(noMatch.passed,0);
 assert.ok(noMatch.exclusions["Insufficient/unknown PSRAM"]>=1);
+assert.equal(noMatch.excluded.length,0);
 
 const browse=E.evaluate(catalog.products,{}, {});
 assert.equal(browse.total,10);
@@ -191,6 +194,7 @@ assert.ok(html.includes('id="live-count"'));
 assert.equal((html.match(/id="result-count"/g)||[]).length,1);
 assert.equal((html.match(/id="results"/g)||[]).length,1);
 assert.ok(selectorSource.includes("updateActiveFilterSummary"));
+assert.ok(selectorSource.includes("ev.excluded||[]"));
 assert.ok(selectorSource.includes("ADVANCED_FILTER_KEYS"));
 assert.ok(html.includes('id="active-filter-summary"'));
 assert.ok(html.includes('id="lvgl_support"'));
