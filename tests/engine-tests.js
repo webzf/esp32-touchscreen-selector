@@ -158,6 +158,8 @@ assert.ok(selectorSource.includes('syncFilterDependencies'));
 assert.ok(selectorSource.includes('updateLiveCount'));
 assert.ok(selectorSource.includes('syncUrl'));
 assert.ok(selectorSource.includes('URLSearchParams'));
+assert.ok(selectorSource.includes('"lvgl_support","lvgl_level","battery","imu","rtc","audio"'));
+assert.ok(selectorSource.includes('document.querySelectorAll("[data-preset]").forEach(function(b){b.classList.remove("active");})'));
 assert.ok(selectorSource.includes('window.requestAnimationFrame'));
 assert.ok(selectorSource.includes('advanced-filters'));
 assert.ok(!selectorSource.includes('var d=$("advanced-filters");if(d)d.open=true'));
