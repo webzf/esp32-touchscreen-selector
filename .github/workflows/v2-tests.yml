@@ -19,5 +19,8 @@ jobs:
         with:
           node-version: 24
 
+      - name: Check JavaScript syntax
+        run: node --check js/compatibility-engine.js && node --check js/selector.js
+
       - name: Run compatibility engine tests
         run: node tests/engine-tests.js
