@@ -157,6 +157,7 @@ assert.ok(selectorSource.includes('syncUrl'));
 assert.ok(selectorSource.includes('URLSearchParams'));
 assert.ok(selectorSource.includes('window.requestAnimationFrame'));
 assert.ok(selectorSource.includes('advanced-filters'));
+assert.ok(!selectorSource.includes('var d=$("advanced-filters");if(d)d.open=true'));
 assert.ok(selectorSource.includes('Share setup'));
 
 
