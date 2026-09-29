@@ -25,7 +25,19 @@
 <section class="tool" aria-labelledby="tool-title">
 <h2 id="tool-title" class="sr-only">Hardware selector</h2>
 <div class="mode-bar"><div class="mode-buttons"><button type="button" id="mode-requirements" class="mode-button active" data-mode="requirements">Filter &amp; find hardware</button><button type="button" id="browse-btn" class="mode-button" data-mode="browse">Browse all hardware</button></div><span class="catalog-status"><span id="catalog-count">0</span> catalog entries</span></div>
-<div id="quick-start" class="quick-start"><div class="quick-start-heading"><strong>Quick start</strong><span>Start with a common profile or customize the filters below.</span></div><div class="preset-grid"><label for="preset-select" class="sr-only">Preset</label><select id="preset-select" class="preset-select"><option value="">Choose a preset</option><option value="s3-lvgl">ESP32-S3 + LVGL + PSRAM</option><option value="s3-touchscreen">ESP32-S3 Touchscreen</option><option value="amoled-touch-battery">ESP32 AMOLED + Touch + Battery</option><option value="round-amoled">Round AMOLED Touchscreen</option><option value="c6-display">ESP32-C6 Display</option><option value="large-800x480">ESP32 800×480 Display</option><option value="800x480-touch">800×480 Touchscreen</option><option value="4-3-touch">4.3″ Touch Display</option><option value="touch-spi">ESP32 Touchscreen + SPI</option><option value="lvgl-ready">LVGL-Ready Display</option><option value="native-usb">ESP32 Native USB</option></select><button type="button" id="apply-preset-btn" class="preset-button">Apply preset</button></div></div>
+<div id="quick-start" class="quick-start"><div class="quick-start-heading"><strong>Quick start</strong><span>Start with a common profile or customize the filters below.</span></div><div class="preset-grid" role="group" aria-label="Common hardware profiles">
+<button type="button" class="preset-button" data-preset="s3-lvgl">ESP32-S3 + LVGL + PSRAM</button>
+<button type="button" class="preset-button" data-preset="s3-touchscreen">ESP32-S3 Touchscreen</button>
+<button type="button" class="preset-button" data-preset="amoled-touch-battery">AMOLED + Touch + Battery</button>
+<button type="button" class="preset-button" data-preset="round-amoled">Round AMOLED Touchscreen</button>
+<button type="button" class="preset-button" data-preset="c6-display">ESP32-C6 Display</button>
+<button type="button" class="preset-button" data-preset="large-800x480">ESP32 800×480 Display</button>
+<button type="button" class="preset-button" data-preset="800x480-touch">800×480 Touchscreen</button>
+<button type="button" class="preset-button" data-preset="4-3-touch">4.3″ Touch Display</button>
+<button type="button" class="preset-button" data-preset="touch-spi">ESP32 Touchscreen + SPI</button>
+<button type="button" class="preset-button" data-preset="lvgl-ready">LVGL-Ready Display</button>
+<button type="button" class="preset-button" data-preset="native-usb">ESP32 Native USB</button>
+</div></div>
 <div class="browse-placeholder"><div id="browse-note" class="browse-panel" hidden><label for="hardware-search">Search all hardware</label><p>Search by product, manufacturer, MCU, display or tag.</p><input id="hardware-search" type="search" placeholder="e.g. ESP32-S3, Waveshare, OLED, touch"></div></div><form id="selector-form">
 <section class="filter-section"><div class="section-heading"><div><span class="step">01</span><h2>What are you looking for?</h2></div><p>Choose a hardware category and filters. Selections become <strong>Required</strong> automatically; uncheck <strong>Required</strong> when you want a preference instead.</p></div>
 <div class="filter-grid">
