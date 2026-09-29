@@ -163,7 +163,7 @@ assert.ok(selectorSource.includes('document.querySelectorAll("[data-preset]").fo
 assert.ok(selectorSource.includes('window.requestAnimationFrame'));
 assert.ok(selectorSource.includes('advanced-filters'));
 assert.ok(!selectorSource.includes('var d=$("advanced-filters");if(d)d.open=true'));
-assert.ok(selectorSource.includes('Share setup'));
+assert.ok(selectorSource.includes('Share setup'));\nassert.ok(selectorSource.includes('function reset(shouldScroll)'));\nassert.ok(selectorSource.includes('requiredTouched={}'));\nassert.ok(selectorSource.includes('results.hidden=true'));\nassert.ok(selectorSource.includes('setMode("requirements")'));\nassert.ok(selectorSource.includes('updateActiveFilterSummary();syncUrl()'));\nassert.ok(selectorSource.includes('advanced-filters'));\nassert.ok(html.includes('id="reset-btn"'));\nassert.ok(html.includes('>Clear All Filters</button>'));
 
 
 // HTML ↔ selector.js integration contract checks.
