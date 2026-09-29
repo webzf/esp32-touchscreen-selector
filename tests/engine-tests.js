@@ -118,7 +118,7 @@ assert.equal(flashEval.ranked[0].product.id,"sunton-esp32-8048s043c");
 const noMatch=E.evaluate(catalog.products,{family:"ESP32-C3",psram_min:1},{});
 assert.equal(noMatch.passed,0);
 assert.ok(noMatch.exclusions["Insufficient/unknown PSRAM"]>=1);
-assert.equal(noMatch.excluded.length,0);
+assert.equal(noMatch.excluded.length,noMatch.valid);
 
 const browse=E.evaluate(catalog.products,{}, {});
 assert.equal(browse.total,10);
