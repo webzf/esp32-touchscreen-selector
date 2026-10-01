@@ -1529,6 +1529,145 @@
       ],
       "image": "https://www.waveshare.com/img/devkit/ESP32-S3-Touch-AMOLED-2.16/ESP32-S3-Touch-AMOLED-2.16-details-1.jpg",
       "image_alt": "Waveshare ESP32-S3-Touch-AMOLED-2.16 2.16-inch AMOLED touchscreen board"
+    },
+    {
+      "id": "ssd1306-oled-display",
+      "name": "SSD1306 OLED Display",
+      "manufacturer": "Generic",
+      "product_type": "display_module",
+      "category": "display_module",
+      "description": "Compact 0.96-inch monochrome OLED display module using the SSD1306 controller with I2C interface.",
+      "product_url": "/products/ssd1306-oled/",
+      "documentation_url": "https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf",
+      "tags": [
+        "SSD1306",
+        "OLED",
+        "128x64",
+        "I2C",
+        "monochrome"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32",
+          "ESP32-S2",
+          "ESP32-S3",
+          "ESP32-C3",
+          "ESP32-C6"
+        ],
+        "exact_mcu": null,
+        "cores": null,
+        "cpu_frequency_mhz": null,
+        "flash_mb": null,
+        "ram_mb": null,
+        "psram_mb": null
+      },
+      "wireless": {
+        "wifi": null,
+        "bluetooth": null,
+        "ble": null
+      },
+      "usb": {
+        "usb_available": null,
+        "usb_type": null,
+        "native_usb": null,
+        "uart_bridge": null,
+        "native_usb_functionality": [],
+        "usb_notes": null
+      },
+      "display": {
+        "display_present": true,
+        "technology": "OLED",
+        "monochrome": true,
+        "color": false,
+        "transparent": null,
+        "shape": "rectangular",
+        "size_inches": 0.96,
+        "resolution": {
+          "width": 128,
+          "height": 64
+        },
+        "aspect_ratio": "2:1",
+        "controller": "SSD1306",
+        "interface": "I2C"
+      },
+      "touch": {
+        "touch": false,
+        "touch_type": null,
+        "touch_controller": null,
+        "touch_interface": null
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": null,
+        "uart": null,
+        "rgb": null,
+        "other": []
+      },
+      "display_touch_bus": {
+        "display_bus": "I2C",
+        "touch_bus": null,
+        "shared_bus": null,
+        "separate_bus": null,
+        "chip_select": null,
+        "dc": null,
+        "irq": null,
+        "reset": null,
+        "relevant_gpio": []
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": null,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": null,
+        "battery": null,
+        "battery_charging": null,
+        "power_input": "3.3-5V module power (check module specification)",
+        "connectors": [
+          "I2C"
+        ],
+        "buttons": null,
+        "led": null,
+        "camera": null,
+        "audio": null,
+        "sensors": [],
+        "other_peripherals": []
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": null,
+        "mounting_holes": null,
+        "form_factor": "0.96-inch OLED module"
+      },
+      "sources": [
+        {
+          "type": "manufacturer-datasheet",
+          "url": "https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf"
+        },
+        {
+          "type": "embedded-nerd-product",
+          "url": "/products/ssd1306-oled/"
+        }
+      ],
+      "data_quality": "verified_secondary",
+      "software": {
+        "lvgl": {
+          "support": null,
+          "level": null,
+          "framework": null
+        }
+      },
+      "features": {
+        "battery": null,
+        "imu": null,
+        "rtc": null,
+        "audio": null
+      }
     }
   ]
 }
