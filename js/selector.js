@@ -82,7 +82,7 @@ function updateActiveFilterSummary(){
   Object.keys(b.r).forEach(function(k){items.push(formatActiveFilter(k,b.r[k]));});
   Object.keys(b.p).forEach(function(k){items.push(formatActiveFilter(k,b.p[k])+" (preference)");});
   box.hidden=items.length===0;
-  box.innerHTML=items.length?"<strong>Active setup</strong><div class="active-filter-chips">"+items.map(function(x){return "<span>"+esc(x)+"</span>";}).join("")+"</div>":"";
+  box.innerHTML=items.length?'<strong>Active setup</strong><div class="active-filter-chips">'+items.map(function(x){return "<span>"+esc(x)+"</span>";}).join("")+"</div>":"";
   var d=$("advanced-filters"),summary=d&&d.querySelector("summary");
   if(summary){var count=ADVANCED_FILTER_KEYS.reduce(function(n,k){return n+(hasValue(k)?1:0);},0);summary.querySelector(".advanced-filter-count").textContent=count?count+" active":"optional";}
 }
@@ -104,7 +104,7 @@ function formatActiveFilter(k,v){
 function setupAdvancedFilters(){
   var f=$("selector-form"),s=f.querySelectorAll(".filter-section");if(s.length<5)return;
   var d=document.createElement("details");d.id="advanced-filters";d.className="advanced-filters";
-  var m=document.createElement("summary");m.innerHTML="<strong>Advanced filters</strong><span class="advanced-filter-count">optional</span><span>Display details, memory, GPIO, storage and certification</span>";
+  var m=document.createElement("summary");m.innerHTML='<strong>Advanced filters</strong><span class="advanced-filter-count">optional</span><span>Display details, memory, GPIO, storage and certification</span>';
   d.appendChild(m);for(var i=1;i<s.length;i++)d.appendChild(s[i]);s[0].parentNode.insertBefore(d,s[0].nextSibling);
 }
 var PRESETS={"s3-lvgl":{family:"ESP32-S3",psram_min:"8",lvgl_support:"yes"},"s3-touchscreen":{family:"ESP32-S3",display_present:"yes",touch:"yes",psram_min:"8"},"amoled-touch-battery":{display_present:"yes",display_technology:"AMOLED",touch:"yes",touch_type:"capacitive",battery:"yes",battery_charging:"yes"},"round-amoled":{display_present:"yes",display_technology:"AMOLED",display_shape:"round",touch:"yes"},"c6-display":{family:"ESP32-C6",display_present:"yes"},"large-800x480":{display_present:"yes",resolution:"800x480"},"800x480-touch":{display_present:"yes",resolution:"800x480",touch:"yes"},"4-3-touch":{display_present:"yes",size_min:"4",touch:"yes"},"touch-spi":{display_present:"yes",touch:"yes",touch_interface:"SPI"},"lvgl-ready":{display_present:"yes",lvgl_support:"yes",lvgl_level:"ready"},"native-usb":{native_usb:"yes"}};
@@ -223,7 +223,7 @@ function show(ev){
   exclusions(ev);$("exclusion-panel").hidden=Object.keys(ev.exclusions).length===0;
   if(!ev.ranked.length){
     $("empty-state").hidden=false;
-    var ss=relaxSuggestions();$("empty-state-text").innerHTML="No hardware meets all mandatory technical requirements."+(ss.length?" The quickest ways to broaden the search are:<ul class="relax-list">"+ss.map(function(x){return "<li><button type="button" class="relax-action" data-relax-key=""+esc(x.key)+"">Remove <strong>"+esc(x.label)+"</strong> from Required → <strong>+"+x.gain+"</strong> compatible result"+(x.gain===1?"":"s")+"</button></li>";}).join("")+"</ul>":" Try relaxing one or more required filters.");
+    var ss=relaxSuggestions();$("empty-state-text").innerHTML="No hardware meets all mandatory technical requirements."+(ss.length?' The quickest ways to broaden the search are:<ul class="relax-list">'+ss.map(function(x){return '<li><button type="button" class="relax-action" data-relax-key="'+esc(x.key)+'">Remove <strong>'+esc(x.label)+'</strong> from Required → <strong>+'+x.gain+'</strong> compatible result'+(x.gain===1?"":"s")+"</button></li>";}).join("")+"</ul>":" Try relaxing one or more required filters.");
     productGrid.innerHTML="";
   }else{$("empty-state").hidden=true;productGrid.innerHTML=ev.ranked.slice(0,50).map(card).join("");}
   results.hidden=false;results.scrollIntoView({behavior:"smooth",block:"start"});
