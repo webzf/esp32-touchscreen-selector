@@ -50,7 +50,7 @@ assert.equal(catalog.schema_version,"2.1");
 assert.ok(Array.isArray(catalog.products));
 const catalogErrors=catalog.products.map(p=>E.validateProduct(p));
 assert.equal(catalogErrors.filter(e=>e.length>0).length,0);
-assert.equal(catalog.products.length,10);
+assert.equal(catalog.products.length,11);
 
 const ids=catalog.products.map(p=>p.id);
 ["ili9341-xpt2046-2-8-touchscreen","waveshare-esp32-s3-touch-lcd-4-3","waveshare-esp32-s3-touch-lcd-7","waveshare-esp32-s3-touch-lcd-1-85b","waveshare-esp32-c6-touch-amoled-1-8","waveshare-esp32-s3-touch-amoled-1-75","waveshare-esp32-s3-touch-amoled-2-16","waveshare-esp32-s3-touch-amoled-2-41","sunton-esp32-8048s043c","esp32-2432s028-2-8-cyd","ssd1306-oled-display"].forEach(id=>assert.ok(ids.includes(id)));
