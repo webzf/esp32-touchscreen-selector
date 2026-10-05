@@ -74,10 +74,10 @@ assert.ok(unknownUsb.misses.includes("Native USB (unknown data)"));
 assert.equal(E.scorePreferences(ws43,{lvgl_support:true}).score,100);
 
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
-assert.equal(catalogEval.valid,10);
+assert.equal(catalogEval.valid,11);
 assert.equal(catalogEval.passed,7);
 assert.equal(catalogEval.ranked.length,7);
-assert.equal(catalogEval.excluded.length,3);
+assert.equal(catalogEval.excluded.length,4);
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
 assert.equal(flashEval.passed,6);
