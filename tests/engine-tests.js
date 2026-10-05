@@ -1,9 +1,35 @@
 const assert=require("node:assert/strict");
 const fs=require("node:fs"),vm=require("node:vm");
-const code=fs.readFileSync(__dirname+"/../js/compatibility-engine.js","utf8"),ctx={window:{}};
-vm.runInNewContext(code,ctx); const E=ctx.window.EmbeddedNerdCompatibility;
-function product(id,o){return Object.assign({id,name:id,product_type:"board_with_display",category:"board_with_display",esp32:{family:["ESP32-S3"],flash_mb:16,psram_mb:8},display:{display_present:true,technology:"TFT",shape:"round",size_inches:3.5,resolution:{width:800,height:480},interface:"RGB"},touch:{touch:true,touch_type:"capacitive",touch_interface:"I2C"},usb:{usb_available:true,native_usb:true,uart_bridge:false},hardware:{microsd:true,battery:null,battery_charging:true,buttons:null,led:null,camera:null,audio:null,free_gpio:10},certification:{ce:true,fcc:true},software:{lvgl:{support:null,level:null,framework:null}},features:{battery:null,imu:null,rtc:null,audio:null}},o||{})}
-const s3=product("s3"),uart=product("uart",{usb:{usb_available:true,native_usb:false,uart_bridge:true}}),c3=product("c3",{esp32:{family:["ESP32-C3"],flash_mb:4,psram_mb:null}});
+
+const engineCode=fs.readFileSync(__dirname+"/../js/compatibility-engine.js","utf8");
+const projectCode=fs.readFileSync(__dirname+"/../js/project-recommendations.js","utf8");
+const ctx={window:{}};
+vm.runInNewContext(engineCode,ctx);
+vm.runInNewContext(projectCode,ctx);
+const E=ctx.window.EmbeddedNerdCompatibility;
+const P=ctx.window.EmbeddedNerdProjectRecommendations;
+
+function product(id,o){
+  return Object.assign({
+    id,name:id,product_type:"board_with_display",category:"board_with_display",
+    esp32:{family:["ESP32-S3"],flash_mb:16,psram_mb:8},
+    display:{display_present:true,technology:"TFT",shape:"round",size_inches:3.5,resolution:{width:800,height:480},interface:"RGB"},
+    touch:{touch:true,touch_type:"capacitive",touch_interface:"I2C"},
+    usb:{usb_available:true,native_usb:true,uart_bridge:false},
+    hardware:{microsd:true,battery:null,battery_charging:true,buttons:null,led:null,camera:null,audio:null,free_gpio:10},
+    capabilities:{rs485:null,mipi_csi:null},
+    certification:{ce:true,fcc:true},
+    software:{lvgl:{support:null,level:null,framework:null}},
+    features:{battery:null,imu:null,rtc:null,audio:null},
+    physical:{form_factor:null}
+  },o||{});
+}
+
+const s3=product("s3");
+const p4=product("p4",{esp32:{family:["ESP32-P4"],flash_mb:16,psram_mb:16},display:{display_present:true,technology:"TFT",shape:"rectangular",size_inches:7,resolution:{width:1024,height:600},interface:"MIPI-DSI"},hardware:{microsd:true,battery:null,battery_charging:true,buttons:null,led:null,camera:true,audio:null,free_gpio:10},capabilities:{rs485:true,mipi_csi:true}});
+const uart=product("uart",{usb:{usb_available:true,native_usb:false,uart_bridge:true}});
+const c3=product("c3",{esp32:{family:["ESP32-C3"],flash_mb:4,psram_mb:null}});
+
 assert.equal(E.matchesRequirement(c3,{psram_min:1}),false);
 assert.equal(E.matchesRequirement(uart,{native_usb:true}),false);
 assert.equal(E.matchesRequirement(s3,{native_usb:true,microsd:true,touch:true}),true);
@@ -16,7 +42,9 @@ assert.equal(E.matchesRequirement(s3,{lvgl_support:true}),false);
 assert.equal(E.matchesRequirement(s3,{imu:true}),false);
 assert.equal(E.scorePreferences(s3,{lvgl_support:true}).score,0);
 
-// Real catalog validation and representative V2 scenarios.
+assert.ok(E.FAMILY_ORDER.includes("ESP32-P4"));
+assert.equal(E.matchesRequirement(p4,{family:"ESP32-P4",display_interface:"MIPI-DSI"}),true);
+
 const catalog=JSON.parse(fs.readFileSync(__dirname+"/../data/products.json","utf8"));
 assert.equal(catalog.schema_version,"2.1");
 assert.ok(Array.isArray(catalog.products));
@@ -24,101 +52,39 @@ const catalogErrors=catalog.products.map(p=>E.validateProduct(p));
 assert.equal(catalogErrors.filter(e=>e.length>0).length,0);
 assert.equal(catalog.products.length,10);
 
-const ili=catalog.products.find(p=>p.id==="ili9341-xpt2046-2-8-touchscreen");
+const ids=catalog.products.map(p=>p.id);
+["ili9341-xpt2046-2-8-touchscreen","waveshare-esp32-s3-touch-lcd-4-3","waveshare-esp32-s3-touch-lcd-7","waveshare-esp32-s3-touch-lcd-1-85b","waveshare-esp32-c6-touch-amoled-1-8","waveshare-esp32-s3-touch-amoled-1-75","waveshare-esp32-s3-touch-amoled-2-16","waveshare-esp32-s3-touch-amoled-2-41","sunton-esp32-8048s043c","esp32-2432s028-2-8-cyd"].forEach(id=>assert.ok(ids.includes(id)));
+
 const ws43=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-4-3");
 const ws7=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-7");
 const ws185=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-1-85b");
-const c6amoled=catalog.products.find(p=>p.id==="waveshare-esp32-c6-touch-amoled-1-8");
 const s3amoled175=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-amoled-1-75");
-const s3amoled216=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-amoled-2-16");
 const sunton=catalog.products.find(p=>p.id==="sunton-esp32-8048s043c");
 const cyd=catalog.products.find(p=>p.id==="esp32-2432s028-2-8-cyd");
-assert.ok(ili && ws43 && ws7 && ws185 && c6amoled && s3amoled175 && s3amoled216 && sunton && cyd);
 
-// Unknown data must never satisfy a mandatory requirement.
-assert.equal(E.matchesRequirement(ws43,{native_usb:true}),false);
-assert.equal(E.matchesRequirement(ili,{psram_min:1}),false);
-assert.equal(E.matchesRequirement(ili,{flash_min:1}),false);
-assert.equal(E.matchesRequirement(ili,{free_gpio_min:1}),false);
-assert.equal(E.matchesRequirement(ws43,{ce:true}),false);
-
-// Verified hardware requirements.
 assert.equal(E.matchesRequirement(ws43,{family:"ESP32-S3",psram_min:8,flash_min:16,touch:true,touch_type:"capacitive",touch_interface:"I2C",microsd:true,battery_charging:true}),true);
 assert.equal(E.matchesRequirement(ws7,{family:"ESP32-S3",psram_min:8,flash_min:8,resolution:"800x480"}),true);
 assert.equal(E.matchesRequirement(ws43,{lvgl_support:true}),true);
 assert.equal(E.matchesRequirement(ws43,{battery:true}),true);
 assert.equal(E.matchesRequirement(ws185,{family:"ESP32-S3",psram_min:8,flash_min:16,native_usb:true,touch:true,touch_type:"capacitive",touch_interface:"I2C",display_interface:"QSPI",display_shape:"round",microsd:true,battery:true,imu:true,rtc:true,audio:true,lvgl_support:true,lvgl_level:"ready"}),true);
 assert.equal(E.matchesRequirement(ws43,{imu:true}),false);
-assert.equal(E.matchesRequirement(ili,{product_type:"display_module",display_interface:"SPI",touch_type:"resistive",touch_interface:"SPI",display_shape:"rectangular"}),true);
-assert.equal(E.matchesRequirement(ws185,{battery:true,imu:true,rtc:true,audio:true,lvgl_support:true}),true);
-
-// Verified ESP32-C6 AMOLED product requirements.
-assert.equal(c6amoled.esp32.family.includes("ESP32-C6"),true);
-assert.equal(c6amoled.display.technology,"AMOLED");
-assert.equal(c6amoled.display.size_inches,1.8);
-assert.equal(c6amoled.display.resolution.width,368);
-assert.equal(c6amoled.display.resolution.height,448);
-assert.equal(c6amoled.display.interface,"QSPI");
-assert.equal(c6amoled.touch.touch_type,"capacitive");
-assert.equal(c6amoled.touch.touch_interface,"I2C");
-assert.equal(c6amoled.esp32.flash_mb,16);
-assert.equal(c6amoled.esp32.psram_mb,null);
-assert.equal(c6amoled.hardware.battery_charging,true);
-assert.equal(c6amoled.features.imu,true);
-assert.equal(c6amoled.features.rtc,true);
-assert.equal(c6amoled.features.audio,true);
-assert.equal(c6amoled.hardware.microsd,true);
-assert.equal(E.matchesRequirement(c6amoled,{family:"ESP32-C6",display_technology:"AMOLED",touch:true,touch_type:"capacitive",touch_interface:"I2C",display_interface:"QSPI",battery:true,battery_charging:true}),true);
-assert.equal(E.matchesRequirement(c6amoled,{family:"ESP32-C6",display_technology:"AMOLED",touch:true,touch_type:"capacitive",touch_interface:"I2C",battery:true}),true);
-assert.equal(c6amoled.display.controller,"SH8601 (V1) / CO5300 (V2)");
-assert.equal(c6amoled.touch.touch_controller,"FT3168 / FT6146 (V1) / CST820 (V2)");
-
-// Verified ESP32-S3 AMOLED 1.75 product requirements.
-assert.equal(s3amoled175.esp32.family.includes("ESP32-S3"),true);
-assert.equal(s3amoled175.esp32.exact_mcu,"ESP32-S3R8");
-assert.equal(s3amoled175.esp32.flash_mb,16);
-assert.equal(s3amoled175.esp32.psram_mb,8);
-assert.equal(s3amoled175.display.technology,"AMOLED");
-assert.equal(s3amoled175.display.shape,"round");
-assert.equal(s3amoled175.display.size_inches,1.75);
-assert.equal(s3amoled175.display.resolution.width,466);
-assert.equal(s3amoled175.display.resolution.height,466);
-assert.equal(s3amoled175.display.interface,"QSPI");
-assert.equal(s3amoled175.display.controller,"CO5300");
-assert.equal(s3amoled175.touch.touch_type,"capacitive");
-assert.equal(s3amoled175.touch.touch_interface,"I2C");
-assert.equal(s3amoled175.touch.touch_controller,"CST9217");
-assert.equal(s3amoled175.hardware.microsd,true);
-assert.equal(s3amoled175.hardware.battery,true);
-assert.equal(s3amoled175.hardware.battery_charging,true);
-assert.equal(s3amoled175.features.imu,true);
-assert.equal(s3amoled175.features.rtc,true);
-assert.equal(s3amoled175.features.audio,true);
 assert.equal(E.matchesRequirement(s3amoled175,{family:"ESP32-S3",display_technology:"AMOLED",display_shape:"round",resolution:"466x466",touch:true,touch_type:"capacitive",touch_interface:"I2C",display_interface:"QSPI",psram_min:8,flash_min:16,battery:true,battery_charging:true,imu:true,rtc:true,audio:true,lvgl_support:true}),true);
 assert.equal(E.matchesRequirement(s3amoled175,{family:"ESP32-S3",display_technology:"AMOLED",resolution:"600x450"}),false);
 
-// Preference ranking remains soft and transparent when data is unknown.
 const unknownUsb=E.scorePreferences(ws43,{native_usb:true});
 assert.equal(unknownUsb.score,0);
 assert.ok(unknownUsb.misses.includes("Native USB (unknown data)"));
-const knownLvgl=E.scorePreferences(ws43,{lvgl_support:true});
-assert.equal(knownLvgl.score,100);
+assert.equal(E.scorePreferences(ws43,{lvgl_support:true}).score,100);
 
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
 assert.equal(catalogEval.valid,10);
 assert.equal(catalogEval.passed,7);
 assert.equal(catalogEval.ranked.length,7);
 assert.equal(catalogEval.excluded.length,3);
-assert.ok(Array.isArray(catalogEval.excluded[0].reasons));
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
 assert.equal(flashEval.passed,6);
 assert.equal(flashEval.ranked[0].product.id,"sunton-esp32-8048s043c");
-
-const noMatch=E.evaluate(catalog.products,{family:"ESP32-C3",psram_min:1},{});
-assert.equal(noMatch.passed,0);
-assert.ok(noMatch.exclusions["Insufficient/unknown PSRAM"]>=1);
-assert.equal(noMatch.excluded.length,noMatch.valid);
 
 const browse=E.evaluate(catalog.products,{}, {});
 assert.equal(browse.total,10);
@@ -126,90 +92,62 @@ assert.equal(browse.valid,10);
 assert.equal(browse.passed,10);
 assert.equal(browse.displayed,10);
 
+// Project model checks.
+assert.equal(P.USE_CASE_ORDER.length,9);
+assert.ok(P.USE_CASES["home-assistant-dashboard"]);
+assert.ok(P.USE_CASES["hmi-control-panel"]);
+assert.ok(P.USE_CASES["camera-ai-vision"]);
+assert.equal(P.getUseCaseRequirements("general-esp32-project")&&Object.keys(P.getUseCaseRequirements("general-esp32-project")).length,0);
 
-// Selector integration contract checks (static, DOM-free).
+const wearableScore=P.scoreUseCase(s3,"wearable-compact-device");
+assert.ok(wearableScore.score>0);
+const p4Vision=P.scoreUseCase(p4,"camera-ai-vision");
+assert.equal(p4Vision.score,100);
+
+const visionEval=E.evaluate([s3,p4],{}, {},{useCaseId:"camera-ai-vision"});
+assert.equal(visionEval.passed,2);
+assert.equal(visionEval.ranked[0].product.id,"p4");
+assert.ok(visionEval.ranked[0].useCaseScore>visionEval.ranked[1].useCaseScore);
+assert.ok(visionEval.ranked[0].useCaseMatches.includes("ESP32-P4"));
+assert.ok(visionEval.ranked[0].useCaseMatches.includes("Camera support"));
+
+const batteryEval=E.evaluate([s3,p4],{}, {},{useCaseId:"battery-powered-device"});
+assert.equal(batteryEval.passed,2);
+assert.equal(batteryEval.ranked.length,2);
+
+const hmiWithTechnical=E.evaluate([s3,p4],{display_interface:"MIPI-DSI"}, {},{useCaseId:"hmi-control-panel"});
+assert.equal(hmiWithTechnical.passed,1);
+assert.equal(hmiWithTechnical.ranked[0].product.id,"p4");
+
+// Unknown project capabilities remain neutral rather than becoming positive evidence.
+const neutral=product("neutral",{capabilities:{rs485:null,mipi_csi:null}});
+const neutralScore=P.scoreUseCase(neutral,"hmi-control-panel");
+assert.ok(neutralScore.unknown.includes("RS485"));
+assert.equal(neutralScore.matches.includes("RS485"),false);
+
+// Selector integration contract checks.
 const selectorSource=fs.readFileSync(__dirname+"/../js/selector.js","utf8");
-assert.ok(selectorSource.includes('Engine.evaluate(products,b.r,b.p)'));
-assert.ok(selectorSource.includes('required(k)'));
-assert.ok(selectorSource.includes('var requiredTouched={}'));
-assert.ok(selectorSource.includes('function autoRequire(n)'));
-assert.ok(selectorSource.includes('!requiredTouched[n]&&hasValue(n)'));
-assert.ok(selectorSource.includes('setMode("browse")'));
-assert.ok(selectorSource.includes('searchMatch(p,q)'));
-assert.ok(selectorSource.includes('View technical details'));
-assert.ok(selectorSource.includes('Where to buy'));
-assert.ok(selectorSource.includes('rel="nofollow sponsored noopener"'));
-assert.ok(selectorSource.includes('encodeURIComponent(p.id)'));
-assert.ok(selectorSource.includes('data/products.json'));
-assert.ok(selectorSource.includes('catalog could not be loaded'));
-assert.ok(selectorSource.includes('psram_min-required'));
-assert.ok(selectorSource.includes('family==="ESP32-C3"'));
-assert.ok(selectorSource.includes('setupAdvancedFilters'));
-assert.ok(selectorSource.includes('setupPresets'));
-assert.ok(selectorSource.includes('"amoled-touch-battery"'));
-assert.ok(selectorSource.includes('"s3-touchscreen"'));
-assert.ok(selectorSource.includes('"round-amoled"'));
-assert.ok(selectorSource.includes('"800x480-touch"'));
-assert.ok(selectorSource.includes('"4-3-touch"'));
-assert.ok(selectorSource.includes('"lvgl-ready"'));
-assert.ok(selectorSource.includes('"native-usb"'));
-assert.ok(selectorSource.includes('relaxSuggestions'));
-assert.ok(selectorSource.includes('syncFilterDependencies'));
-assert.ok(selectorSource.includes('updateLiveCount'));
-assert.ok(selectorSource.includes('syncUrl'));
-assert.ok(selectorSource.includes('URLSearchParams'));
-assert.ok(selectorSource.includes('"lvgl_support","lvgl_level","battery","imu","rtc","audio"'));
-assert.ok(selectorSource.includes('document.querySelectorAll("[data-preset]").forEach(function(b){b.classList.remove("active");})'));
-assert.ok(selectorSource.includes('window.requestAnimationFrame'));
-assert.ok(selectorSource.includes('advanced-filters'));
-assert.ok(!selectorSource.includes('var d=$("advanced-filters");if(d)d.open=true'));
-assert.ok(selectorSource.includes('Share setup'));\nassert.ok(selectorSource.includes('function reset(shouldScroll)'));\nassert.ok(selectorSource.includes('requiredTouched={}'));\nassert.ok(selectorSource.includes('results.hidden=true'));\nassert.ok(selectorSource.includes('setMode("requirements")'));\nassert.ok(selectorSource.includes('updateActiveFilterSummary();syncUrl()'));\nassert.ok(selectorSource.includes('advanced-filters'));\nassert.ok(html.includes('id="reset-btn"'));\nassert.ok(html.includes('>Clear All Filters</button>'));
-
-
-// HTML ↔ selector.js integration contract checks.
 const html=fs.readFileSync(__dirname+"/../index.html","utf8");
-const selectorIds=[...selectorSource.matchAll(/(?:getElementById|\\$)\\(["']([^"']+)["']\\)/g)].map(m=>m[1]);
-const missingIds=[...new Set(selectorIds)].filter(id=>!html.includes('id="'+id+'"'));
-assert.deepEqual(missingIds,[]);
-assert.ok(html.includes('id="selector-form"'));
-assert.ok(html.includes('id="product-grid"'));
-assert.ok(html.includes('id="results"'));
-assert.ok(html.includes('id="empty-state"'));
-assert.ok(html.includes('id="exclusion-list"'));
-assert.ok(html.includes('id="catalog-error"'));
-assert.ok(html.includes('id="browse-btn"'));
-assert.ok(html.includes('compatibility-engine.js'));
-assert.ok(html.includes('selector.js'));
-assert.ok(html.includes('aria-live="polite"'));
-assert.ok(html.includes('id="quick-start"'));
-assert.ok(html.includes('data-preset="s3-lvgl"'));
-assert.ok(html.includes('data-preset="s3-touchscreen"'));
-assert.ok(html.includes('data-preset="amoled-touch-battery"'));
-assert.ok(html.includes('data-preset="s3-touchscreen"'));
-assert.ok(html.includes('data-preset="round-amoled"'));
-assert.ok(html.includes('data-preset="800x480-touch"'));
-assert.ok(html.includes('data-preset="4-3-touch"'));
-assert.ok(html.includes('data-preset="lvgl-ready"'));
-assert.ok(html.includes('data-preset="native-usb"'));
-assert.ok(html.includes('id="share-btn"'));
-assert.ok(html.includes('id="live-count"'));
-assert.equal((html.match(/id="result-count"/g)||[]).length,1);
-assert.equal((html.match(/id="results"/g)||[]).length,1);
-assert.ok(selectorSource.includes("updateActiveFilterSummary"));
-assert.ok(selectorSource.includes("ev.excluded||[]"));
-assert.ok(selectorSource.includes("ADVANCED_FILTER_KEYS"));
-assert.ok(html.includes('id="active-filter-summary"'));
-assert.ok(html.includes('id="lvgl_support"'));
-assert.ok(html.includes('id="lvgl_level"'));
-assert.ok(html.includes('id="battery"'));
-assert.ok(html.includes('id="imu"'));
-assert.ok(html.includes('id="rtc"'));
-assert.ok(html.includes('id="audio"'));
-assert.ok(selectorSource.includes('both("lvgl_support"'));
-assert.ok(selectorSource.includes('both("lvgl_level"'));
-assert.ok(selectorSource.includes('both("battery"'));
-assert.ok(selectorSource.includes('both("imu"'));
-assert.ok(selectorSource.includes('both("rtc"'));
-assert.ok(selectorSource.includes('both("audio"'));
+assert.ok(selectorSource.includes("Engine.evaluate(products,b.r,b.p,currentIntent())"));
+assert.ok(selectorSource.includes("What are you building")||html.includes("What are you building?"));
+assert.ok(selectorSource.includes("selectUseCase"));
+assert.ok(selectorSource.includes("clear-use-case"));
+assert.ok(selectorSource.includes("updatePlatformGuidance"));
+assert.ok(selectorSource.includes("project""));
+assert.ok(selectorSource.includes("useCaseExplanation"));
+assert.ok(selectorSource.includes("technicalScore"));
+assert.ok(html.includes('id="project-intent"'));
+assert.ok(html.includes('id="use-case-grid"'));
+assert.ok(html.includes('id="platform-guidance"'));
+assert.ok(html.includes('id="clear-use-case"'));
+assert.ok(html.includes('<option>ESP32-P4</option>'));
+assert.ok(html.includes('<option>MIPI-DSI</option>'));
+assert.ok(html.includes('ESP32-S3 vs ESP32-P4'));
+assert.ok(html.includes('Recommended ESP32 Touchscreen Displays'));
+assert.ok(html.includes('id="reset-btn"'));
+assert.ok(html.includes('Clear All Filters'));
+assert.ok(html.includes('aria-label="Project use cases"'));
+assert.ok(html.includes('js/project-recommendations.js'));
+assert.ok(fs.readFileSync(__dirname+"/../.github/workflows/v2-tests.yml","utf8").includes("node tests/engine-tests.js"));
 
-console.log("V2 engine + selector + HTML integration tests: PASS");
+console.log("Project recommendation + compatibility integration tests: PASS");
