@@ -139,7 +139,7 @@ assert.ok(selectorSource.includes("clear-use-case"));
 assert.ok(selectorSource.includes("updatePlatformGuidance"));
 assert.ok(selectorSource.includes("p.set(\"project\""));
 assert.ok(selectorSource.includes("useCaseExplanation"));
-assert.ok(selectorSource.includes("technicalScore"));
+assert.ok(selectorSource.includes("Engine.evaluate(products,b.r,b.p,currentIntent())"));
 assert.ok(html.includes('id="project-intent"'));
 assert.ok(html.includes('id="use-case-grid"'));
 assert.ok(html.includes('id="platform-guidance"'));
