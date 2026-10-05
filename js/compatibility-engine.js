@@ -7,12 +7,7 @@ var DISPLAY_SHAPES=["rectangular","square","round","other"];
 var PRODUCT_TYPES=["development_board","board_with_display","display_module"];
 var LVGL_LEVELS=["ready","compatible"];
 
-function normalize(value){
-  if(value===undefined||value===null||value==="")return null;
-  if(Array.isArray(value))return value.map(normalize);
-  if(typeof value==="string")return value.trim();
-  return value;
-}
+function normalize(value){if(value===undefined||value===null||value==="")return null;if(Array.isArray(value))return value.map(normalize);if(typeof value==="string")return value.trim();return value;}
 function validBoolOrNull(v){return v===null||typeof v==="boolean";}
 function validateProduct(p){
   var errors=[];
@@ -134,16 +129,12 @@ function scorePreferences(p,prefs){
 }
 function evaluate(products,requirements,preferences,projectIntent){
   var normalized=products.map(normalizeProduct),valid=normalized.filter(function(p){return validateProduct(p).length===0;}),exclusions={},excluded=[],passed=[];
-  valid.forEach(function(p){if(matchesRequirement(p,requirements))passed.push(p);else{var reasons=reasonForFailure(p,requirements);excluded.push({product:p,reasons:reasons});reasons.forEach(function(r){exclusions[r]=(exclusions[r]||0)+1;});}});
+  valid.forEach(function(p){if(matchesRequirement(p,requirements||{}))passed.push(p);else{var reasons=reasonForFailure(p,requirements||{});excluded.push({product:p,reasons:reasons});reasons.forEach(function(r){exclusions[r]=(exclusions[r]||0)+1;});}});
   var ranked=passed.map(function(p){
-    var base=scorePreferences(p,preferences||{}),intent=projectIntent&&global.EmbeddedNerdProjectRecommendations&&projectIntent.useCaseId?global.EmbeddedNerdProjectRecommendations.scoreUseCase(p,projectIntent.useCaseId):{score:0,matches:[],misses:[],unknown:[]};
-    return {product:p,score:base.score,matches:base.matches,misses:base.misses,useCaseScore:intent.score,useCaseMatches:intent.matches,useCaseMisses:intent.misses,useCaseUnknown:intent.unknown};
-  }).sort(function(a,b){
-    if(projectIntent&&projectIntent.useCaseId){
-      return (b.useCaseScore||0)-(a.useCaseScore||0)||b.score-a.score||a.product.name.localeCompare(b.product.name);
-    }
-    return b.score-a.score||a.product.name.localeCompare(b.product.name);
-  });
+    var base=scorePreferences(p,preferences||{}),intent=(projectIntent&&projectIntent.useCaseId&&global.EmbeddedNerdProjectRecommendations)?global.EmbeddedNerdProjectRecommendations.scoreUseCase(p,projectIntent.useCaseId):{score:0,matches:[],misses:[],unknown:[]};
+    var finalScore=projectIntent&&projectIntent.useCaseId?Math.round((intent.score*0.65)+(base.score*0.35)):base.score;
+    return {product:p,score:finalScore,technicalScore:base.score,matches:base.matches,misses:base.misses,useCaseScore:intent.score,useCaseMatches:intent.matches,useCaseMisses:intent.misses,useCaseUnknown:intent.unknown};
+  }).sort(function(a,b){return b.score-a.score||b.useCaseScore-a.useCaseScore||b.technicalScore-a.technicalScore||a.product.name.localeCompare(b.product.name);});
   return {total:normalized.length,valid:valid.length,invalid:normalized.length-valid.length,passed:passed.length,displayed:ranked.length,ranked:ranked,exclusions:exclusions,excluded:excluded};
 }
 global.EmbeddedNerdCompatibility={FAMILY_ORDER:FAMILY_ORDER,validateProduct:validateProduct,normalizeProduct:normalizeProduct,matchesRequirement:matchesRequirement,scorePreferences:scorePreferences,evaluate:evaluate};
