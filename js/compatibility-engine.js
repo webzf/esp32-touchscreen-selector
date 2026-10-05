@@ -74,11 +74,9 @@ function matchesRequirement(p,req){
   if(req.free_gpio_min!==null&&req.free_gpio_min!==undefined&&!numericAtLeast(p.hardware.free_gpio,req.free_gpio_min))return false;
   if(req.lvgl_support!==null&&req.lvgl_support!==undefined&&!meetsBoolean(p.software.lvgl.support,req.lvgl_support))return false;
   if(req.lvgl_level&&!fieldMatches(p.software.lvgl.level,req.lvgl_level))return false;
-  ["battery","imu","rtc","audio"].forEach(function(feature){if(req[feature]!==null&&req[feature]!==undefined&&!meetsBoolean(p.features[feature],req[feature]))throw {ok:false};});
+  var features=["battery","imu","rtc","audio"];
+  for(var i=0;i<features.length;i++)if(req[features[i]]!==null&&req[features[i]]!==undefined&&!meetsBoolean(p.features[features[i]],req[features[i]]))return false;
   return true;
-}
-function safeMatchesRequirement(p,req){
-  try{return matchesRequirement(p,req);}catch(e){if(e&&e.ok===false)return false;throw e;}
 }
 function reasonForFailure(p,req){
   var reasons=[];function add(ok,label){if(!ok)reasons.push(label);}
@@ -136,15 +134,17 @@ function scorePreferences(p,prefs){
 }
 function evaluate(products,requirements,preferences,projectIntent){
   var normalized=products.map(normalizeProduct),valid=normalized.filter(function(p){return validateProduct(p).length===0;}),exclusions={},excluded=[],passed=[];
-  valid.forEach(function(p){if(safeMatchesRequirement(p,requirements))passed.push(p);else{var reasons=reasonForFailure(p,requirements);excluded.push({product:p,reasons:reasons});reasons.forEach(function(r){exclusions[r]=(exclusions[r]||0)+1;});}});
+  valid.forEach(function(p){if(matchesRequirement(p,requirements))passed.push(p);else{var reasons=reasonForFailure(p,requirements);excluded.push({product:p,reasons:reasons});reasons.forEach(function(r){exclusions[r]=(exclusions[r]||0)+1;});}});
   var ranked=passed.map(function(p){
     var base=scorePreferences(p,preferences||{}),intent=projectIntent&&global.EmbeddedNerdProjectRecommendations&&projectIntent.useCaseId?global.EmbeddedNerdProjectRecommendations.scoreUseCase(p,projectIntent.useCaseId):{score:0,matches:[],misses:[],unknown:[]};
     return {product:p,score:base.score,matches:base.matches,misses:base.misses,useCaseScore:intent.score,useCaseMatches:intent.matches,useCaseMisses:intent.misses,useCaseUnknown:intent.unknown};
   }).sort(function(a,b){
-    var as=(a.useCaseScore||0),bs=(b.useCaseScore||0);
-    return (projectIntent&&projectIntent.useCaseId?bs-as:0)||b.score-a.score||a.product.name.localeCompare(b.product.name);
+    if(projectIntent&&projectIntent.useCaseId){
+      return (b.useCaseScore||0)-(a.useCaseScore||0)||b.score-a.score||a.product.name.localeCompare(b.product.name);
+    }
+    return b.score-a.score||a.product.name.localeCompare(b.product.name);
   });
   return {total:normalized.length,valid:valid.length,invalid:normalized.length-valid.length,passed:passed.length,displayed:ranked.length,ranked:ranked,exclusions:exclusions,excluded:excluded};
 }
-global.EmbeddedNerdCompatibility={FAMILY_ORDER:FAMILY_ORDER,validateProduct:validateProduct,normalizeProduct:normalizeProduct,matchesRequirement:safeMatchesRequirement,scorePreferences:scorePreferences,evaluate:evaluate};
+global.EmbeddedNerdCompatibility={FAMILY_ORDER:FAMILY_ORDER,validateProduct:validateProduct,normalizeProduct:normalizeProduct,matchesRequirement:matchesRequirement,scorePreferences:scorePreferences,evaluate:evaluate};
 })(window);
