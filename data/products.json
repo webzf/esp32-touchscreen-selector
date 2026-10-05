@@ -1668,6 +1668,179 @@
         "rtc": null,
         "audio": null
       }
+    },
+    {
+      "id": "waveshare-esp32-p4-wifi6-touch-lcd-7b",
+      "name": "Waveshare ESP32-P4-WIFI6-Touch-LCD-7B",
+      "manufacturer": "Waveshare",
+      "product_type": "board_with_display",
+      "category": "board_with_display",
+      "description": "ESP32-P4 touchscreen development board with a 7-inch 1024×600 IPS display, capacitive touch, Wi-Fi 6, Bluetooth 5, audio, camera interface and industrial interfaces.",
+      "product_url": "/products/waveshare-esp32-p4-wifi6-touch-lcd-7b/",
+      "documentation_url": "https://docs.waveshare.com/ESP32-P4-WIFI6-Touch-LCD-7B",
+      "tags": [
+        "Waveshare",
+        "ESP32-P4",
+        "ESP32-C6",
+        "1024x600",
+        "MIPI-DSI",
+        "capacitive-touch",
+        "Wi-Fi 6",
+        "Bluetooth 5",
+        "LVGL",
+        "CAN",
+        "RS485",
+        "audio",
+        "camera"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32-P4"
+        ],
+        "exact_mcu": "ESP32-P4NRW32",
+        "cores": 2,
+        "cpu_frequency_mhz": 360,
+        "flash_mb": 32,
+        "ram_mb": null,
+        "psram_mb": 32
+      },
+      "wireless": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true
+      },
+      "usb": {
+        "usb_available": true,
+        "usb_type": "USB-C",
+        "native_usb": true,
+        "uart_bridge": true,
+        "native_usb_functionality": [
+          "programming",
+          "logging",
+          "USB OTG"
+        ],
+        "usb_notes": "Includes USB 2.0 OTG and USB-to-UART connectivity."
+      },
+      "display": {
+        "display_present": true,
+        "technology": "TFT",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "rectangular",
+        "size_inches": 7,
+        "resolution": {
+          "width": 1024,
+          "height": 600
+        },
+        "aspect_ratio": "128:75",
+        "controller": "EK79007",
+        "interface": "MIPI-DSI"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "capacitive",
+        "touch_controller": "GT911",
+        "touch_interface": "I2C"
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": null,
+        "uart": true,
+        "rgb": null,
+        "other": [
+          "MIPI-DSI",
+          "MIPI-CSI",
+          "CAN",
+          "RS485",
+          "USB 2.0 OTG",
+          "TF card"
+        ]
+      },
+      "display_touch_bus": {
+        "display_bus": "MIPI-DSI",
+        "touch_bus": "I2C",
+        "shared_bus": false,
+        "separate_bus": true,
+        "chip_select": null,
+        "dc": null,
+        "irq": null,
+        "reset": null,
+        "relevant_gpio": []
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": 17,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": true,
+        "battery": true,
+        "battery_charging": null,
+        "power_input": "USB-C",
+        "connectors": [
+          "USB-C",
+          "I2C",
+          "UART",
+          "CAN",
+          "RS485",
+          "MIPI-CSI",
+          "MIPI-DSI"
+        ],
+        "buttons": true,
+        "led": true,
+        "camera": true,
+        "audio": true,
+        "sensors": [],
+        "other_peripherals": [
+          "ES8311 audio codec",
+          "ES7210 echo cancellation",
+          "dual microphones",
+          "speaker header",
+          "RTC battery holder"
+        ]
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": null,
+        "mounting_holes": true,
+        "form_factor": "7-inch HMI development board"
+      },
+      "sources": [
+        {
+          "type": "manufacturer-documentation",
+          "url": "https://docs.waveshare.com/ESP32-P4-WIFI6-Touch-LCD-7B"
+        },
+        {
+          "type": "manufacturer-product-page",
+          "url": "https://www.waveshare.com/product/arduino/displays/esp32-p4-wifi6-touch-lcd-7b.htm"
+        },
+        {
+          "type": "product-offer",
+          "url": "https://www.aliexpress.com/item/1005010055870735.html"
+        }
+      ],
+      "data_quality": "verified_manufacturer",
+      "software": {
+        "lvgl": {
+          "support": true,
+          "level": "ready",
+          "framework": "Arduino, ESP-IDF"
+        }
+      },
+      "features": {
+        "battery": true,
+        "imu": null,
+        "rtc": true,
+        "audio": true
+      },
+      "manufacturer_sku": "30738",
+      "image": "https://www.waveshare.com/img/devkit/ESP32-P4-WIFI6-Touch-LCD-7B/ESP32-P4-WIFI6-Touch-LCD-7B-details-1.jpg",
+      "image_alt": "Waveshare ESP32-P4-WIFI6-Touch-LCD-7B 7-inch touchscreen development board"
     }
   ]
 }
