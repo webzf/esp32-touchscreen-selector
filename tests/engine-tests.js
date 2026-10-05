@@ -104,7 +104,7 @@ assert.ok(wearableScore.score>0);
 assert.ok(Array.isArray(wearableScore.preferred));
 assert.ok(Array.isArray(wearableScore.useful));
 assert.ok(Array.isArray(wearableScore.optional));
-assert.deepEqual(wearableScore.required,[]);
+assert.equal(wearableScore.required.length,0);
 
 const p4Vision=P.scoreUseCase(p4,"camera-ai-vision");
 assert.equal(p4Vision.score,100);
