@@ -1,65 +1,66 @@
 <!doctype html>
-<!-- GitHub Pages deploy refresh: 2026-09-28 -->
+<!-- GitHub Pages deploy refresh: 2026-10-05 -->
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ESP32 Board &amp; Display Selector – Find Compatible Hardware | Embedded Nerd</title>
-<meta name="description" content="Find compatible ESP32 boards, displays and touchscreen hardware by MCU, screen size, resolution, interface, touch, PSRAM, LVGL, USB and more. Free selector by Embedded Nerd.">
+<title>ESP32 Touchscreen Selector – Choose Hardware for Your Project | Embedded Nerd</title>
+<meta name="description" content="Find the right ESP32 touchscreen for your project by use case or technical requirements. Compare ESP32, ESP32-S3 and ESP32-P4 displays, touch, PSRAM, LVGL and more.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://embeddednerd.com/tools/esp32-touchscreen-selector/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="ESP32 Board &amp; Display Selector | Embedded Nerd">
-<meta property="og:description" content="Find compatible ESP32 boards, displays and touchscreen hardware by project requirements.">
-<meta property="og:url" content="https://embeddednerd.com/tools/esp32-touchscreen-selector/">
-<meta property="og:site_name" content="Embedded Nerd">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ESP32 Board &amp; Display Selector | Embedded Nerd">
-<meta name="twitter:description" content="Find compatible ESP32 boards, displays and touchscreen hardware by project requirements.">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ESP32 Board & Display Selector","applicationCategory":"DeveloperApplication","operatingSystem":"Web","description":"Free interactive selector for finding compatible ESP32 boards, displays and touchscreen hardware by project requirements.","url":"https://embeddednerd.com/tools/esp32-touchscreen-selector/","publisher":{"@type":"Organization","name":"Embedded Nerd","url":"https://embeddednerd.com/"},"isAccessibleForFree":true}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Embedded Nerd","item":"https://embeddednerd.com/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://embeddednerd.com/tools/"},{"@type":"ListItem","position":3,"name":"ESP32 Board & Display Selector","item":"https://embeddednerd.com/tools/esp32-touchscreen-selector/"}]}</script>
+<meta property="og:type" content="website"><meta property="og:title" content="ESP32 Touchscreen Selector | Embedded Nerd">
+<meta property="og:description" content="Choose an ESP32 touchscreen board by project or technical requirements.">
+<meta property="og:url" content="https://embeddednerd.com/tools/esp32-touchscreen-selector/"><meta property="og:site_name" content="Embedded Nerd">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="ESP32 Touchscreen Selector | Embedded Nerd">
+<meta name="twitter:description" content="Choose an ESP32 touchscreen board by project or technical requirements.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ESP32 Touchscreen Selector","applicationCategory":"DeveloperApplication","operatingSystem":"Web","description":"Free interactive selector for choosing ESP32 touchscreen hardware by project use case and technical requirements.","url":"https://embeddednerd.com/tools/esp32-touchscreen-selector/","publisher":{"@type":"Organization","name":"Embedded Nerd","url":"https://embeddednerd.com/"},"isAccessibleForFree":true}</script>
 <link rel="stylesheet" href="css/selector.css">
 </head><body>
 <main class="page-shell">
 <p class="site-label">Embedded Nerd · Open Source Tool</p>
-<header class="hero"><span class="eyebrow">ESP32 HARDWARE DISCOVERY</span><h1>ESP32 Board &amp; Display Selector</h1><p>Find compatible ESP32 boards, displays and touchscreen hardware for your project. Choose the requirements that matter and compare matching hardware. <strong>Required</strong> filters exclude incompatible hardware; other selections influence ranking.</p></header>
+<header class="hero"><span class="eyebrow">ESP32 HARDWARE DISCOVERY</span><h1>ESP32 Touchscreen Selector</h1><p>Choose hardware for your project first, or use the technical filters directly. Recommendations use both your project intent and verified hardware compatibility.</p></header>
 <section class="tool" aria-labelledby="tool-title">
-<h2 id="tool-title" class="sr-only">Hardware selector</h2>
-<div class="mode-bar"><div class="mode-buttons"><button type="button" id="mode-requirements" class="mode-button active" data-mode="requirements">Filter &amp; find hardware</button><button type="button" id="browse-btn" class="mode-button" data-mode="browse">Browse all hardware</button></div><span class="catalog-status"><span id="catalog-count">0</span> catalog entries</span></div>
-<div id="quick-start" class="quick-start"><div class="quick-start-heading"><strong>Quick start</strong><span>Start with a common profile or customize the filters below.</span></div><div class="preset-grid" role="group" aria-label="Common hardware profiles">
-<button type="button" class="preset-button" data-preset="s3-lvgl">ESP32-S3 + LVGL + PSRAM</button>
-<button type="button" class="preset-button" data-preset="s3-touchscreen">ESP32-S3 Touchscreen</button>
-<button type="button" class="preset-button" data-preset="amoled-touch-battery">AMOLED + Touch + Battery</button>
-<button type="button" class="preset-button" data-preset="round-amoled">Round AMOLED Touchscreen</button>
-<button type="button" class="preset-button" data-preset="c6-display">ESP32-C6 Display</button>
-<button type="button" class="preset-button" data-preset="large-800x480">ESP32 800×480 Display</button>
-<button type="button" class="preset-button" data-preset="800x480-touch">800×480 Touchscreen</button>
-<button type="button" class="preset-button" data-preset="4-3-touch">4.3″ Touch Display</button>
-<button type="button" class="preset-button" data-preset="touch-spi">ESP32 Touchscreen + SPI</button>
-<button type="button" class="preset-button" data-preset="lvgl-ready">LVGL-Ready Display</button>
+<h2 id="tool-title" class="sr-only">ESP32 touchscreen hardware selector</h2>
+<div class="mode-bar"><div class="mode-buttons"><button type="button" id="mode-requirements" class="mode-button active" data-mode="requirements">Choose &amp; filter</button><button type="button" id="browse-btn" class="mode-button" data-mode="browse">Browse all hardware</button></div><span class="catalog-status"><span id="catalog-count">0</span> catalog entries</span></div>
+
+<section id="project-intent" class="project-intent" aria-labelledby="project-intent-title">
+<div class="section-heading intent-heading"><div><span class="step">01</span><h2 id="project-intent-title">What are you building?</h2></div><p>Choose one use case to influence ranking. You can change it or skip it and use the technical filters below.</p></div>
+<div id="use-case-grid" class="use-case-grid" role="group" aria-label="Project use cases"></div>
+<div class="intent-actions"><button type="button" id="clear-use-case" class="text-button" hidden>Clear project choice</button></div>
+</section>
+
+<div id="platform-guidance" class="platform-guidance" hidden aria-live="polite"></div>
+<div id="quick-start" class="quick-start"><div class="quick-start-heading"><strong>Quick start</strong><span>Start with a common technical profile or customize the filters below.</span></div><div class="preset-grid" role="group" aria-label="Common hardware profiles">
+<button type="button" class="preset-button" data-preset="s3-lvgl">ESP32-S3 + LVGL + PSRAM</button><button type="button" class="preset-button" data-preset="s3-touchscreen">ESP32-S3 Touchscreen</button>
+<button type="button" class="preset-button" data-preset="amoled-touch-battery">AMOLED + Touch + Battery</button><button type="button" class="preset-button" data-preset="round-amoled">Round AMOLED Touchscreen</button>
+<button type="button" class="preset-button" data-preset="c6-display">ESP32-C6 Display</button><button type="button" class="preset-button" data-preset="large-800x480">ESP32 800×480 Display</button>
+<button type="button" class="preset-button" data-preset="800x480-touch">800×480 Touchscreen</button><button type="button" class="preset-button" data-preset="4-3-touch">4.3″ Touch Display</button>
+<button type="button" class="preset-button" data-preset="touch-spi">ESP32 Touchscreen + SPI</button><button type="button" class="preset-button" data-preset="lvgl-ready">LVGL-Ready Display</button>
 <button type="button" class="preset-button" data-preset="native-usb">ESP32 Native USB</button>
 </div></div>
-<div class="browse-placeholder"><div id="browse-note" class="browse-panel" hidden><label for="hardware-search">Search all hardware</label><p>Search by product, manufacturer, MCU, display or tag.</p><input id="hardware-search" type="search" placeholder="e.g. ESP32-S3, Waveshare, OLED, touch"></div></div><form id="selector-form">
-<section class="filter-section"><div class="section-heading"><div><span class="step">01</span><h2>What are you looking for?</h2></div><p>Choose a hardware category and filters. Selections become <strong>Required</strong> automatically; uncheck <strong>Required</strong> when you want a preference instead.</p></div>
+<div class="browse-placeholder"><div id="browse-note" class="browse-panel" hidden><label for="hardware-search">Search all hardware</label><p>Search by product, manufacturer, MCU, display or tag.</p><input id="hardware-search" type="search" placeholder="e.g. ESP32-P4, ESP32-S3, Waveshare, touch"></div></div>
+
+<form id="selector-form">
+<section class="filter-section"><div class="section-heading"><div><span class="step">02</span><h2>Technical requirements</h2></div><p>Choose filters manually. Selections become <strong>Required</strong> automatically; uncheck <strong>Required</strong> to use them as preferences.</p></div>
 <div class="filter-grid">
 <div class="filter-card"><label for="category">Hardware type</label><select id="category" name="category"><option value="">Any hardware</option><option value="display_module">Display module</option><option value="board_with_display">Board with display</option><option value="development_board">Development board</option></select><label class="required-toggle"><input id="category-required" type="checkbox"> Required</label></div>
-<div class="filter-card"><label for="family">ESP32 family</label><select id="family" name="family"><option value="">Any family</option><option>ESP32</option><option>ESP32-S2</option><option>ESP32-S3</option><option>ESP32-C3</option><option>ESP32-C5</option><option>ESP32-C6</option></select><label class="required-toggle"><input id="family-required" type="checkbox"> Required</label></div>
+<div class="filter-card"><label for="family">ESP32 family</label><select id="family" name="family"><option value="">Any family</option><option>ESP32</option><option>ESP32-S2</option><option>ESP32-S3</option><option>ESP32-P4</option><option>ESP32-C3</option><option>ESP32-C5</option><option>ESP32-C6</option></select><label class="required-toggle"><input id="family-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="display_present">Display</label><select id="display_present" name="display_present"><option value="">Any</option><option value="yes">Display required</option><option value="no">No display</option></select><label class="required-toggle"><input id="display_present-required" type="checkbox"> Required</label></div>
 </div></section>
-<section class="filter-section"><div class="section-heading"><div><span class="step">02</span><h2>Display</h2></div><p>Only properties that materially affect selection are exposed.</p></div>
+<section class="filter-section"><div class="section-heading"><div><span class="step">03</span><h2>Display</h2></div><p>Only properties that materially affect selection are exposed.</p></div>
 <div class="filter-grid">
 <div class="filter-card"><label for="display_technology">Technology</label><select id="display_technology" name="display_technology"><option value="">Any</option><option>OLED</option><option>LCD</option><option>TFT</option><option>AMOLED</option><option>e-paper</option><option>other</option></select><label class="required-toggle"><input id="display_technology-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="display_shape">Shape</label><select id="display_shape" name="display_shape"><option value="">Any</option><option>rectangular</option><option>square</option><option>round</option><option>other</option></select><label class="required-toggle"><input id="display_shape-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="size_min">Minimum display size (inches)</label><select id="size_min" name="size_min"><option value="">Any</option><option value="2">2″</option><option value="3">3″</option><option value="4">4″</option><option value="5">5″</option></select><label class="required-toggle"><input id="size_min-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="resolution">Resolution</label><select id="resolution" name="resolution"><option value="">Any</option><option value="240x320">240×320</option><option value="320x240">320×240</option><option value="368x448">368×448</option><option value="480x320">480×320</option><option value="800x480">800×480</option><option value="1024x600">1024×600</option></select><label class="required-toggle"><input id="resolution-required" type="checkbox"> Required</label></div>
-<div class="filter-card"><label for="display_interface">Display interface</label><select id="display_interface" name="display_interface"><option value="">Any</option><option>SPI</option><option>RGB</option><option>8080</option><option>QSPI</option><option>I2C</option><option>other</option></select><label class="required-toggle"><input id="display_interface-required" type="checkbox"> Required</label></div>
+<div class="filter-card"><label for="display_interface">Display interface</label><select id="display_interface" name="display_interface"><option value="">Any</option><option>SPI</option><option>RGB</option><option>8080</option><option>QSPI</option><option>I2C</option><option>MIPI-DSI</option><option>other</option></select><label class="required-toggle"><input id="display_interface-required" type="checkbox"> Required</label></div>
 </div></section>
-<section class="filter-section"><div class="section-heading"><div><span class="step">03</span><h2>Touch &amp; buses</h2></div></div>
+<section class="filter-section"><div class="section-heading"><div><span class="step">04</span><h2>Touch &amp; buses</h2></div></section>
 <div class="filter-grid">
 <div class="filter-card"><label for="touch">Touch</label><select id="touch" name="touch"><option value="">Any</option><option value="yes">Touch required</option><option value="no">No touch</option></select><label class="required-toggle"><input id="touch-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="touch_type">Touch type</label><select id="touch_type" name="touch_type"><option value="">Any</option><option>capacitive</option><option>resistive</option></select><label class="required-toggle"><input id="touch_type-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="touch_interface">Touch interface</label><select id="touch_interface" name="touch_interface"><option value="">Any</option><option>I2C</option><option>SPI</option><option>other</option></select><label class="required-toggle"><input id="touch_interface-required" type="checkbox"> Required</label></div>
 </div></section>
-<section class="filter-section"><div class="section-heading"><div><span class="step">04</span><h2>Connectivity &amp; hardware</h2></div></div>
+<section class="filter-section"><div class="section-heading"><div><span class="step">05</span><h2>Connectivity &amp; hardware</h2></div></section>
 <div class="filter-grid">
 <div class="filter-card"><label for="native_usb">USB</label><select id="native_usb" name="native_usb"><option value="">Any</option><option value="yes">Native USB</option><option value="no">No native USB</option></select><label class="required-toggle"><input id="native_usb-required" type="checkbox"> Required</label><small>UART bridges never satisfy a Native USB requirement.</small></div>
 <div class="filter-card"><label for="microsd">microSD</label><select id="microsd" name="microsd"><option value="">Any</option><option value="yes">Present</option><option value="no">Not present</option></select><label class="required-toggle"><input id="microsd-required" type="checkbox"> Required</label></div>
@@ -77,21 +78,24 @@
 <div class="filter-card"><label for="rtc">RTC</label><select id="rtc" name="rtc"><option value="">Any</option><option value="yes">Onboard RTC</option><option value="no">No onboard RTC</option></select><label class="required-toggle"><input id="rtc-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="audio">Audio</label><select id="audio" name="audio"><option value="">Any</option><option value="yes">Onboard audio</option><option value="no">No onboard audio</option></select><label class="required-toggle"><input id="audio-required" type="checkbox"> Required</label></div>
 </div></section>
-<section class="filter-section"><div class="section-heading"><div><span class="step">05</span><h2>Certification</h2></div></div>
+<section class="filter-section"><div class="section-heading"><div><span class="step">07</span><h2>Certification</h2></div></section>
 <div class="filter-grid">
 <div class="filter-card"><label for="ce">CE</label><select id="ce" name="ce"><option value="">Any</option><option value="yes">CE</option><option value="no">No CE</option></select><label class="required-toggle"><input id="ce-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="fcc">FCC</label><select id="fcc" name="fcc"><option value="">Any</option><option value="yes">FCC</option><option value="no">No FCC</option></select><label class="required-toggle"><input id="fcc-required" type="checkbox"> Required</label></div>
 </div></section>
-<div class="form-actions"><button type="submit" class="btn-primary">Find compatible hardware</button><button type="button" id="reset-btn" class="btn-secondary">Clear All Filters</button><button type="button" id="share-btn" class="btn-secondary">Share setup</button><span id="live-count" class="live-count" aria-live="polite">Choose filters to see matching hardware.</span></div>
+<div class="form-actions"><button type="submit" class="btn-primary">Find recommended hardware</button><button type="button" id="reset-btn" class="btn-secondary">Clear All Filters</button><button type="button" id="share-btn" class="btn-secondary">Share setup</button><span id="live-count" class="live-count" aria-live="polite">Choose a project or technical filters to see recommendations.</span></div>
 </form>
-<div id="catalog-error" class="error-panel" hidden></div><div id="catalog-warning" class="warning-panel" hidden>Some catalog entries failed validation and are excluded from compatibility calculations.</div>
+<div id="catalog-error" class="error-panel" hidden></div><div id="catalog-warning" class="warning-panel" hidden></div>
 </section>
-<section id="results" class="results" hidden aria-live="polite"><div class="results-heading"><div><span class="eyebrow">RESULTS</span><h2><span id="result-count">0</span> matching hardware</h2><p id="result-summary"></p><p class="result-meta"><span id="result-total">0</span> valid catalog entries · <span id="result-excluded">0</span> excluded</p></div></div>
-<div id="empty-state" class="empty-state" hidden><h3>No hardware meets all mandatory requirements.</h3><p id="empty-state-text"></p><p>Try changing one or more filters from <strong>Required</strong> to a preference.</p></div>
-<div id="exclusion-panel" class="exclusion-panel"><h3>Why other products were excluded</h3><p>Mandatory filters are evaluated before preference scoring.</p><ul id="exclusion-list"></ul></div>
+<section id="results" class="results" hidden aria-live="polite">
+<div class="results-heading"><div><span class="eyebrow">RECOMMENDATIONS</span><h2><span id="result-count">0</span> recommended hardware options</h2><p id="result-summary"></p><p class="result-meta"><span id="result-total">0</span> valid catalog entries · <span id="result-excluded">0</span> excluded</p></div></div>
+<div id="empty-state" class="empty-state" hidden><h3>No hardware meets all mandatory requirements.</h3><p id="empty-state-text"></p><p>Try changing one or more technical filters from <strong>Required</strong> to a preference.</p></div>
+<div id="exclusion-panel" class="exclusion-panel"><h3>Why other products were excluded</h3><p>Mandatory technical filters are evaluated before project-fit scoring.</p><ul id="exclusion-list"></ul></div>
 <div id="product-grid" class="product-grid"></div></section>
-<section class="seo-intro" aria-labelledby="about-selector"><h2 id="about-selector">Choose the Right ESP32 Board or Display for Your Project</h2><p>This free <strong>ESP32 board and display selector</strong> helps you find compatible development boards, ESP32 display modules and touchscreen boards based on the hardware specifications that matter in real-world projects.</p><p>Filter ESP32 hardware by <strong>ESP32 family, display technology, screen size, resolution, display interface, touchscreen type, touch interface, PSRAM, GPIO availability, LVGL support, USB and battery support</strong>. Compare hardware for an <strong>ESP32 touchscreen</strong>, an <strong>ESP32-S3 display</strong>, an <strong>ESP32 display for LVGL</strong>, an AMOLED touchscreen, an 800×480 display or a board for a larger graphical interface.</p><p>The selector separates <strong>mandatory requirements from preferences</strong>, making it easier to identify which ESP32 boards and display modules meet your project constraints instead of choosing hardware based only on screen size or headline specifications.</p><h2>ESP32 Display and Touchscreen Compatibility</h2><p>Choosing an ESP32 display is about more than screen size. <strong>Resolution, display interface, touch controller, touch interface, PSRAM, available GPIO and memory requirements</strong> can all affect whether a board is suitable for a particular project. A small SPI TFT display can have very different requirements from a large RGB display, while an ESP32-S3 board running a demanding <strong>LVGL</strong> interface may require substantially more PSRAM and GPIO resources.</p><p>The selector can help you compare hardware for <strong>ESP32 touchscreen displays, ESP32-S3 displays, LVGL projects, AMOLED and TFT displays, 800×480 graphical displays, SPI, RGB, 8080 and QSPI displays, capacitive and resistive touchscreens, battery-powered ESP32 projects</strong> and HMI or graphical user interfaces.</p><p>For more detailed information about choosing an ESP32 touchscreen, display interfaces, touch technologies, ESP32-S3 hardware, PSRAM and LVGL, see the <a href="https://embeddednerd.com/esp32-touchscreen-displays-guide/">ESP32 Touchscreen Displays Guide</a>. When you find a suitable board, verify the manufacturer's exact <strong>display controller, touch controller, pinout, operating voltage, available memory, GPIO allocation and software-driver support</strong> before purchasing.</p></section>
-<footer class="footer"><p>The catalog is deliberately conservative: unknown specifications remain unknown rather than being guessed. Verify exact controller, pinout, voltage, memory and driver support before purchase.</p><p>Some product links may be affiliate links. If you buy through them, Embedded Nerd may earn a commission at no extra cost to you.</p><p><a href="https://embeddednerd.com/esp32-touchscreen-displays-guide/">ESP32 Touchscreen Displays Guide</a> · <a href="https://embeddednerd.com/tools/esp32-touchscreen-selector/">Embedded Nerd selector</a></p></footer>
+<section class="seo-intro" aria-labelledby="about-selector"><h2 id="about-selector">Recommended ESP32 Touchscreen Displays for Your Project</h2><p>This free <strong>ESP32 touchscreen selector</strong> helps you answer a practical question: which ESP32 touchscreen board is most suitable for the project you are actually building?</p><p>Start with a use case such as a Home Assistant dashboard, HMI / control panel, sensor dashboard, battery-powered device, wearable, LVGL GUI, camera / AI vision or audio interface. Then refine the recommendation with technical requirements such as MCU, display size, resolution, interface, touch, PSRAM and LVGL support.</p><h2>ESP32-S3 vs ESP32-P4</h2><p><strong>Choose ESP32-S3</strong> for many conventional touchscreen projects where simplicity, broad board availability and proven graphics support matter. <strong>Choose ESP32-P4</strong> when your project genuinely benefits from advanced graphics, MIPI-DSI, camera/MIPI-CSI, larger HMI displays or multimedia-oriented hardware.</p></section>
+<footer class="footer"><p>The catalog is deliberately conservative: unknown specifications remain unknown rather than being guessed. Verify exact controller, pinout, voltage, memory, interface and driver support before purchase.</p><p>Some product links may be affiliate links. If you buy through them, Embedded Nerd may earn a commission at no extra cost to you.</p></footer>
 </main>
-<script src="js/compatibility-engine.js?v=20260929" defer></script><script src="js/selector.js?v=20260929" defer></script>
+<script src="js/compatibility-engine.js?v=20261005" defer></script>
+<script src="js/project-recommendations.js?v=20261005" defer></script>
+<script src="js/selector.js?v=20261005" defer></script>
 </body></html>
