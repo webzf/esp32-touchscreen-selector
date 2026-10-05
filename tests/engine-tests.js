@@ -53,7 +53,7 @@ assert.equal(catalogErrors.filter(e=>e.length>0).length,0);
 assert.equal(catalog.products.length,10);
 
 const ids=catalog.products.map(p=>p.id);
-["ili9341-xpt2046-2-8-touchscreen","waveshare-esp32-s3-touch-lcd-4-3","waveshare-esp32-s3-touch-lcd-7","waveshare-esp32-s3-touch-lcd-1-85b","waveshare-esp32-c6-touch-amoled-1-8","waveshare-esp32-s3-touch-amoled-1-75","waveshare-esp32-s3-touch-amoled-2-16","waveshare-esp32-s3-touch-amoled-2-41","sunton-esp32-8048s043c","esp32-2432s028-2-8-cyd"].forEach(id=>assert.ok(ids.includes(id)));
+["ili9341-xpt2046-2-8-touchscreen","waveshare-esp32-s3-touch-lcd-4-3","waveshare-esp32-s3-touch-lcd-7","waveshare-esp32-s3-touch-lcd-1-85b","waveshare-esp32-c6-touch-amoled-1-8","waveshare-esp32-s3-touch-amoled-1-75","waveshare-esp32-s3-touch-amoled-2-16","waveshare-esp32-s3-touch-amoled-2-41","sunton-esp32-8048s043c","esp32-2432s028-2-8-cyd","ssd1306-oled-display"].forEach(id=>assert.ok(ids.includes(id)));
 
 const ws43=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-4-3");
 const ws7=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-7");
@@ -89,20 +89,23 @@ assert.equal(browse.valid,10);
 assert.equal(browse.passed,10);
 assert.equal(browse.displayed,10);
 
-// Project model checks.
+// Project model and tier checks.
 assert.equal(P.USE_CASE_ORDER.length,9);
-assert.ok(P.USE_CASES["home-assistant-dashboard"]);
-assert.ok(P.USE_CASES["hmi-control-panel"]);
-assert.ok(P.USE_CASES["sensor-data-dashboard"]);
-assert.ok(P.USE_CASES["battery-powered-device"]);
-assert.ok(P.USE_CASES["wearable-compact-device"]);
-assert.ok(P.USE_CASES["lvgl-gui"]);
-assert.ok(P.USE_CASES["camera-ai-vision"]);
-assert.ok(P.USE_CASES["audio-voice-interface"]);
-assert.ok(P.USE_CASES["general-esp32-project"]);
+P.USE_CASE_ORDER.forEach(function(id){
+  const profile=P.USE_CASES[id];
+  assert.ok(profile);
+  assert.ok(profile.tiers||profile.preferences);
+  assert.ok(profile.platform&&profile.platform.s3&&profile.platform.p4);
+});
+assert.equal(P.getUseCaseRequirements("general-esp32-project")&&Object.keys(P.getUseCaseRequirements("general-esp32-project")).length,0);
 
 const wearableScore=P.scoreUseCase(s3,"wearable-compact-device");
 assert.ok(wearableScore.score>0);
+assert.ok(Array.isArray(wearableScore.preferred));
+assert.ok(Array.isArray(wearableScore.useful));
+assert.ok(Array.isArray(wearableScore.optional));
+assert.deepEqual(wearableScore.required,[]);
+
 const p4Vision=P.scoreUseCase(p4,"camera-ai-vision");
 assert.equal(p4Vision.score,100);
 
