@@ -101,6 +101,23 @@ function reasonForFailure(p,req){
   ["battery","imu","rtc","audio"].forEach(function(k){if(req[k]!==null&&req[k]!==undefined)add(meetsBoolean(p.features[k],req[k]),k+" requirement not met");});
   return reasons.length?reasons:["Mandatory compatibility rule not met"];
 }
+var NEGATIVE_PREFERENCE_CHECKS=[
+  ["touch","Has touch",function(p){return p.touch.touch;}],
+  ["display_present","Has a display",function(p){return p.display.display_present;}],
+  ["native_usb","Has native USB",function(p){return p.usb.native_usb;}],
+  ["microsd","Has microSD",function(p){return p.hardware.microsd;}],
+  ["battery_charging","Has battery charging",function(p){return p.hardware.battery_charging;}],
+  ["lvgl_support","Has LVGL support",function(p){return p.software.lvgl.support;}],
+  ["battery","Has onboard battery support",function(p){return p.features.battery;}],
+  ["imu","Has onboard IMU",function(p){return p.features.imu;}],
+  ["rtc","Has onboard RTC",function(p){return p.features.rtc;}],
+  ["audio","Has onboard audio",function(p){return p.features.audio;}]
+];
+function preferenceConflicts(p,prefs){
+  var out=[];
+  NEGATIVE_PREFERENCE_CHECKS.forEach(function(c){if(prefs[c[0]]===false&&c[2](p)===true)out.push(c[1]+" (you asked for none)");});
+  return out;
+}
 function scorePreferences(p,prefs){
   var score=0,possible=0,matches=[],misses=[];
   function soft(label,ok,knownValue){possible++;if(ok){score++;matches.push(label);}else if(knownValue){misses.push(label);}else{misses.push(label+" (unknown data)");}}
@@ -125,7 +142,7 @@ function scorePreferences(p,prefs){
   if(prefs.lvgl_support!==null&&prefs.lvgl_support!==undefined)soft("LVGL support",p.software.lvgl.support===prefs.lvgl_support,valueKnown(p.software.lvgl.support));
   if(prefs.lvgl_level)soft("LVGL: "+prefs.lvgl_level,p.software.lvgl.level===prefs.lvgl_level,valueKnown(p.software.lvgl.level));
   ["battery","imu","rtc","audio"].forEach(function(k){if(prefs[k]!==null&&prefs[k]!==undefined)soft(k.charAt(0).toUpperCase()+k.slice(1),p.features[k]===prefs[k],valueKnown(p.features[k]));});
-  return {score:possible?Math.round(score/possible*100):0,matches:matches,misses:misses};
+  return {score:possible?Math.round(score/possible*100):0,matches:matches,misses:misses,conflicts:preferenceConflicts(p,prefs)};
 }
 function evaluate(products,requirements,preferences,projectIntent){
   var normalized=products.map(normalizeProduct),valid=normalized.filter(function(p){return validateProduct(p).length===0;}),exclusions={},excluded=[],passed=[];
@@ -133,8 +150,8 @@ function evaluate(products,requirements,preferences,projectIntent){
   var ranked=passed.map(function(p){
     var base=scorePreferences(p,preferences||{}),intent=(projectIntent&&projectIntent.useCaseId&&global.EmbeddedNerdProjectRecommendations)?global.EmbeddedNerdProjectRecommendations.scoreUseCase(p,projectIntent.useCaseId):{score:0,matches:[],misses:[],unknown:[]};
     var finalScore=projectIntent&&projectIntent.useCaseId?Math.round((intent.score*0.65)+(base.score*0.35)):base.score;
-    return {product:p,score:finalScore,technicalScore:base.score,matches:base.matches,misses:base.misses,useCaseScore:intent.score,useCaseMatches:intent.matches,useCaseMisses:intent.misses,useCaseUnknown:intent.unknown};
-  }).sort(function(a,b){return b.score-a.score||b.useCaseScore-a.useCaseScore||b.technicalScore-a.technicalScore||a.product.name.localeCompare(b.product.name);});
+    return {product:p,score:finalScore,technicalScore:base.score,matches:base.matches,misses:base.misses,conflicts:base.conflicts,useCaseScore:intent.score,useCaseMatches:intent.matches,useCaseMisses:intent.misses,useCaseUnknown:intent.unknown};
+  }).sort(function(a,b){return a.conflicts.length-b.conflicts.length||b.score-a.score||b.useCaseScore-a.useCaseScore||b.technicalScore-a.technicalScore||a.product.name.localeCompare(b.product.name);});
   return {total:normalized.length,valid:valid.length,invalid:normalized.length-valid.length,passed:passed.length,displayed:ranked.length,ranked:ranked,exclusions:exclusions,excluded:excluded};
 }
 global.EmbeddedNerdCompatibility={FAMILY_ORDER:FAMILY_ORDER,validateProduct:validateProduct,normalizeProduct:normalizeProduct,matchesRequirement:matchesRequirement,scorePreferences:scorePreferences,evaluate:evaluate};
