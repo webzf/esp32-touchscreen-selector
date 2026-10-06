@@ -50,7 +50,7 @@ assert.equal(catalog.schema_version,"2.1");
 assert.ok(Array.isArray(catalog.products));
 const catalogErrors=catalog.products.map(p=>E.validateProduct(p));
 assert.equal(catalogErrors.filter(e=>e.length>0).length,0);
-assert.equal(catalog.products.length,11);
+assert.equal(catalog.products.length,12);
 
 const ids=catalog.products.map(p=>p.id);
 ["ili9341-xpt2046-2-8-touchscreen","waveshare-esp32-s3-touch-lcd-4-3","waveshare-esp32-s3-touch-lcd-7","waveshare-esp32-s3-touch-lcd-1-85b","waveshare-esp32-c6-touch-amoled-1-8","waveshare-esp32-s3-touch-amoled-1-75","waveshare-esp32-s3-touch-amoled-2-16","waveshare-esp32-s3-touch-amoled-2-41","sunton-esp32-8048s043c","esp32-2432s028-2-8-cyd","ssd1306-oled-display"].forEach(id=>assert.ok(ids.includes(id)));
@@ -74,20 +74,20 @@ assert.ok(unknownUsb.misses.includes("Native USB (unknown data)"));
 assert.equal(E.scorePreferences(ws43,{lvgl_support:true}).score,100);
 
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
-assert.equal(catalogEval.valid,11);
+assert.equal(catalogEval.valid,12);
 assert.equal(catalogEval.passed,7);
 assert.equal(catalogEval.ranked.length,7);
-assert.equal(catalogEval.excluded.length,4);
+assert.equal(catalogEval.excluded.length,5);
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
 assert.equal(flashEval.passed,6);
 assert.equal(flashEval.ranked[0].product.id,"sunton-esp32-8048s043c");
 
 const browse=E.evaluate(catalog.products,{}, {});
-assert.equal(browse.total,11);
-assert.equal(browse.valid,11);
-assert.equal(browse.passed,11);
-assert.equal(browse.displayed,11);
+assert.equal(browse.total,12);
+assert.equal(browse.valid,12);
+assert.equal(browse.passed,12);
+assert.equal(browse.displayed,12);
 
 // Project model and tier checks.
 assert.equal(P.USE_CASE_ORDER.length,9);
@@ -150,6 +150,10 @@ assert.ok(html.includes("ESP32-S3 vs ESP32-P4"));
 assert.ok(html.includes("Recommended ESP32 Touchscreen Displays"));
 assert.ok(html.includes('id="reset-btn"'));
 assert.ok(html.includes("Clear All Filters"));
+assert.ok(html.includes("selector-live-bar"));
+assert.ok(html.includes("Advanced filters"));
+assert.ok(selectorSource.includes("starter hardware shown"));
+assert.ok(selectorSource.includes("TERM_HELP"));
 assert.ok(html.includes('aria-label="Project use cases"'));
 assert.ok(html.includes("js/project-recommendations.js"));
 assert.ok(fs.readFileSync(__dirname+"/../.github/workflows/v2-tests.yml","utf8").includes("node tests/engine-tests.js"));
