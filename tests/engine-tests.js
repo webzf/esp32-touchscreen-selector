@@ -163,4 +163,42 @@ assert.ok(selectorSource.includes('Showing "+visible.length+" starter options fr
 assert.ok(html.includes("js/project-recommendations.js"));
 assert.ok(fs.readFileSync(__dirname+"/../.github/workflows/v2-tests.yml","utf8").includes("node tests/engine-tests.js"));
 
+// --- No-touch handling: required vs preference, conflict demotion, low-results notice ---
+{
+  const all=catalog.products;
+  const noTouchIds=all.filter(p=>p.touch&&p.touch.touch===false).map(p=>p.id);
+  assert.ok(noTouchIds.length>=1,"catalog must contain at least one no-touch product");
+
+  // Required: touchscreens are excluded entirely
+  const req=E.evaluate(all,{touch:false},{},null);
+  assert.equal(req.passed,noTouchIds.length);
+  assert.ok(req.ranked.every(i=>i.product.touch.touch===false));
+  assert.ok(req.ranked.every(i=>i.conflicts.length===0));
+
+  // Preference only: nothing excluded, but touchscreens are ranked after every no-touch product and flagged
+  const pref=E.evaluate(all,{},{touch:false},null);
+  assert.equal(pref.passed,pref.valid);
+  const firstConflict=pref.ranked.findIndex(i=>i.conflicts.length>0);
+  assert.ok(firstConflict>=noTouchIds.length-1,"conflicting items must come after the no-touch ones");
+  assert.ok(pref.ranked.slice(0,firstConflict).every(i=>i.product.touch.touch===false));
+  assert.ok(pref.ranked.slice(firstConflict).every(i=>i.conflicts.length>0&&i.product.touch.touch===true));
+  assert.ok(pref.ranked[firstConflict].conflicts[0].includes("Has touch"));
+
+  // Demotion also holds when a project use case is active (use-case score must not lift touchscreens above no-touch items)
+  const withIntent=E.evaluate(all,{},{touch:false},{useCaseId:"home-assistant-dashboard"});
+  const lastClean=withIntent.ranked.map(i=>i.conflicts.length).lastIndexOf(0);
+  const firstDirty=withIntent.ranked.findIndex(i=>i.conflicts.length>0);
+  assert.ok(lastClean<firstDirty,"all conflict-free items must precede conflicting ones");
+
+  // "touch: true" preference never creates a conflict
+  const wantTouch=E.evaluate(all,{},{touch:true},null);
+  assert.ok(wantTouch.ranked.every(i=>i.conflicts.length===0));
+}
+
+// UI wiring for the notice and conflict block
+assert.ok(html.includes('id="result-notice"'));
+assert.ok(selectorSource.includes("function updateResultNotice"));
+assert.ok(selectorSource.includes("conflict-warning"));
+assert.ok(selectorSource.includes("Only \"+ev.passed+\" catalog"));
+
 console.log("Project recommendation + compatibility integration tests: PASS");
