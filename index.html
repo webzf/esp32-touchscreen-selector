@@ -71,7 +71,6 @@
 
 <section class="filter-section"><div class="section-heading"><div><span class="step">04</span><h2>Touch &amp; buses</h2></div><p>Match touch technology and bus requirements when they matter.</p></div>
 <div class="filter-grid">
-<div class="filter-card"><label for="touch">Touch</label><select id="touch" name="touch"><option value="">Any</option><option value="yes">Touch required</option><option value="no">No touch</option></select><label class="required-toggle"><input id="touch-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="touch_type">Touch type</label><select id="touch_type" name="touch_type"><option value="">Any</option><option>capacitive</option><option>resistive</option></select><label class="required-toggle"><input id="touch_type-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="touch_interface">Touch interface</label><select id="touch_interface" name="touch_interface"><option value="">Any</option><option>I2C</option><option>SPI</option><option>other</option></select><label class="required-toggle"><input id="touch_interface-required" type="checkbox"> Required</label></div>
 </div></section>
@@ -87,7 +86,6 @@
 
 <section class="filter-section"><div class="section-heading"><div><span class="step">06</span><h2>Project features</h2></div><p>Use these when your project depends on software or onboard hardware capabilities.</p></div>
 <div class="filter-grid">
-<div class="filter-card"><label for="lvgl_support">LVGL</label><select id="lvgl_support" name="lvgl_support"><option value="">Any</option><option value="yes">Supported</option><option value="no">Not supported</option></select><label class="required-toggle"><input id="lvgl_support-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="lvgl_level">LVGL support level</label><select id="lvgl_level" name="lvgl_level"><option value="">Any</option><option value="ready">LVGL-ready</option><option value="compatible">LVGL-compatible</option></select><label class="required-toggle"><input id="lvgl_level-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="battery">Battery</label><select id="battery" name="battery"><option value="">Any</option><option value="yes">Onboard battery support</option><option value="no">No onboard battery support</option></select><label class="required-toggle"><input id="battery-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="imu">IMU</label><select id="imu" name="imu"><option value="">Any</option><option value="yes">Onboard IMU</option><option value="no">No onboard IMU</option></select><label class="required-toggle"><input id="imu-required" type="checkbox"> Required</label></div>
@@ -101,7 +99,6 @@
 <div class="filter-card"><label for="fcc">FCC</label><select id="fcc" name="fcc"><option value="">Any</option><option value="yes">FCC</option><option value="no">No FCC</option></select><label class="required-toggle"><input id="fcc-required" type="checkbox"> Required</label></div>
 </div></section>
 
-<div id="selector-live-bar" class="selector-live-bar" aria-live="polite"><strong id="live-count">Catalog loading…</strong><span id="live-context">Choose a project or adjust a filter to refine the results.</span></div>
 <div id="active-filter-summary" class="active-filter-summary" hidden></div>
 <div id="live-result-bar" class="live-result-bar" aria-live="polite"><strong>Results</strong><span id="live-count">Choose a project or technical filters to see recommendations.</span></div>
 <div class="form-actions"><button type="submit" class="btn-primary">Find recommended hardware</button><button type="button" id="reset-btn" class="btn-secondary">Clear All Filters</button><button type="button" id="share-btn" class="btn-secondary">Share setup</button></div>
