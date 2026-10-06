@@ -159,7 +159,7 @@ assert.ok(selectorSource.includes("TERM_HELP"));
 assert.ok(html.includes('aria-label="Project use cases"'));
 assert.ok(selectorSource.includes('mainKeys=["family","size_min","touch","psram_min","lvgl_support"]'));
 assert.ok(selectorSource.includes("TERM_HELP"));
-assert.ok(selectorSource.includes("Showing "+visible.length+" starter options from the catalog."));
+assert.ok(selectorSource.includes('Showing "+visible.length+" starter options from the catalog.'));
 assert.ok(html.includes("js/project-recommendations.js"));
 assert.ok(fs.readFileSync(__dirname+"/../.github/workflows/v2-tests.yml","utf8").includes("node tests/engine-tests.js"));
 
