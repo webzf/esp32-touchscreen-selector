@@ -33,7 +33,7 @@
 </section>
 
 <div id="platform-guidance" class="platform-guidance" hidden aria-live="polite"></div>
-<div id="quick-start" class="quick-start"><div class="quick-start-heading"><strong>Quick start</strong><span>Start with a common technical profile or customize the filters below.</span></div><div class="preset-grid" role="group" aria-label="Common hardware profiles">
+<div id="quick-start" class="quick-start"><div class="quick-start-heading"><div><span class="section-kicker">QUICK START</span><strong>Start with a common profile</strong></div><span>Use a starting point, then refine the hardware filters below.</span></div><div class="preset-grid" role="group" aria-label="Common hardware profiles">
 <button type="button" class="preset-button" data-preset="s3-lvgl">ESP32-S3 + LVGL + PSRAM</button>
 <button type="button" class="preset-button" data-preset="s3-touchscreen">ESP32-S3 Touchscreen</button>
 <button type="button" class="preset-button" data-preset="amoled-touch-battery">AMOLED + Touch + Battery</button>
@@ -50,7 +50,7 @@
 <div class="browse-placeholder"><div id="browse-note" class="browse-panel" hidden><label for="hardware-search">Search all hardware</label><p>Search by product, manufacturer, MCU, display or tag.</p><input id="hardware-search" type="search" placeholder="e.g. ESP32-P4, ESP32-S3, Waveshare, touch"></div></div>
 
 <form id="selector-form">
-<section class="filter-section"><div class="section-heading"><div><span class="step">02</span><h2>What technical hardware do you need?</h2></div><p>Choose technical requirements manually. Selections become <strong>Required</strong> automatically; uncheck <strong>Required</strong> when you want a preference instead.</p></div>
+<section class="filter-section"><div class="section-heading"><div><span class="step">02</span><h2>Refine the hardware</h2></div><p>Start with the five essentials below. Selections become <strong>Required</strong> automatically; uncheck <strong>Required</strong> when you want a preference instead.</p></div>
 <div class="filter-grid">
 <div class="filter-card"><label for="family">ESP32 family</label><select id="family" name="family"><option value="">Any family</option><option>ESP32</option><option>ESP32-S2</option><option>ESP32-S3</option><option>ESP32-P4</option><option>ESP32-C3</option><option>ESP32-C5</option><option>ESP32-C6</option></select><label class="required-toggle"><input id="family-required" type="checkbox"> Required</label></div>
 <div class="filter-card"><label for="size_min">Display size</label><select id="size_min" name="size_min"><option value="">Any size</option><option value="2">≥ 2″</option><option value="3">≥ 3″</option><option value="4">≥ 4″</option><option value="5">≥ 5″</option></select><label class="required-toggle"><input id="size_min-required" type="checkbox"> Required</label></div>
