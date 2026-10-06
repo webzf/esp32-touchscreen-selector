@@ -151,7 +151,7 @@ assert.ok(html.includes("Recommended ESP32 Touchscreen Displays"));
 assert.ok(html.includes('id="reset-btn"'));
 assert.ok(html.includes("Clear All Filters"));
 assert.ok(html.includes("selector-live-bar"));
-assert.ok(html.includes("Advanced filters"));
+assert.ok(selectorSource.includes("Advanced filters"));
 assert.ok(selectorSource.includes("starter hardware shown"));
 assert.ok(selectorSource.includes("TERM_HELP"));
 assert.ok(html.includes('aria-label="Project use cases"'));
