@@ -112,14 +112,24 @@ function setupAdvancedFilters(){
   main.querySelector(".section-heading p").innerHTML="These five filters cover the most useful first pass. Open <strong>Advanced filters</strong> when you need more precise hardware constraints.";
   var mainKeys=["family","size_min","touch","psram_min","lvgl_support"];
   var allCards=Array.prototype.slice.call(f.querySelectorAll(".filter-card"));
+  var advancedFromMain=[];
   allCards.forEach(function(card){
     var field=card.querySelector("select,input");if(!field)return;
     if(mainKeys.indexOf(field.id)>=0)grid.appendChild(card);
+    else if(card.parentNode===grid)advancedFromMain.push(card);
   });
+  advancedFromMain.forEach(function(card){grid.removeChild(card);});
   grid.classList.add("main-filter-grid");
   var d=document.createElement("details");d.id="advanced-filters";d.className="advanced-filters";
   var m=document.createElement("summary");m.innerHTML='<strong>Advanced filters</strong><span class="advanced-filter-count">optional</span><span>Display, touch buses, USB, memory, storage, features and certification</span>';
   d.appendChild(m);
+  if(advancedFromMain.length){
+    var extra=document.createElement("section");extra.className="filter-section";
+    extra.innerHTML='<div class="section-heading"><div><span class="step">02A</span><h2>Hardware type</h2></div><p>Use these when you need to distinguish integrated boards from standalone display modules.</p></div>';
+    var extraGrid=document.createElement("div");extraGrid.className="filter-grid";
+    advancedFromMain.forEach(function(card){extraGrid.appendChild(card);});
+    extra.appendChild(extraGrid);d.appendChild(extra);
+  }
   sections.forEach(function(section,i){
     if(i===0)return;
     var sectionGrid=section.querySelector(".filter-grid");
@@ -129,9 +139,9 @@ function setupAdvancedFilters(){
       });
       sectionGrid.innerHTML="";
       remaining.forEach(function(card){sectionGrid.appendChild(card);});
-      if(!remaining.length)section.remove();
+      if(!remaining.length){section.remove();return;}
     }
-    if(section.parentNode) d.appendChild(section);
+    d.appendChild(section);
   });
   f.insertBefore(d,main.nextSibling);
 }
