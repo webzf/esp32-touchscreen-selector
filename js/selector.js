@@ -107,7 +107,9 @@ function setupAdvancedFilters(){
   var f=$("selector-form"),s=f.querySelectorAll(".filter-section");if(s.length<5)return;
   var d=document.createElement("details");d.id="advanced-filters";d.className="advanced-filters";
   var m=document.createElement("summary");m.innerHTML='<strong>Advanced filters</strong><span class="advanced-filter-count">optional</span><span>Display details, buses, memory, storage, GPIO and certification</span>';
-  d.appendChild(m);for(var i=1;i<s.length;i++)d.appendChild(s[i]);s[0].parentNode.insertBefore(d,s[0].nextSibling);
+  d.appendChild(m);for(var i=1;i<s.length;i++)d.appendChild(s[i]);
+  ["category","display_present"].forEach(function(id){var e=$(id);var card=e&&e.closest(".filter-card");if(card)d.appendChild(card);});
+  s[0].parentNode.insertBefore(d,s[0].nextSibling);
 }
 var PRESETS={"s3-lvgl":{family:"ESP32-S3",psram_min:"8",lvgl_support:"yes"},"s3-touchscreen":{family:"ESP32-S3",display_present:"yes",touch:"yes",psram_min:"8"},"amoled-touch-battery":{display_present:"yes",display_technology:"AMOLED",touch:"yes",touch_type:"capacitive",battery:"yes",battery_charging:"yes"},"round-amoled":{display_present:"yes",display_technology:"AMOLED",display_shape:"round",touch:"yes"},"c6-display":{family:"ESP32-C6",display_present:"yes"},"large-800x480":{display_present:"yes",resolution:"800x480"},"800x480-touch":{display_present:"yes",resolution:"800x480",touch:"yes"},"4-3-touch":{display_present:"yes",size_min:"4",touch:"yes"},"touch-spi":{display_present:"yes",touch:"yes",touch_interface:"SPI"},"lvgl-ready":{display_present:"yes",lvgl_support:"yes",lvgl_level:"ready"},"native-usb":{native_usb:"yes"}};
 function applyPreset(id,shouldReset){
@@ -226,11 +228,11 @@ function relevantRanked(ev){
   var threshold=Math.max(15,Math.round(topScore*0.40));
   return ev.ranked.filter(function(item){return item.score>0&&item.score>=threshold;});
 }
-function show(ev){
+function show(ev,shouldScroll){
   var active=Object.keys(build().r).length+Object.keys(build().p).length+(selectedUseCase?1:0);
   var defaultView=!selectedUseCase&&active===0;
   var visible=defaultView?ev.ranked.slice(0,6):relevantRanked(ev);
-  $("result-count").textContent=visible.length;$("result-total").textContent=ev.valid;$("result-excluded").textContent=Math.max(0,ev.valid-visible.length);
+  $("result-count").textContent=visible.length;$("result-total").textContent=ev.valid;$("result-excluded").textContent=defaultView?0:Math.max(0,ev.valid-visible.length);
   var active=Object.keys(build().r).length+Object.keys(build().p).length+(selectedUseCase?1:0);
   $("result-summary").textContent=selectedUseCase
     ? visible.length+" relevant hardware options ranked for "+projectProfile().label+". Low-relevance matches are hidden so the list stays focused."
@@ -245,7 +247,7 @@ function show(ev){
     $("empty-state").hidden=true;
     productGrid.innerHTML=visible.slice(0,50).map(card).join("");
   }
-  results.hidden=false;results.scrollIntoView({behavior:"smooth",block:"start"});
+  results.hidden=false;if(shouldScroll!==false)results.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function browse(){
   var q=$("hardware-search").value.trim();
@@ -254,10 +256,10 @@ function browse(){
   $("result-summary").textContent="Browsing "+list.length+" of "+products.length+" catalog entries.";$("exclusion-panel").hidden=true;$("empty-state").hidden=true;
   productGrid.innerHTML=list.slice(0,50).map(card).join("")||"<p>No catalog entries match your search.</p>";results.hidden=false;
 }
-function run(){
+function run(shouldScroll){
   var b=build();
   lastEvaluation=Engine.evaluate(products,b.r,b.p,currentIntent());
-  show(lastEvaluation);
+  show(lastEvaluation,shouldScroll);
 }
 function reset(shouldScroll){
   form.reset();selectedUseCase=null;
