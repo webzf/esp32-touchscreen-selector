@@ -93,7 +93,7 @@ function conditional(){
   else if(note)note.hidden=true;
   syncFilterDependencies();
 }
-var ADVANCED_FILTER_KEYS=["display_technology","display_shape","size_min","resolution","display_interface","touch_type","touch_interface","native_usb","microsd","battery_charging","flash_min","psram_min","free_gpio_min","lvgl_support","lvgl_level","battery","imu","rtc","audio","ce","fcc"];
+var ADVANCED_FILTER_KEYS=["category","display_present","display_technology","display_shape","resolution","display_interface","touch_type","touch_interface","native_usb","microsd","battery_charging","flash_min","free_gpio_min","lvgl_level","battery","imu","rtc","audio","ce","fcc"];
 function formatActiveFilter(k,v){
   var labels={display_technology:"Display",display_shape:"Shape",size_min:"Size",resolution:"Resolution",display_interface:"Display bus",touch_type:"Touch type",touch_interface:"Touch bus",native_usb:"Native USB",microsd:"microSD",battery_charging:"Battery charging",flash_min:"Flash",psram_min:"PSRAM",free_gpio_min:"GPIO",lvgl_support:"LVGL",lvgl_level:"LVGL level",battery:"Battery",imu:"IMU",rtc:"RTC",audio:"Audio",ce:"CE",fcc:"FCC"};
   var text=labels[k]||formatRelaxLabel(k);
@@ -101,10 +101,12 @@ function formatActiveFilter(k,v){
   if(["native_usb","microsd","battery_charging","battery","imu","rtc","audio","ce","fcc","lvgl_support"].indexOf(k)>=0)return text+": "+(v===true?"yes":v===false?"no":String(v));
   return text+": "+String(v);
 }
+var TERM_HELP={category:"Hardware type: the kind of hardware in the catalog.",display_present:"Display: whether a display is included.",family:"ESP32 family: the MCU family used by the hardware.",size_min:"Display size: minimum diagonal screen size in inches.",touch:"Touch: whether a touchscreen is present.",psram_min:"PSRAM: extra RAM useful for graphics, frame buffers and larger LVGL interfaces.",lvgl_support:"LVGL: support for the Lightweight and Versatile Graphics Library.",display_technology:"Display technology: panel type such as TFT, OLED or AMOLED.",display_shape:"Display shape: physical shape of the panel.",resolution:"Resolution: display pixel dimensions.",display_interface:"Display interface: bus used to send pixels, such as SPI, RGB or MIPI-DSI.",touch_type:"Touch type: capacitive or resistive sensing.",touch_interface:"Touch interface: bus used by the touch controller.",native_usb:"Native USB: USB provided directly by the MCU, rather than only through a UART bridge.",microsd:"microSD: onboard removable storage.",battery_charging:"Battery charging: onboard circuitry for charging a battery.",flash_min:"Flash: minimum non-volatile storage capacity.",free_gpio_min:"Free GPIO: minimum documented GPIO pins available to your project.",lvgl_level:"LVGL support level: ready means the catalog has stronger LVGL integration evidence.",battery:"Battery: onboard battery or battery support.",imu:"IMU: motion/orientation sensor.",rtc:"RTC: real-time clock.",audio:"Audio: onboard audio hardware such as codecs, microphones or speakers.",ce:"CE: European conformity marking listed in the catalog.",fcc:"FCC: U.S. compliance marking listed in the catalog."};
+function setupTermHelp(){Object.keys(TERM_HELP).forEach(function(id){var l=document.querySelector('label[for="'+id+'"]');if(!l||l.querySelector(".term-help"))return;var b=document.createElement("button");b.type="button";b.className="term-help";b.textContent="?";b.setAttribute("aria-label","What is "+l.textContent.trim()+"?");b.setAttribute("aria-expanded","false");b.setAttribute("data-help",TERM_HELP[id]);l.appendChild(b);});document.addEventListener("click",function(e){document.querySelectorAll(".term-help-popover").forEach(function(p){p.remove();});document.querySelectorAll(".term-help[aria-expanded=true]").forEach(function(x){x.setAttribute("aria-expanded","false");});var b=e.target.closest(".term-help");if(!b)return;e.preventDefault();b.setAttribute("aria-expanded","true");var p=document.createElement("span");p.className="term-help-popover";p.setAttribute("role","status");p.textContent=b.getAttribute("data-help");b.parentElement.appendChild(p);});}
 function setupAdvancedFilters(){
   var f=$("selector-form"),s=f.querySelectorAll(".filter-section");if(s.length<5)return;
   var d=document.createElement("details");d.id="advanced-filters";d.className="advanced-filters";
-  var m=document.createElement("summary");m.innerHTML='<strong>Advanced filters</strong><span class="advanced-filter-count">optional</span><span>Display details, memory, GPIO, storage and certification</span>';
+  var m=document.createElement("summary");m.innerHTML='<strong>Advanced filters</strong><span class="advanced-filter-count">optional</span><span>Display details, buses, memory, storage, GPIO and certification</span>';
   d.appendChild(m);for(var i=1;i<s.length;i++)d.appendChild(s[i]);s[0].parentNode.insertBefore(d,s[0].nextSibling);
 }
 var PRESETS={"s3-lvgl":{family:"ESP32-S3",psram_min:"8",lvgl_support:"yes"},"s3-touchscreen":{family:"ESP32-S3",display_present:"yes",touch:"yes",psram_min:"8"},"amoled-touch-battery":{display_present:"yes",display_technology:"AMOLED",touch:"yes",touch_type:"capacitive",battery:"yes",battery_charging:"yes"},"round-amoled":{display_present:"yes",display_technology:"AMOLED",display_shape:"round",touch:"yes"},"c6-display":{family:"ESP32-C6",display_present:"yes"},"large-800x480":{display_present:"yes",resolution:"800x480"},"800x480-touch":{display_present:"yes",resolution:"800x480",touch:"yes"},"4-3-touch":{display_present:"yes",size_min:"4",touch:"yes"},"touch-spi":{display_present:"yes",touch:"yes",touch_interface:"SPI"},"lvgl-ready":{display_present:"yes",lvgl_support:"yes",lvgl_level:"ready"},"native-usb":{native_usb:"yes"}};
@@ -122,7 +124,10 @@ function applyRelax(key){var r=$(key+"-required");if(r){r.checked=false;required
 function updateLiveCount(){
   if(!products.length){$("live-count").textContent="Catalog loading…";return;}
   var b=build(),e=Engine.evaluate(products,b.r,b.p,currentIntent());
-  $("live-count").textContent=(selectedUseCase?e.passed+" compatible options ranked for "+projectProfile().label:e.passed+" compatible now")+" · "+e.valid+" valid catalog entries";
+  var active=Object.keys(b.r).length+Object.keys(b.p).length+(selectedUseCase?1:0);
+  var visible=selectedUseCase?relevantRanked(e).length:(active?e.passed:Math.min(6,e.passed));
+  $("live-count").textContent=active?visible+" compatible hardware":Math.min(6,e.passed)+" starter hardware shown";
+  var c=$("live-context");if(c)c.textContent=selectedUseCase?"Ranked for "+projectProfile().label+". Low-relevance matches are hidden.":active?"Updates as you change technical filters.":"Showing a few starting points; add a project or filter to refine.";
 }
 function syncUrl(presetId){
   var u=new URL(window.location.href),p=u.searchParams,ids=["category","family","display_present","display_technology","display_shape","size_min","resolution","touch","touch_type","touch_interface","display_interface","native_usb","microsd","battery_charging","ce","fcc","flash_min","psram_min","free_gpio_min","lvgl_support","lvgl_level","battery","imu","rtc","audio"];
@@ -222,13 +227,15 @@ function relevantRanked(ev){
   return ev.ranked.filter(function(item){return item.score>0&&item.score>=threshold;});
 }
 function show(ev){
-  var visible=relevantRanked(ev);
-  $("result-count").textContent=visible.length;$("result-total").textContent=ev.valid;$("result-excluded").textContent=Math.max(0,ev.valid-ev.passed);
+  var active=Object.keys(build().r).length+Object.keys(build().p).length+(selectedUseCase?1:0);
+  var defaultView=!selectedUseCase&&active===0;
+  var visible=defaultView?ev.ranked.slice(0,6):relevantRanked(ev);
+  $("result-count").textContent=visible.length;$("result-total").textContent=ev.valid;$("result-excluded").textContent=Math.max(0,ev.valid-visible.length);
   var active=Object.keys(build().r).length+Object.keys(build().p).length+(selectedUseCase?1:0);
   $("result-summary").textContent=selectedUseCase
     ? visible.length+" relevant hardware options ranked for "+projectProfile().label+". Low-relevance matches are hidden so the list stays focused."
     : active?ev.passed+" compatible hardware found for your current technical setup. "+Math.max(0,ev.valid-ev.passed)+" excluded by mandatory requirements."
-    : ev.passed+" hardware entries available in the catalog.";
+    : "Showing "+visible.length+" starter options from the catalog. Choose a project or technical filter to refine the ranking.";
   exclusions(ev);$("exclusion-panel").hidden=Object.keys(ev.exclusions).length===0;
   if(!ev.ranked.length){
     $("empty-state").hidden=false;
@@ -275,10 +282,10 @@ $("hardware-search").addEventListener("input",browse);$("reset-btn").addEventLis
 $("share-btn").addEventListener("click",function(){syncUrl();var b=$("share-btn");if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(location.href).then(function(){b.textContent="Link copied";setTimeout(function(){b.textContent="Share setup";},1800);});}else{window.prompt("Copy this selector URL:",location.href);}});
 $("mode-requirements").addEventListener("click",function(){setMode("requirements");});
 $("clear-use-case").addEventListener("click",clearUseCase);
-setupAdvancedFilters();initUseCases();setupPresets();updatePlatformGuidance();loadUrl();if(selectedUseCase){selectUseCase(selectedUseCase);}updateActiveFilterSummary();
+setupAdvancedFilters();setupTermHelp();initUseCases();setupPresets();updatePlatformGuidance();loadUrl();if(selectedUseCase){selectUseCase(selectedUseCase);}updateActiveFilterSummary();
 
 fetch("data/products.json?v=20261005-1").then(function(r){if(!r.ok)throw Error("Catalog load failed");return r.json();}).then(function(data){
   products=(data.products||[]).map(Engine.normalizeProduct);$("catalog-count").textContent=products.length;conditional();updateLiveCount();
-  if(new URLSearchParams(location.search).size||selectedUseCase)run();
+  run();
 }).catch(function(e){$("catalog-error").hidden=false;$("catalog-error").textContent="The hardware catalog could not be loaded. "+e.message;});
 })();
