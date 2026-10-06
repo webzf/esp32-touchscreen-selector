@@ -149,12 +149,17 @@ assert.ok(html.includes('<option>MIPI-DSI</option>'));
 assert.ok(html.includes("ESP32-S3 vs ESP32-P4"));
 assert.ok(html.includes("Recommended ESP32 Touchscreen Displays"));
 assert.ok(html.includes('id="reset-btn"'));
+assert.ok(html.includes('id="live-result-bar"'));
+assert.ok(html.includes('id="live-count"'));
 assert.ok(html.includes("Clear All Filters"));
 assert.ok(html.includes("selector-live-bar"));
 assert.ok(selectorSource.includes("Advanced filters"));
 assert.ok(selectorSource.includes("starter hardware shown"));
 assert.ok(selectorSource.includes("TERM_HELP"));
 assert.ok(html.includes('aria-label="Project use cases"'));
+assert.ok(selectorSource.includes('mainKeys=["family","size_min","touch","psram_min","lvgl_support"]'));
+assert.ok(selectorSource.includes("TERM_HELP"));
+assert.ok(selectorSource.includes("Showing "+visible.length+" starter options from the catalog."));
 assert.ok(html.includes("js/project-recommendations.js"));
 assert.ok(fs.readFileSync(__dirname+"/../.github/workflows/v2-tests.yml","utf8").includes("node tests/engine-tests.js"));
 
