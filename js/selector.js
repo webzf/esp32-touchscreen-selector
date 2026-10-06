@@ -288,6 +288,7 @@ function card(item,requirements){
     (mandatory.length?'<div class="match-explanation mandatory-match"><strong>✓ Required technical filters</strong><ul>'+mandatory.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+"</ul></div>":"")+
     '<div class="match-explanation preference-match"><strong>✓ Technical preferences matched</strong>'+
       ((item.matches||[]).length?'<ul>'+item.matches.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+"</ul>":"<p>No optional technical preferences selected.</p>")+
+      ((item.conflicts||[]).length?'<div class="conflict-warning" role="note"><strong>⚠ Conflicts with your preferences</strong><ul>'+item.conflicts.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+"</ul></div>":"")+
       ((item.misses||[]).length?'<strong class="not-matched-heading">~ Not matched</strong><ul class="not-matched-list">'+item.misses.slice(0,4).map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+"</ul>":"")+
     '</div><div class="product-actions"><a class="btn-small btn-link" href="'+esc(technicalUrl)+'">View technical details</a><a class="btn-small btn-commerce" href="'+esc(commerceUrl(p))+'" rel="nofollow sponsored noopener">Where to buy</a></div>'+
   "</article>";
@@ -304,6 +305,19 @@ function relevantRanked(ev){
   var threshold=Math.max(15,Math.round(topScore*0.40));
   return ev.ranked.filter(function(item){return item.score>0&&item.score>=threshold;});
 }
+function updateResultNotice(ev,visible,defaultView){
+  var box=$("result-notice");if(!box)return;
+  var parts=[],reqCount=Object.keys(build().r).length;
+  var conflicted=visible.filter(function(i){return (i.conflicts||[]).length>0;}).length;
+  if(conflicted>0){
+    parts.push("<p><strong>"+conflicted+" result"+(conflicted===1?"":"s")+" conflict"+(conflicted===1?"s":"")+" with a \"none\" preference</strong> (for example, you chose No touch but the hardware has touch). They are listed last. Tick <em>Required</em> on that filter to hide them completely.</p>");
+  }
+  if(!defaultView&&reqCount>0&&ev.passed>0&&ev.passed<=2){
+    var ss=relaxSuggestions();
+    parts.push("<p><strong>Only "+ev.passed+" catalog "+(ev.passed===1?"entry matches":"entries match")+" all your required filters.</strong> The catalog is still growing, so some combinations have very few options."+(ss.length?" You can broaden the search:":"")+"</p>"+(ss.length?'<ul class="relax-list">'+ss.map(function(x){return '<li><button type="button" class="relax-action" data-relax-key="'+esc(x.key)+'">Remove <strong>'+esc(x.label)+'</strong> from Required → <strong>+'+x.gain+'</strong> compatible result'+(x.gain===1?"":"s")+"</button></li>";}).join("")+"</ul>":""));
+  }
+  box.innerHTML=parts.join("");box.hidden=parts.length===0;
+}
 function show(ev){
   var visible=relevantRanked(ev);
   var active=Object.keys(build().r).length+Object.keys(build().p).length+(selectedUseCase?1:0);
@@ -315,6 +329,7 @@ function show(ev){
     : active?ev.passed+" compatible hardware found for your current technical setup. "+Math.max(0,ev.valid-ev.passed)+" excluded by mandatory requirements."
     : "Showing "+visible.length+" starter options from the catalog. Choose a project or filter to refine the list.";
   exclusions(ev);$("exclusion-panel").hidden=Object.keys(ev.exclusions).length===0;
+  updateResultNotice(ev,visible,defaultView);
   if(!ev.ranked.length){
     $("empty-state").hidden=false;
     var ss=relaxSuggestions();$("empty-state-text").innerHTML="No hardware meets all mandatory technical requirements."+(ss.length?' The quickest ways to broaden the search are:<ul class="relax-list">'+ss.map(function(x){return '<li><button type="button" class="relax-action" data-relax-key="'+esc(x.key)+'">Remove <strong>'+esc(x.label)+'</strong> from Required → <strong>+'+x.gain+'</strong> compatible result'+(x.gain===1?"":"s")+"</button></li>";}).join("")+"</ul>":" Try relaxing one or more required filters.");
@@ -351,6 +366,7 @@ function reset(shouldScroll){
   var adv=$("advanced-filters");if(adv)adv.open=false;if(shouldScroll!==false)window.scrollTo({top:0,behavior:"smooth"});
 }
 $("empty-state").addEventListener("click",function(e){var btn=e.target.closest(".relax-action");if(btn)applyRelax(btn.getAttribute("data-relax-key"));});
+if($("result-notice"))$("result-notice").addEventListener("click",function(e){var btn=e.target.closest(".relax-action");if(btn)applyRelax(btn.getAttribute("data-relax-key"));});
 form.addEventListener("change",function(e){
   if(e.target&&e.target.id){if(/-required$/.test(e.target.id))requiredTouched[e.target.id.replace(/-required$/,"")]=true;else autoRequire(e.target.id);}
   conditional();updateLiveCount();updateActiveFilterSummary();syncUrl();
