@@ -345,7 +345,7 @@ function browse(){
   var q=$("hardware-search").value.trim();
   var list=products.filter(function(p){return searchMatch(p,q);}).map(function(p){return {product:p,score:0,matches:[],misses:[]};});
   $("result-count").textContent=list.length;$("result-total").textContent=products.length;$("result-excluded").textContent=Math.max(0,products.length-list.length);
-  $("result-summary").textContent="Browsing "+list.length+" of "+products.length+" catalog entries.";$("exclusion-panel").hidden=true;$("empty-state").hidden=true;
+  $("result-summary").textContent="Browsing "+list.length+" of "+products.length+" catalog entries.";$("exclusion-panel").hidden=true;$("empty-state").hidden=true;if($("result-notice")){$("result-notice").hidden=true;$("result-notice").innerHTML="";}
   productGrid.innerHTML=list.slice(0,50).map(card).join("")||"<p>No catalog entries match your search.</p>";results.hidden=false;
 }
 function run(shouldScroll){
