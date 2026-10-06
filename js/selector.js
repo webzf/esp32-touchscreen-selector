@@ -104,12 +104,78 @@ function formatActiveFilter(k,v){
 var TERM_HELP={category:"Hardware type: the kind of hardware in the catalog.",display_present:"Display: whether a display is included.",family:"ESP32 family: the MCU family used by the hardware.",size_min:"Display size: minimum diagonal screen size in inches.",touch:"Touch: whether a touchscreen is present.",psram_min:"PSRAM: extra RAM useful for graphics, frame buffers and larger LVGL interfaces.",lvgl_support:"LVGL: support for the Lightweight and Versatile Graphics Library.",display_technology:"Display technology: panel type such as TFT, OLED or AMOLED.",display_shape:"Display shape: physical shape of the panel.",resolution:"Resolution: display pixel dimensions.",display_interface:"Display interface: bus used to send pixels, such as SPI, RGB or MIPI-DSI.",touch_type:"Touch type: capacitive or resistive sensing.",touch_interface:"Touch interface: bus used by the touch controller.",native_usb:"Native USB: USB provided directly by the MCU, rather than only through a UART bridge.",microsd:"microSD: onboard removable storage.",battery_charging:"Battery charging: onboard circuitry for charging a battery.",flash_min:"Flash: minimum non-volatile storage capacity.",free_gpio_min:"Free GPIO: minimum documented GPIO pins available to your project.",lvgl_level:"LVGL support level: ready means the catalog has stronger LVGL integration evidence.",battery:"Battery: onboard battery or battery support.",imu:"IMU: motion/orientation sensor.",rtc:"RTC: real-time clock.",audio:"Audio: onboard audio hardware such as codecs, microphones or speakers.",ce:"CE: European conformity marking listed in the catalog.",fcc:"FCC: U.S. compliance marking listed in the catalog."};
 function setupTermHelp(){Object.keys(TERM_HELP).forEach(function(id){var l=document.querySelector('label[for="'+id+'"]');if(!l||l.querySelector(".term-help"))return;var b=document.createElement("button");b.type="button";b.className="term-help";b.textContent="?";b.setAttribute("aria-label","What is "+l.textContent.trim()+"?");b.setAttribute("aria-expanded","false");b.setAttribute("data-help",TERM_HELP[id]);l.appendChild(b);});document.addEventListener("click",function(e){document.querySelectorAll(".term-help-popover").forEach(function(p){p.remove();});document.querySelectorAll(".term-help[aria-expanded=true]").forEach(function(x){x.setAttribute("aria-expanded","false");});var b=e.target.closest(".term-help");if(!b)return;e.preventDefault();b.setAttribute("aria-expanded","true");var p=document.createElement("span");p.className="term-help-popover";p.setAttribute("role","status");p.textContent=b.getAttribute("data-help");b.parentElement.appendChild(p);});}
 function setupAdvancedFilters(){
-  var f=$("selector-form"),s=f.querySelectorAll(".filter-section");if(s.length<5)return;
+  var f=$("selector-form"),sections=Array.prototype.slice.call(f.querySelectorAll(".filter-section"));if(sections.length<2)return;
+  var main=sections[0],grid=main.querySelector(".filter-grid");if(!grid)return;
+  main.classList.add("main-filter-section");
+  main.querySelector(".step").textContent="02";
+  main.querySelector("h2").textContent="Start with the essentials";
+  main.querySelector(".section-heading p").innerHTML="These five filters cover the most useful first pass. Open <strong>Advanced filters</strong> when you need more precise hardware constraints.";
+  var mainKeys=["family","size_min","touch","psram_min","lvgl_support"];
+  var allCards=Array.prototype.slice.call(f.querySelectorAll(".filter-card"));
+  allCards.forEach(function(card){
+    var field=card.querySelector("select,input");if(!field)return;
+    if(mainKeys.indexOf(field.id)>=0)grid.appendChild(card);
+  });
+  grid.classList.add("main-filter-grid");
   var d=document.createElement("details");d.id="advanced-filters";d.className="advanced-filters";
-  var m=document.createElement("summary");m.innerHTML='<strong>Advanced filters</strong><span class="advanced-filter-count">optional</span><span>Display details, buses, memory, storage, GPIO and certification</span>';
-  d.appendChild(m);for(var i=1;i<s.length;i++)d.appendChild(s[i]);
-  ["category","display_present"].forEach(function(id){var e=$(id);var card=e&&e.closest(".filter-card");if(card)d.appendChild(card);});
-  s[0].parentNode.insertBefore(d,s[0].nextSibling);
+  var m=document.createElement("summary");m.innerHTML='<strong>Advanced filters</strong><span class="advanced-filter-count">optional</span><span>Display, touch buses, USB, memory, storage, features and certification</span>';
+  d.appendChild(m);
+  sections.forEach(function(section,i){
+    if(i===0)return;
+    var sectionGrid=section.querySelector(".filter-grid");
+    if(sectionGrid){
+      var remaining=Array.prototype.slice.call(sectionGrid.querySelectorAll(".filter-card")).filter(function(card){
+        var field=card.querySelector("select,input");return !field||mainKeys.indexOf(field.id)<0;
+      });
+      sectionGrid.innerHTML="";
+      remaining.forEach(function(card){sectionGrid.appendChild(card);});
+      if(!remaining.length)section.remove();
+    }
+    if(section.parentNode) d.appendChild(section);
+  });
+  f.insertBefore(d,main.nextSibling);
+}
+var TERM_HELP={
+  family:"The ESP32 chip family used by the hardware. S3 is common for graphical interfaces; P4 targets more demanding HMI, multimedia and vision workloads.",
+  size_min:"Minimum screen diagonal size. A 4″ choice includes displays 4 inches and larger.",
+  touch:"Whether the hardware includes a touchscreen.",
+  psram_min:"Minimum external PSRAM. It provides extra working memory for graphics, frame buffers and larger applications.",
+  lvgl_support:"Whether the catalog entry is documented as supporting LVGL, a popular embedded graphics library.",
+  category:"Hardware category, such as a display module or a board with an integrated display.",
+  display_present:"Whether the product includes a display.",
+  display_technology:"Panel technology such as TFT, OLED or AMOLED.",
+  display_shape:"Physical screen shape: rectangular, square, round or other.",
+  resolution:"Native display resolution in pixels.",
+  display_interface:"Bus used to drive the display, such as SPI, RGB, QSPI or MIPI-DSI.",
+  touch_type:"Touch sensing technology, typically capacitive or resistive.",
+  touch_interface:"Bus used by the touch controller.",
+  native_usb:"USB implemented directly by the MCU, rather than only through a USB-to-UART bridge.",
+  microsd:"Whether removable microSD/TF storage is available.",
+  battery_charging:"Whether the hardware provides onboard battery charging support.",
+  flash_min:"Minimum onboard Flash storage in megabytes.",
+  free_gpio_min:"Minimum number of GPIO pins documented as available for your project.",
+  lvgl_level:"How directly the catalog documents LVGL support: ready or compatible.",
+  battery:"Whether onboard battery support is available.",
+  imu:"Whether an onboard inertial measurement unit is present.",
+  rtc:"Whether an onboard real-time clock is present.",
+  audio:"Whether onboard audio hardware is present.",
+  ce:"Whether CE certification is documented.",
+  fcc:"Whether FCC certification is documented."
+};
+function addTermHelp(){
+  document.querySelectorAll("#selector-form .filter-card").forEach(function(card){
+    var field=card.querySelector("select,input");if(!field||card.querySelector(".term-help"))return;
+    var text=TERM_HELP[field.id];if(!text)return;
+    var label=card.querySelector('label[for="'+field.id+'"]');if(!label)return;
+    var b=document.createElement("button");b.type="button";b.className="term-help";b.textContent="?";b.setAttribute("aria-label","What is "+label.textContent.trim()+"?");b.dataset.help=text;
+    b.addEventListener("click",function(e){
+      e.stopPropagation();
+      var old=card.querySelector(".help-popover");if(old){old.remove();return;}
+      document.querySelectorAll(".help-popover").forEach(function(x){x.remove();});
+      var pop=document.createElement("div");pop.className="help-popover";pop.textContent=text;pop.setAttribute("role","tooltip");card.style.position="relative";card.appendChild(pop);
+    });
+  });
+  document.addEventListener("click",function(){document.querySelectorAll(".help-popover").forEach(function(x){x.remove();});});
 }
 var PRESETS={"s3-lvgl":{family:"ESP32-S3",psram_min:"8",lvgl_support:"yes"},"s3-touchscreen":{family:"ESP32-S3",display_present:"yes",touch:"yes",psram_min:"8"},"amoled-touch-battery":{display_present:"yes",display_technology:"AMOLED",touch:"yes",touch_type:"capacitive",battery:"yes",battery_charging:"yes"},"round-amoled":{display_present:"yes",display_technology:"AMOLED",display_shape:"round",touch:"yes"},"c6-display":{family:"ESP32-C6",display_present:"yes"},"large-800x480":{display_present:"yes",resolution:"800x480"},"800x480-touch":{display_present:"yes",resolution:"800x480",touch:"yes"},"4-3-touch":{display_present:"yes",size_min:"4",touch:"yes"},"touch-spi":{display_present:"yes",touch:"yes",touch_interface:"SPI"},"lvgl-ready":{display_present:"yes",lvgl_support:"yes",lvgl_level:"ready"},"native-usb":{native_usb:"yes"}};
 function applyPreset(id,shouldReset){
@@ -228,16 +294,16 @@ function relevantRanked(ev){
   var threshold=Math.max(15,Math.round(topScore*0.40));
   return ev.ranked.filter(function(item){return item.score>0&&item.score>=threshold;});
 }
-function show(ev,shouldScroll){
+function show(ev){
+  var visible=relevantRanked(ev);
   var active=Object.keys(build().r).length+Object.keys(build().p).length+(selectedUseCase?1:0);
   var defaultView=!selectedUseCase&&active===0;
-  var visible=defaultView?ev.ranked.slice(0,6):relevantRanked(ev);
-  $("result-count").textContent=visible.length;$("result-total").textContent=ev.valid;$("result-excluded").textContent=defaultView?0:Math.max(0,ev.valid-visible.length);
-  var active=Object.keys(build().r).length+Object.keys(build().p).length+(selectedUseCase?1:0);
+  if(defaultView)visible=ev.ranked.slice(0,6);
+  $("result-count").textContent=visible.length;$("result-total").textContent=ev.valid;$("result-excluded").textContent=Math.max(0,ev.valid-ev.passed);
   $("result-summary").textContent=selectedUseCase
     ? visible.length+" relevant hardware options ranked for "+projectProfile().label+". Low-relevance matches are hidden so the list stays focused."
     : active?ev.passed+" compatible hardware found for your current technical setup. "+Math.max(0,ev.valid-ev.passed)+" excluded by mandatory requirements."
-    : "Showing "+visible.length+" starter options from the catalog. Choose a project or technical filter to refine the ranking.";
+    : "Showing "+visible.length+" starter options from the catalog. Choose a project or filter to refine the list.";
   exclusions(ev);$("exclusion-panel").hidden=Object.keys(ev.exclusions).length===0;
   if(!ev.ranked.length){
     $("empty-state").hidden=false;
@@ -247,7 +313,8 @@ function show(ev,shouldScroll){
     $("empty-state").hidden=true;
     productGrid.innerHTML=visible.slice(0,50).map(card).join("");
   }
-  results.hidden=false;if(shouldScroll!==false)results.scrollIntoView({behavior:"smooth",block:"start"});
+  results.hidden=false;
+  if(!defaultView)results.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function browse(){
   var q=$("hardware-search").value.trim();
