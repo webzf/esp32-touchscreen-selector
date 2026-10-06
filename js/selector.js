@@ -213,11 +213,20 @@ function exclusions(ev){
   var keys=Object.keys(ev.exclusions).sort(function(a,b){return ev.exclusions[b]-ev.exclusions[a];});
   $("exclusion-list").innerHTML=keys.slice(0,10).map(function(k){return "<li><strong>"+ev.exclusions[k]+"</strong> "+esc(k)+"</li>";}).join("")||"<li>No mandatory exclusions.</li>";
 }
+function relevantRanked(ev){
+  if(!selectedUseCase)return ev.ranked;
+  if(!ev.ranked.length)return [];
+  var topScore=ev.ranked[0].score||0;
+  if(topScore<=0)return [];
+  var threshold=Math.max(15,Math.round(topScore*0.40));
+  return ev.ranked.filter(function(item){return item.score>0&&item.score>=threshold;});
+}
 function show(ev){
-  $("result-count").textContent=ev.passed;$("result-total").textContent=ev.valid;$("result-excluded").textContent=Math.max(0,ev.valid-ev.passed);
+  var visible=relevantRanked(ev);
+  $("result-count").textContent=visible.length;$("result-total").textContent=ev.valid;$("result-excluded").textContent=Math.max(0,ev.valid-ev.passed);
   var active=Object.keys(build().r).length+Object.keys(build().p).length+(selectedUseCase?1:0);
   $("result-summary").textContent=selectedUseCase
-    ? ev.passed+" compatible hardware options ranked for "+projectProfile().label+" using project fit plus technical requirements."
+    ? visible.length+" relevant hardware options ranked for "+projectProfile().label+". Low-relevance matches are hidden so the list stays focused."
     : active?ev.passed+" compatible hardware found for your current technical setup. "+Math.max(0,ev.valid-ev.passed)+" excluded by mandatory requirements."
     : ev.passed+" hardware entries available in the catalog.";
   exclusions(ev);$("exclusion-panel").hidden=Object.keys(ev.exclusions).length===0;
@@ -225,7 +234,10 @@ function show(ev){
     $("empty-state").hidden=false;
     var ss=relaxSuggestions();$("empty-state-text").innerHTML="No hardware meets all mandatory technical requirements."+(ss.length?' The quickest ways to broaden the search are:<ul class="relax-list">'+ss.map(function(x){return '<li><button type="button" class="relax-action" data-relax-key="'+esc(x.key)+'">Remove <strong>'+esc(x.label)+'</strong> from Required → <strong>+'+x.gain+'</strong> compatible result'+(x.gain===1?"":"s")+"</button></li>";}).join("")+"</ul>":" Try relaxing one or more required filters.");
     productGrid.innerHTML="";
-  }else{$("empty-state").hidden=true;productGrid.innerHTML=ev.ranked.slice(0,50).map(card).join("");}
+  }else{
+    $("empty-state").hidden=true;
+    productGrid.innerHTML=visible.slice(0,50).map(card).join("");
+  }
   results.hidden=false;results.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function browse(){
