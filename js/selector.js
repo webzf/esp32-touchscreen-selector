@@ -43,7 +43,7 @@ function initUseCases(){
   var grid=$("use-case-grid");if(!grid||!ProjectEngine)return;
   grid.innerHTML=ProjectEngine.USE_CASE_ORDER.map(function(id){
     var p=ProjectEngine.USE_CASES[id];
-    return '<button type="button" class="use-case-button" data-use-case="'+esc(id)+'"><strong>'+esc(p.label)+'</strong><span>'+esc(p.description)+'</span></button>';
+    return '<button type="button" class="use-case-button" aria-pressed="false" data-use-case="'+esc(id)+'"><strong>'+esc(p.label)+'</strong><span>'+esc(p.description)+'</span></button>';
   }).join("");
   grid.addEventListener("click",function(e){
     var b=e.target.closest("[data-use-case]");if(!b)return;
