@@ -231,7 +231,7 @@ function searchMatch(p,q){
   if(!q)return true;q=q.toLowerCase();
   return [p.name,p.manufacturer,p.product_type,(p.esp32.family||[]).join(" "),p.esp32.exact_mcu,p.display.technology,p.display.controller,p.touch.touch_controller,(p.tags||[]).join(" ")].filter(Boolean).join(" ").toLowerCase().includes(q);
 }
-function commerceUrl(p){return EMBEDDED_NERD_ORIGIN+COMMERCE_PATH+encodeURIComponent(p.id)+"/";}
+function commerceUrl(p){return EMBEDDED_NERD_ORIGIN+COMMERCE_PATH+encodeURIComponent(p.commerce_id||p.id)+"/";}
 
 function recommendationReason(item){
   if(item.useCaseExplanation)return item.useCaseExplanation;
@@ -336,7 +336,7 @@ function show(ev){
     productGrid.innerHTML="";
   }else{
     $("empty-state").hidden=true;
-    productGrid.innerHTML=visible.slice(0,50).map(card).join("");
+    var requirements=build().r;productGrid.innerHTML=visible.slice(0,50).map(function(item){return card(item,requirements);}).join("");
   }
   results.hidden=false;
   if(!defaultView)results.scrollIntoView({behavior:"smooth",block:"start"});
@@ -346,7 +346,7 @@ function browse(){
   var list=products.filter(function(p){return searchMatch(p,q);}).map(function(p){return {product:p,score:0,matches:[],misses:[]};});
   $("result-count").textContent=list.length;$("result-total").textContent=products.length;$("result-excluded").textContent=Math.max(0,products.length-list.length);
   $("result-summary").textContent="Browsing "+list.length+" of "+products.length+" catalog entries.";$("exclusion-panel").hidden=true;$("empty-state").hidden=true;if($("result-notice")){$("result-notice").hidden=true;$("result-notice").innerHTML="";}
-  productGrid.innerHTML=list.slice(0,50).map(card).join("")||"<p>No catalog entries match your search.</p>";results.hidden=false;
+  productGrid.innerHTML=list.slice(0,50).map(function(item){return card(item,{});}).join("")||"<p>No catalog entries match your search.</p>";results.hidden=false;
 }
 function run(shouldScroll){
   var b=build();
@@ -379,7 +379,7 @@ $("mode-requirements").addEventListener("click",function(){setMode("requirements
 $("clear-use-case").addEventListener("click",clearUseCase);
 setupAdvancedFilters();setupTermHelp();initUseCases();setupPresets();updatePlatformGuidance();loadUrl();if(selectedUseCase){selectUseCase(selectedUseCase);}updateActiveFilterSummary();
 
-fetch("data/products.json?v=20261005-1").then(function(r){if(!r.ok)throw Error("Catalog load failed");return r.json();}).then(function(data){
+fetch("data/products.json?v=20261013").then(function(r){if(!r.ok)throw Error("Catalog load failed");return r.json();}).then(function(data){
   products=(data.products||[]).map(Engine.normalizeProduct);$("catalog-count").textContent=products.length;conditional();updateLiveCount();
   run();
 }).catch(function(e){$("catalog-error").hidden=false;$("catalog-error").textContent="The hardware catalog could not be loaded. "+e.message;});

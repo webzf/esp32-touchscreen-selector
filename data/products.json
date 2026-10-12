@@ -1532,6 +1532,7 @@
     },
     {
       "id": "ssd1306-oled-display",
+      "commerce_id": "ssd1306-oled",
       "name": "SSD1306 OLED Display",
       "manufacturer": "Generic",
       "product_type": "display_module",

@@ -49,6 +49,9 @@ const catalog=JSON.parse(fs.readFileSync(__dirname+"/../data/products.json","utf
 assert.equal(catalog.schema_version,"2.1");
 assert.ok(Array.isArray(catalog.products));
 const catalogErrors=catalog.products.map(p=>E.validateProduct(p));
+const ssd1306=catalog.products.find(p=>p.id==="ssd1306-oled-display");
+assert.ok(ssd1306);
+assert.equal(ssd1306.commerce_id,"ssd1306-oled");
 assert.equal(catalogErrors.filter(e=>e.length>0).length,0);
 assert.equal(catalog.products.length,12);
 
