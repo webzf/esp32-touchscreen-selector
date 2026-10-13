@@ -190,7 +190,7 @@ function addTermHelp(){
 var PRESETS={"s3-lvgl":{family:"ESP32-S3",psram_min:"8",lvgl_support:"yes"},"s3-touchscreen":{family:"ESP32-S3",display_present:"yes",touch:"yes",psram_min:"8"},"amoled-touch-battery":{display_present:"yes",display_technology:"AMOLED",touch:"yes",touch_type:"capacitive",battery:"yes",battery_charging:"yes"},"round-amoled":{display_present:"yes",display_technology:"AMOLED",display_shape:"round",touch:"yes"},"c6-display":{family:"ESP32-C6",display_present:"yes"},"large-800x480":{display_present:"yes",resolution:"800x480"},"800x480-touch":{display_present:"yes",resolution:"800x480",touch:"yes"},"4-3-touch":{display_present:"yes",size_min:"4",touch:"yes"},"touch-spi":{display_present:"yes",touch:"yes",touch_interface:"SPI"},"lvgl-ready":{display_present:"yes",lvgl_support:"yes",lvgl_level:"ready"},"native-usb":{native_usb:"yes"}};
 function applyPreset(id,shouldReset){
   var m=PRESETS[id];if(!m)return false;if(shouldReset)reset(false);
-  Object.keys(m).forEach(function(k){var e=$(k);if(e){e.value=m[k];var r=$(k+"-required");if(r)r.checked=true;}});
+  Object.keys(m).forEach(function(k){var e=$(k);if(e){e.value=m[k];var r=$(k+"-required");if(r)r.checked=!(id==="round-amoled"&&k==="display_technology");}});
   conditional();syncFilterDependencies();updateLiveCount();updateActiveFilterSummary();return true;
 }
 function setupPresets(){document.querySelectorAll("[data-preset]").forEach(function(btn){btn.addEventListener("click",function(){var id=btn.getAttribute("data-preset");if(!applyPreset(id,true))return;document.querySelectorAll("[data-preset]").forEach(function(b){b.classList.toggle("active",b===btn);});syncUrl(id);run();});});}
