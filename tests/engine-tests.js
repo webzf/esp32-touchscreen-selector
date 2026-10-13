@@ -76,11 +76,11 @@ assert.ok(p4round,"catalog must include the Waveshare ESP32-P4 3.4C round touchs
 assert.equal(E.matchesRequirement(p4round,{display_present:true,display_shape:"round",touch:true}),true);
 const roundTouch=E.evaluate(catalog.products,{display_present:true,display_shape:"round",touch:true},{display_technology:"AMOLED"});
 assert.equal(roundTouch.passed,3,"Round touchscreen preset should include TFT, AMOLED and P4 IPS round boards");
-assert.deepEqual(roundTouch.ranked.map(x=>x.product.id).sort(),[
+assert.equal(roundTouch.ranked.map(x=>x.product.id).sort().join(","),[
   "waveshare-esp32-p4-wifi6-touch-lcd-3-4c",
   "waveshare-esp32-s3-touch-amoled-1-75",
   "waveshare-esp32-s3-touch-lcd-1-85b"
-].sort());
+].sort().join(","));
 
 
 const unknownUsb=E.scorePreferences(ws43,{native_usb:true});
