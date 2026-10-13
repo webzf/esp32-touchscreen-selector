@@ -53,10 +53,10 @@ const ssd1306=catalog.products.find(p=>p.id==="ssd1306-oled-display");
 assert.ok(ssd1306);
 assert.equal(ssd1306.commerce_id,"ssd1306-oled");
 assert.equal(catalogErrors.filter(e=>e.length>0).length,0);
-assert.equal(catalog.products.length,12);
+assert.equal(catalog.products.length,13);
 
 const ids=catalog.products.map(p=>p.id);
-["ili9341-xpt2046-2-8-touchscreen","waveshare-esp32-s3-touch-lcd-4-3","waveshare-esp32-s3-touch-lcd-7","waveshare-esp32-s3-touch-lcd-1-85b","waveshare-esp32-c6-touch-amoled-1-8","waveshare-esp32-s3-touch-amoled-1-75","waveshare-esp32-s3-touch-amoled-2-16","waveshare-esp32-s3-touch-amoled-2-41","sunton-esp32-8048s043c","esp32-2432s028-2-8-cyd","ssd1306-oled-display"].forEach(id=>assert.ok(ids.includes(id)));
+["ili9341-xpt2046-2-8-touchscreen","waveshare-esp32-s3-touch-lcd-4-3","waveshare-esp32-s3-touch-lcd-7","waveshare-esp32-s3-touch-lcd-1-85b","waveshare-esp32-c6-touch-amoled-1-8","waveshare-esp32-s3-touch-amoled-1-75","waveshare-esp32-s3-touch-amoled-2-16","waveshare-esp32-s3-touch-amoled-2-41","waveshare-esp32-p4-wifi6-touch-lcd-3-4c","sunton-esp32-8048s043c","esp32-2432s028-2-8-cyd","ssd1306-oled-display"].forEach(id=>assert.ok(ids.includes(id)));
 
 const ws43=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-4-3");
 const ws7=catalog.products.find(p=>p.id==="waveshare-esp32-s3-touch-lcd-7");
@@ -71,16 +71,28 @@ assert.equal(E.matchesRequirement(ws43,{imu:true}),false);
 assert.equal(E.matchesRequirement(s3amoled175,{family:"ESP32-S3",display_technology:"AMOLED",display_shape:"round",resolution:"466x466",touch:true,touch_type:"capacitive",touch_interface:"I2C",display_interface:"QSPI",psram_min:8,flash_min:16,battery:true,battery_charging:true,imu:true,rtc:true,audio:true,lvgl_support:true}),true);
 assert.equal(E.matchesRequirement(s3amoled175,{family:"ESP32-S3",display_technology:"AMOLED",resolution:"600x450"}),false);
 
+const p4round=catalog.products.find(p=>p.id==="waveshare-esp32-p4-wifi6-touch-lcd-3-4c");
+assert.ok(p4round,"catalog must include the Waveshare ESP32-P4 3.4C round touchscreen");
+assert.equal(E.matchesRequirement(p4round,{display_present:true,display_shape:"round",touch:true}),true);
+const roundTouch=E.evaluate(catalog.products,{display_present:true,display_shape:"round",touch:true},{display_technology:"AMOLED"});
+assert.equal(roundTouch.passed,3,"Round touchscreen preset should include TFT, AMOLED and P4 IPS round boards");
+assert.deepEqual(roundTouch.ranked.map(x=>x.product.id).sort(),[
+  "waveshare-esp32-p4-wifi6-touch-lcd-3-4c",
+  "waveshare-esp32-s3-touch-amoled-1-75",
+  "waveshare-esp32-s3-touch-lcd-1-85b"
+].sort());
+
+
 const unknownUsb=E.scorePreferences(ws43,{native_usb:true});
 assert.equal(unknownUsb.score,0);
 assert.ok(unknownUsb.misses.includes("Native USB (unknown data)"));
 assert.equal(E.scorePreferences(ws43,{lvgl_support:true}).score,100);
 
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
-assert.equal(catalogEval.valid,12);
+assert.equal(catalogEval.valid,13);
 assert.equal(catalogEval.passed,7);
 assert.equal(catalogEval.ranked.length,7);
-assert.equal(catalogEval.excluded.length,5);
+assert.equal(catalogEval.excluded.length,6);
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
 assert.equal(flashEval.passed,6);
