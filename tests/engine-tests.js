@@ -99,10 +99,10 @@ assert.equal(flashEval.passed,6);
 assert.equal(flashEval.ranked[0].product.id,"sunton-esp32-8048s043c");
 
 const browse=E.evaluate(catalog.products,{}, {});
-assert.equal(browse.total,12);
-assert.equal(browse.valid,12);
-assert.equal(browse.passed,12);
-assert.equal(browse.displayed,12);
+assert.equal(browse.total,13);
+assert.equal(browse.valid,13);
+assert.equal(browse.passed,13);
+assert.equal(browse.displayed,13);
 
 // Project model and tier checks.
 assert.equal(P.USE_CASE_ORDER.length,9);
