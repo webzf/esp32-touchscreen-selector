@@ -1842,6 +1842,174 @@
       "manufacturer_sku": "30738",
       "image": "https://www.waveshare.com/img/devkit/ESP32-P4-WIFI6-Touch-LCD-7B/ESP32-P4-WIFI6-Touch-LCD-7B-details-1.jpg",
       "image_alt": "Waveshare ESP32-P4-WIFI6-Touch-LCD-7B 7-inch touchscreen development board"
+    },
+    {
+      "id": "waveshare-esp32-p4-wifi6-touch-lcd-3-4c",
+      "name": "Waveshare ESP32-P4-WIFI6-Touch-LCD-3.4C",
+      "manufacturer": "Waveshare",
+      "product_type": "board_with_display",
+      "category": "board_with_display",
+      "description": "ESP32-P4 development board with a 3.4-inch 800×800 round IPS touchscreen, capacitive touch, ESP32-C6 wireless connectivity, 32MB PSRAM, 32MB flash, audio and camera interfaces.",
+      "product_url": "/products/waveshare-esp32-p4-wifi6-touch-lcd-3-4c/",
+      "documentation_url": "https://www.waveshare.com/wiki/ESP32-P4-WIFI6-Touch-LCD-4C",
+      "tags": [
+        "Waveshare",
+        "ESP32-P4",
+        "ESP32-C6",
+        "round-display",
+        "800x800",
+        "MIPI-DSI",
+        "capacitive-touch",
+        "Wi-Fi 6",
+        "Bluetooth 5",
+        "LVGL",
+        "audio",
+        "camera"
+      ],
+      "esp32": {
+        "family": [
+          "ESP32-P4"
+        ],
+        "exact_mcu": "ESP32-P4NRW32",
+        "cores": 2,
+        "cpu_frequency_mhz": 400,
+        "flash_mb": 32,
+        "ram_mb": null,
+        "psram_mb": 32
+      },
+      "wireless": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true
+      },
+      "usb": {
+        "usb_available": true,
+        "usb_type": "USB-C",
+        "native_usb": true,
+        "uart_bridge": true,
+        "native_usb_functionality": [
+          "programming",
+          "logging",
+          "USB OTG"
+        ],
+        "usb_notes": "Includes USB 2.0 OTG and USB-to-UART connectivity."
+      },
+      "display": {
+        "display_present": true,
+        "technology": "TFT",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "round",
+        "size_inches": 3.4,
+        "resolution": {
+          "width": 800,
+          "height": 800
+        },
+        "aspect_ratio": "1:1",
+        "controller": null,
+        "interface": "MIPI-DSI"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "capacitive",
+        "touch_controller": "GT9271",
+        "touch_interface": "I2C"
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": null,
+        "uart": true,
+        "rgb": null,
+        "other": [
+          "MIPI-DSI",
+          "MIPI-CSI",
+          "CAN",
+          "USB",
+          "microSD"
+        ]
+      },
+      "display_touch_bus": {
+        "display_bus": "MIPI-DSI",
+        "touch_bus": "I2C",
+        "shared_bus": false,
+        "separate_bus": true,
+        "chip_select": null,
+        "dc": null,
+        "irq": null,
+        "reset": null,
+        "relevant_gpio": []
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": null,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": true,
+        "battery": null,
+        "battery_charging": null,
+        "power_input": "USB-C",
+        "connectors": [
+          "USB-C",
+          "I2C",
+          "40-pin GPIO",
+          "MIPI-DSI",
+          "MIPI-CSI",
+          "microSD"
+        ],
+        "buttons": null,
+        "led": null,
+        "camera": true,
+        "audio": true,
+        "sensors": [],
+        "other_peripherals": [
+          "ES8311 audio codec",
+          "ES7210 microphone front end",
+          "speaker connector"
+        ]
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": "115 × 115 mm",
+        "mounting_holes": true,
+        "form_factor": "3.4-inch round HMI development board"
+      },
+      "sources": [
+        {
+          "type": "manufacturer-documentation",
+          "url": "https://www.waveshare.com/wiki/ESP32-P4-WIFI6-Touch-LCD-4C"
+        },
+        {
+          "type": "manufacturer-product-page",
+          "url": "https://www.waveshare.com/esp32-p4-wifi6-touch-lcd-3.4c.htm"
+        },
+        {
+          "type": "embedded-nerd-product",
+          "url": "/products/waveshare-esp32-p4-wifi6-touch-lcd-3-4c/"
+        }
+      ],
+      "data_quality": "verified_manufacturer",
+      "software": {
+        "lvgl": {
+          "support": true,
+          "level": "ready",
+          "framework": "ESP-IDF"
+        }
+      },
+      "features": {
+        "battery": null,
+        "imu": null,
+        "rtc": null,
+        "audio": true
+      },
+      "manufacturer_sku": null,
+      "image": "https://embeddednerd.com/assets/images/products/esp32-p4-touch-lcd-3.4c-front.webp",
+      "image_alt": "Waveshare ESP32-P4-WIFI6-Touch-LCD-3.4C 3.4-inch round IPS touchscreen board"
     }
   ]
 }
