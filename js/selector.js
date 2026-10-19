@@ -203,9 +203,9 @@ function updateLiveCount(){
   if(!products.length){$("live-count").textContent="Catalog loading…";return;}
   var b=build(),e=Engine.evaluate(products,b.r,b.p,currentIntent());
   var active=Object.keys(b.r).length+Object.keys(b.p).length+(selectedUseCase?1:0);
-  var visible=selectedUseCase?relevantRanked(e).length:(active?e.passed:Math.min(6,e.passed));
-  $("live-count").textContent=active?visible+" compatible hardware":Math.min(6,e.passed)+" starter hardware shown";
-  var c=$("live-context");if(c)c.textContent=selectedUseCase?"Ranked for "+projectProfile().label+". Low-relevance matches are hidden.":active?"Updates as you change technical filters.":"Showing a few starting points; add a project or filter to refine.";
+  var visible=selectedUseCase?relevantRanked(e).length:(active?e.passed:e.passed);
+  $("live-count").textContent=active?visible+" compatible hardware":e.passed+" hardware options available";
+  var c=$("live-context");if(c)c.textContent=selectedUseCase?"Ranked for "+projectProfile().label+". Low-relevance matches are hidden.":active?"Updates as you change technical filters.":"Showing all catalog options. Choose a project or filter to refine.";
 }
 function syncUrl(presetId){
   var u=new URL(window.location.href),p=u.searchParams,ids=["category","family","display_present","display_technology","display_shape","size_min","resolution","touch","touch_type","touch_interface","display_interface","native_usb","microsd","battery_charging","ce","fcc","flash_min","psram_min","free_gpio_min","lvgl_support","lvgl_level","battery","imu","rtc","audio"];
@@ -322,7 +322,7 @@ function show(ev){
   var visible=relevantRanked(ev);
   var active=Object.keys(build().r).length+Object.keys(build().p).length+(selectedUseCase?1:0);
   var defaultView=!selectedUseCase&&active===0;
-  if(defaultView)visible=ev.ranked.slice(0,6);
+  if(defaultView)visible=ev.ranked;
   $("result-count").textContent=visible.length;$("result-total").textContent=ev.valid;$("result-excluded").textContent=Math.max(0,ev.valid-ev.passed);
   $("result-summary").textContent=selectedUseCase
     ? visible.length+" relevant hardware options ranked for "+projectProfile().label+". Low-relevance matches are hidden so the list stays focused."
@@ -379,7 +379,7 @@ $("mode-requirements").addEventListener("click",function(){setMode("requirements
 $("clear-use-case").addEventListener("click",clearUseCase);
 setupAdvancedFilters();setupTermHelp();initUseCases();setupPresets();updatePlatformGuidance();loadUrl();if(selectedUseCase){selectUseCase(selectedUseCase);}updateActiveFilterSummary();
 
-fetch("data/products.json?v=20261014").then(function(r){if(!r.ok)throw Error("Catalog load failed");return r.json();}).then(function(data){
+fetch("data/products.json?v=20261019").then(function(r){if(!r.ok)throw Error("Catalog load failed");return r.json();}).then(function(data){
   products=(data.products||[]).map(Engine.normalizeProduct);$("catalog-count").textContent=products.length;conditional();updateLiveCount();
   run();
 }).catch(function(e){$("catalog-error").hidden=false;$("catalog-error").textContent="The hardware catalog could not be loaded. "+e.message;});
