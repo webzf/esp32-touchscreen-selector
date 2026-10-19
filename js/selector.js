@@ -379,7 +379,7 @@ $("mode-requirements").addEventListener("click",function(){setMode("requirements
 $("clear-use-case").addEventListener("click",clearUseCase);
 setupAdvancedFilters();setupTermHelp();initUseCases();setupPresets();updatePlatformGuidance();loadUrl();if(selectedUseCase){selectUseCase(selectedUseCase);}updateActiveFilterSummary();
 
-fetch("data/products.json?v=20261019").then(function(r){if(!r.ok)throw Error("Catalog load failed");return r.json();}).then(function(data){
+fetch("data/products.json?v=20261019b").then(function(r){if(!r.ok)throw Error("Catalog load failed");return r.json();}).then(function(data){
   products=(data.products||[]).map(Engine.normalizeProduct);$("catalog-count").textContent=products.length;conditional();updateLiveCount();
   run();
 }).catch(function(e){$("catalog-error").hidden=false;$("catalog-error").textContent="The hardware catalog could not be loaded. "+e.message;});
