@@ -2010,6 +2010,163 @@
       "manufacturer_sku": null,
       "image": "https://embeddednerd.com/assets/images/products/esp32-p4-touch-lcd-3.4c-front.webp",
       "image_alt": "Waveshare ESP32-P4-WIFI6-Touch-LCD-3.4C 3.4-inch round IPS touchscreen board"
+    },
+    {
+      "id": "guition-esp32-s3-4848s040",
+      "name": "Guition ESP32-S3-4848S040",
+      "manufacturer": "Guition",
+      "product_type": "board_with_display",
+      "category": "board_with_display",
+      "description": "ESP32-S3 touchscreen development board with a 4-inch 480×480 IPS TFT display, ST7701S display driver, GT911 capacitive touch, 16MB Flash and 8MB PSRAM. Relay and enclosure bundles vary by listing.",
+      "product_url": "/products/guition-esp32-s3-4848s040/",
+      "display": {
+        "display_present": true,
+        "technology": "TFT",
+        "monochrome": false,
+        "color": true,
+        "transparent": null,
+        "shape": "square",
+        "size_inches": 4,
+        "resolution": {
+          "width": 480,
+          "height": 480
+        },
+        "aspect_ratio": "1:1",
+        "controller": "ST7701S",
+        "interface": "RGB"
+      },
+      "touch": {
+        "touch": true,
+        "touch_type": "capacitive",
+        "touch_controller": "GT911",
+        "touch_interface": "I2C"
+      },
+      "esp32": {
+        "family": [
+          "ESP32-S3"
+        ],
+        "exact_mcu": "ESP32-S3",
+        "cores": 2,
+        "cpu_frequency_mhz": 240,
+        "flash_mb": 16,
+        "ram_mb": null,
+        "psram_mb": 8
+      },
+      "usb": {
+        "usb_available": true,
+        "usb_type": "USB Type-C (verify revision)",
+        "native_usb": null,
+        "uart_bridge": null,
+        "native_usb_functionality": [],
+        "usb_notes": "USB connector and implementation may vary by board revision; verify the exact version."
+      },
+      "hardware": {
+        "total_gpio": null,
+        "free_gpio": null,
+        "reserved_gpio": [],
+        "display_gpio": [],
+        "touch_gpio": [],
+        "microsd": null,
+        "battery": null,
+        "battery_charging": null,
+        "power_input": "Verify exact board revision",
+        "connectors": [
+          "USB Type-C",
+          "RGB display",
+          "I2C touch"
+        ],
+        "buttons": null,
+        "led": null,
+        "camera": null,
+        "audio": null,
+        "sensors": [],
+        "other_peripherals": [
+          "Optional relay module on some bundles"
+        ]
+      },
+      "software": {
+        "lvgl": {
+          "support": true,
+          "level": "compatible",
+          "framework": "ESPHome/community configuration; verify software setup for exact revision"
+        }
+      },
+      "features": {
+        "battery": null,
+        "imu": null,
+        "rtc": null,
+        "audio": null
+      },
+      "certification": {
+        "ce": null,
+        "fcc": null,
+        "other": []
+      },
+      "physical": {
+        "dimensions": "Varies by board, relay and enclosure assembly",
+        "mounting_holes": null,
+        "form_factor": "4-inch square touchscreen board"
+      },
+      "interfaces": {
+        "i2c": true,
+        "spi": null,
+        "uart": null,
+        "rgb": true,
+        "other": [
+          "RGB parallel"
+        ]
+      },
+      "display_touch_bus": {
+        "display_bus": "RGB",
+        "touch_bus": "I2C",
+        "shared_bus": false,
+        "separate_bus": true,
+        "chip_select": null,
+        "dc": null,
+        "irq": null,
+        "reset": null,
+        "relevant_gpio": []
+      },
+      "capabilities": {},
+      "wireless": {
+        "wifi": true,
+        "bluetooth": true,
+        "ble": true
+      },
+      "tags": [
+        "Guition",
+        "ESP32-S3",
+        "4848S040",
+        "4-inch",
+        "480x480",
+        "square-display",
+        "IPS",
+        "ST7701S",
+        "GT911",
+        "capacitive-touch",
+        "RGB",
+        "PSRAM",
+        "LVGL",
+        "ESPHome",
+        "Home Assistant"
+      ],
+      "image": "https://embeddednerd.com/assets/images/products/guition-4848s040-home-assistant-review.webp",
+      "image_alt": "Guition ESP32-S3-4848S040 4-inch square touchscreen development board",
+      "data_quality": "verified_secondary",
+      "sources": [
+        {
+          "label": "Embedded Nerd product page",
+          "url": "https://embeddednerd.com/products/guition-esp32-s3-4848s040/"
+        },
+        {
+          "label": "Guition manufacturer overview",
+          "url": "https://www.guition.com/esp32-display-module/4-inch-esp32s3-display-module"
+        },
+        {
+          "label": "ESPHome device configuration",
+          "url": "https://devices.esphome.io/devices/guition-esp32-s3-4848s040/"
+        }
+      ]
     }
   ],
   "catalog_version": "2026-10-19"
