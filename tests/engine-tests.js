@@ -91,7 +91,7 @@ assert.equal(E.scorePreferences(ws43,{lvgl_support:true}).score,100);
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
 assert.equal(catalogEval.valid,14);
 assert.equal(catalogEval.passed,8);
-assert.equal(catalogEval.ranked.length,7);
+assert.equal(catalogEval.ranked.length,8);
 assert.equal(catalogEval.excluded.length,6);
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
