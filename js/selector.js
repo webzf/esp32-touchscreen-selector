@@ -14,6 +14,38 @@ var selectedUseCase=null;
 var EMBEDDED_NERD_ORIGIN="https://embeddednerd.com";
 var COMMERCE_PATH="/go/hardware/";
 
+var selectorStarted=false;
+var selectorActionPending=false;
+function trackSelectorEvent(name,params){
+  window.dataLayer=window.dataLayer||[];
+  var payload={event:name};
+  Object.keys(params||{}).forEach(function(k){payload[k]=params[k];});
+  window.dataLayer.push(payload);
+}
+function markSelectorInteraction(){
+  if(!selectorStarted){selectorStarted=true;trackSelectorEvent("selector_start",{tool_name:"esp32_touchscreen_selector"});}
+  selectorActionPending=true;
+}
+function trackResultsView(source,count){
+  if(!selectorActionPending)return;
+  selectorActionPending=false;
+  trackSelectorEvent("selector_results_view",{
+    tool_name:"esp32_touchscreen_selector",result_count:count,result_source:source,
+    project_profile:selectedUseCase||"none",esp32_family:selected("family")||"any",
+    display_technology:selected("display_technology")||"any",lvgl:selected("lvgl_support")||"any"
+  });
+}
+function navigateAfterTracking(link,eventName,params,e){
+  if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+  var destination=link.href,finished=false;
+  function go(){if(finished)return;finished=true;window.location.href=destination;}
+  e.preventDefault();
+  var data=Object.assign({},params||{});data.link_url=destination;data.eventCallback=go;data.eventTimeout=900;
+  window.dataLayer=window.dataLayer||[];window.dataLayer.push(Object.assign({event:eventName},data));
+  window.setTimeout(go,1100);
+}
+
+
 function $(id){return document.getElementById(id);}
 function esc(v){return String(v==null?"Unknown":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 function val(n){var e=$(n);return e?e.value:"";}
@@ -47,7 +79,7 @@ function initUseCases(){
   }).join("");
   grid.addEventListener("click",function(e){
     var b=e.target.closest("[data-use-case]");if(!b)return;
-    selectUseCase(b.getAttribute("data-use-case"));
+    markSelectorInteraction();selectUseCase(b.getAttribute("data-use-case"));
   });
 }
 function selectUseCase(id){
@@ -193,7 +225,7 @@ function applyPreset(id,shouldReset){
   Object.keys(m).forEach(function(k){var e=$(k);if(e){e.value=m[k];var r=$(k+"-required");if(r)r.checked=!(id==="round-amoled"&&k==="display_technology");}});
   conditional();syncFilterDependencies();updateLiveCount();updateActiveFilterSummary();return true;
 }
-function setupPresets(){document.querySelectorAll("[data-preset]").forEach(function(btn){btn.addEventListener("click",function(){var id=btn.getAttribute("data-preset");if(!applyPreset(id,true))return;document.querySelectorAll("[data-preset]").forEach(function(b){b.classList.toggle("active",b===btn);});syncUrl(id);run();});});}
+function setupPresets(){document.querySelectorAll("[data-preset]").forEach(function(btn){btn.addEventListener("click",function(){markSelectorInteraction();var id=btn.getAttribute("data-preset");if(!applyPreset(id,true))return;document.querySelectorAll("[data-preset]").forEach(function(b){b.classList.toggle("active",b===btn);});syncUrl(id);run();});});}
 function disableFilter(ids,off){ids.forEach(function(id){var e=$(id),r=$(id+"-required");if(e)e.disabled=off;if(r)r.disabled=off;if(off){if(e)e.value="";if(r)r.checked=false;requiredTouched[id]=false;}});}
 function syncFilterDependencies(){var display=selected("display_present"),touch=selected("touch");disableFilter(["display_technology","display_shape","size_min","resolution","display_interface"],display==="no");disableFilter(["touch_type","touch_interface"],display==="no"||touch==="no");}
 function formatRelaxLabel(k){var labels={family:"ESP32 family",product_type:"Hardware type",display_present:"Display requirement",display_technology:"Display technology",display_shape:"Display shape",size_min:"Minimum display size",resolution:"Resolution",touch:"Touch requirement",touch_type:"Touch type",touch_interface:"Touch interface",display_interface:"Display interface",native_usb:"Native USB",microsd:"microSD",battery_charging:"Battery charging",flash_min:"Minimum Flash",psram_min:"Minimum PSRAM",free_gpio_min:"Minimum free GPIO",ce:"CE certification",fcc:"FCC certification",lvgl_support:"LVGL support",lvgl_level:"LVGL support level",battery:"Battery",imu:"IMU",rtc:"RTC",audio:"Audio"};return labels[k]||k.replace(/_/g," ");}
@@ -290,7 +322,7 @@ function card(item,requirements){
       ((item.matches||[]).length?'<ul>'+item.matches.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+"</ul>":"<p>No optional technical preferences selected.</p>")+
       ((item.conflicts||[]).length?'<div class="conflict-warning" role="note"><strong>⚠ Conflicts with your preferences</strong><ul>'+item.conflicts.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+"</ul></div>":"")+
       ((item.misses||[]).length?'<strong class="not-matched-heading">~ Not matched</strong><ul class="not-matched-list">'+item.misses.slice(0,4).map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+"</ul>":"")+
-    '</div><div class="product-actions"><a class="btn-small btn-link" href="'+esc(technicalUrl)+'">View technical details</a><a class="btn-small btn-commerce" href="'+esc(commerceUrl(p))+'" rel="nofollow sponsored noopener">Where to buy</a></div>'+
+    '</div><div class="product-actions"><a class="btn-small btn-link" href="'+esc(technicalUrl)+'" data-selector-product="'+esc(p.id||p.name)+'">View technical details</a><a class="btn-small btn-commerce" href="'+esc(commerceUrl(p))+'" data-selector-product="'+esc(p.id||p.name)+'" rel="nofollow sponsored noopener">Where to buy</a></div>'+
   "</article>";
 }
 function exclusions(ev){
@@ -339,6 +371,7 @@ function show(ev){
     var requirements=build().r;productGrid.innerHTML=visible.slice(0,50).map(function(item){return card(item,requirements);}).join("");
   }
   results.hidden=false;
+  trackResultsView("recommendations",visible.length);
   if(!defaultView)results.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function browse(){
@@ -346,7 +379,7 @@ function browse(){
   var list=products.filter(function(p){return searchMatch(p,q);}).map(function(p){return {product:p,score:0,matches:[],misses:[]};});
   $("result-count").textContent=list.length;$("result-total").textContent=products.length;$("result-excluded").textContent=Math.max(0,products.length-list.length);
   $("result-summary").textContent="Browsing "+list.length+" of "+products.length+" catalog entries.";$("exclusion-panel").hidden=true;$("empty-state").hidden=true;if($("result-notice")){$("result-notice").hidden=true;$("result-notice").innerHTML="";}
-  productGrid.innerHTML=list.slice(0,50).map(function(item){return card(item,{});}).join("")||"<p>No catalog entries match your search.</p>";results.hidden=false;
+  productGrid.innerHTML=list.slice(0,50).map(function(item){return card(item,{});}).join("")||"<p>No catalog entries match your search.</p>";results.hidden=false;trackResultsView("browse",list.length);
 }
 function run(shouldScroll){
   var b=build();
@@ -365,17 +398,29 @@ function reset(shouldScroll){
   conditional();updatePlatformGuidance();updateLiveCount();updateActiveFilterSummary();syncUrl();
   var adv=$("advanced-filters");if(adv)adv.open=false;if(shouldScroll!==false)window.scrollTo({top:0,behavior:"smooth"});
 }
+productGrid.addEventListener("click",function(e){
+  var link=e.target.closest("a");if(!link)return;
+  var cardEl=link.closest(".product-card");if(!cardEl)return;
+  var heading=cardEl.querySelector("h3"),productName=heading?heading.textContent.trim():"unknown";
+  var productId=link.getAttribute("data-selector-product")||productName;
+  if(link.classList.contains("btn-commerce")){
+    navigateAfterTracking(link,"affiliate_click",{tool_name:"esp32_touchscreen_selector",product_name:productName,product_id:productId,link_type:"affiliate_redirect"},e);
+  }else if(link.classList.contains("product-title-link")||link.classList.contains("btn-link")){
+    navigateAfterTracking(link,"selector_product_click",{tool_name:"esp32_touchscreen_selector",product_name:productName,product_id:productId,link_type:"product_details"},e);
+  }
+});
 $("empty-state").addEventListener("click",function(e){var btn=e.target.closest(".relax-action");if(btn)applyRelax(btn.getAttribute("data-relax-key"));});
 if($("result-notice"))$("result-notice").addEventListener("click",function(e){var btn=e.target.closest(".relax-action");if(btn)applyRelax(btn.getAttribute("data-relax-key"));});
 form.addEventListener("change",function(e){
+  markSelectorInteraction();
   if(e.target&&e.target.id){if(/-required$/.test(e.target.id))requiredTouched[e.target.id.replace(/-required$/,"")]=true;else autoRequire(e.target.id);}
   conditional();updateLiveCount();updateActiveFilterSummary();syncUrl();
 });
-form.addEventListener("submit",function(e){e.preventDefault();run();syncUrl();});
-$("browse-btn").addEventListener("click",function(){setMode("browse");browse();window.requestAnimationFrame(function(){var p=$("browse-note");if(p){p.scrollIntoView({behavior:"smooth",block:"nearest"});$("hardware-search").focus();}});});
-$("hardware-search").addEventListener("input",browse);$("reset-btn").addEventListener("click",function(){reset(true);});
+form.addEventListener("submit",function(e){e.preventDefault();markSelectorInteraction();run();syncUrl();});
+$("browse-btn").addEventListener("click",function(){markSelectorInteraction();setMode("browse");browse();window.requestAnimationFrame(function(){var p=$("browse-note");if(p){p.scrollIntoView({behavior:"smooth",block:"nearest"});$("hardware-search").focus();}});});
+$("hardware-search").addEventListener("input",function(){markSelectorInteraction();browse();});$("reset-btn").addEventListener("click",function(){reset(true);});
 $("share-btn").addEventListener("click",function(){syncUrl();var b=$("share-btn");if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(location.href).then(function(){b.textContent="Link copied";setTimeout(function(){b.textContent="Share setup";},1800);});}else{window.prompt("Copy this selector URL:",location.href);}});
-$("mode-requirements").addEventListener("click",function(){setMode("requirements");});
+$("mode-requirements").addEventListener("click",function(){markSelectorInteraction();setMode("requirements");});
 $("clear-use-case").addEventListener("click",clearUseCase);
 setupAdvancedFilters();setupTermHelp();initUseCases();setupPresets();updatePlatformGuidance();loadUrl();if(selectedUseCase){selectUseCase(selectedUseCase);}updateActiveFilterSummary();
 
