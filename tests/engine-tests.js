@@ -96,7 +96,7 @@ assert.equal(catalogEval.excluded.length,6);
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
 assert.equal(flashEval.passed,7);
-assert.equal(flashEval.ranked[0].product.id,"sunton-esp32-8048s043c");
+assert.equal(flashEval.ranked[0].product.id,"guition-esp32-s3-4848s040");
 
 const browse=E.evaluate(catalog.products,{}, {});
 assert.equal(browse.total,14);
