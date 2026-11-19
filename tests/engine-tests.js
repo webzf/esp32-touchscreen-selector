@@ -169,7 +169,7 @@ assert.ok(html.includes('id="live-count"'));
 assert.ok(html.includes("Clear All Filters"));
 assert.ok(html.includes("selector-live-bar"));
 assert.ok(selectorSource.includes("Advanced filters"));
-assert.ok(selectorSource.includes("starter hardware shown"));
+assert.ok(selectorSource.includes("starter options from the catalog"));
 assert.ok(selectorSource.includes("TERM_HELP"));
 assert.ok(html.includes('aria-label="Project use cases"'));
 assert.ok(selectorSource.includes('mainKeys=["family","size_min","touch","psram_min","lvgl_support"]'));
