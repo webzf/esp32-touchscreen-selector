@@ -53,7 +53,7 @@ const ssd1306=catalog.products.find(p=>p.id==="ssd1306-oled-display");
 assert.ok(ssd1306);
 assert.equal(ssd1306.commerce_id,"ssd1306-oled");
 assert.equal(catalogErrors.filter(e=>e.length>0).length,0);
-assert.equal(catalog.products.length,13);
+assert.equal(catalog.products.length,14);
 
 const ids=catalog.products.map(p=>p.id);
 ["ili9341-xpt2046-2-8-touchscreen","waveshare-esp32-s3-touch-lcd-4-3","waveshare-esp32-s3-touch-lcd-7","waveshare-esp32-s3-touch-lcd-1-85b","waveshare-esp32-c6-touch-amoled-1-8","waveshare-esp32-s3-touch-amoled-1-75","waveshare-esp32-s3-touch-amoled-2-16","waveshare-esp32-s3-touch-amoled-2-41","waveshare-esp32-p4-wifi6-touch-lcd-3-4c","sunton-esp32-8048s043c","esp32-2432s028-2-8-cyd","ssd1306-oled-display"].forEach(id=>assert.ok(ids.includes(id)));
@@ -89,20 +89,20 @@ assert.ok(unknownUsb.misses.includes("Native USB (unknown data)"));
 assert.equal(E.scorePreferences(ws43,{lvgl_support:true}).score,100);
 
 const catalogEval=E.evaluate(catalog.products,{family:"ESP32-S3",psram_min:8},{});
-assert.equal(catalogEval.valid,13);
-assert.equal(catalogEval.passed,7);
+assert.equal(catalogEval.valid,14);
+assert.equal(catalogEval.passed,8);
 assert.equal(catalogEval.ranked.length,7);
 assert.equal(catalogEval.excluded.length,6);
 
 const flashEval=E.evaluate(catalog.products,{family:"ESP32-S3",flash_min:16},{});
-assert.equal(flashEval.passed,6);
+assert.equal(flashEval.passed,7);
 assert.equal(flashEval.ranked[0].product.id,"sunton-esp32-8048s043c");
 
 const browse=E.evaluate(catalog.products,{}, {});
-assert.equal(browse.total,13);
-assert.equal(browse.valid,13);
-assert.equal(browse.passed,13);
-assert.equal(browse.displayed,13);
+assert.equal(browse.total,14);
+assert.equal(browse.valid,14);
+assert.equal(browse.passed,14);
+assert.equal(browse.displayed,14);
 
 // Project model and tier checks.
 assert.equal(P.USE_CASE_ORDER.length,9);
